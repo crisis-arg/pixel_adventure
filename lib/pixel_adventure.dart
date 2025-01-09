@@ -16,7 +16,7 @@ class PixelAdventure extends FlameGame {
     //Load al images into cache
     await images.loadAllImages();
     
-    final world = Levels();
+    final world = Levels(levelName: 'level-02');
     cam = CameraComponent.withFixedResolution(
         world: world, width: 640, height: 360);
     cam.viewfinder.anchor = Anchor.topLeft;

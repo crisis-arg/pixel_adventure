@@ -13,11 +13,14 @@
             "scaleInEditor": 1
         },
         "level-01.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 134.25,
-                "y": 102.25
+                "x": 341.25,
+                "y": 125.75
             }
         }
     },
