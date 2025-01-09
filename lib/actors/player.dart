@@ -13,7 +13,7 @@ class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure> {
   String character;
 
-  Player({required this.character});
+  Player({position, required this.character}) : super(position: position);
 
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runAnimation;
@@ -38,7 +38,7 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.hit: hitAnimation,
     };
     //set current animation
-    current = PlayerState.hit;
+    current = PlayerState.running;
   }
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
