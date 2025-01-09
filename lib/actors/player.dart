@@ -6,11 +6,19 @@ import 'package:pixel_adventure/pixel_adventure.dart';
 enum PlayerState {
   idle,
   running,
+  hit,
 }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure> {
+  String character;
+
+  Player({required this.character});
+
   late final SpriteAnimation idleAnimation;
+  late final SpriteAnimation runAnimation;
+  late final SpriteAnimation hitAnimation;
+
   final double stepTime = 0.05;
 
   @override
@@ -20,20 +28,27 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _loadAllAnimations() {
-    idleAnimation = SpriteAnimation.fromFrameData(
-      game.images.fromCache('Main Characters/Pink Man/Idle (32x32).png'),
+    idleAnimation = _spriteAnimation('Idle', 11);
+    runAnimation = _spriteAnimation("Run", 12);
+    hitAnimation = _spriteAnimation('Hit', 7);
+    //List of all animations
+    animations = {
+      PlayerState.idle: idleAnimation,
+      PlayerState.running: runAnimation,
+      PlayerState.hit: hitAnimation,
+    };
+    //set current animation
+    current = PlayerState.hit;
+  }
+
+  SpriteAnimation _spriteAnimation(String state, int amount) {
+    return SpriteAnimation.fromFrameData(
+      game.images.fromCache('Main Characters/$character/$state (32x32).png'),
       SpriteAnimationData.sequenced(
-        amount: 11,
+        amount: amount,
         stepTime: stepTime,
         textureSize: Vector2.all(32),
       ),
     );
-
-    //List of all animations
-    animations = {
-      PlayerState.idle: idleAnimation,
-    };
-    //set current animation
-    current = PlayerState.idle;
   }
 }
