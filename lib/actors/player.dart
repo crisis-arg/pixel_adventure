@@ -49,7 +49,7 @@ class Player extends SpriteAnimationGroupComponent
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA);
-    final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyDa);
+    final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD);
 
     if (isRightKeyPressed && isLeftKeyPressed) {
       playerDirection = PlayerDirection.none;
