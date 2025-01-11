@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:pixel_adventure/actors/player.dart';
 import 'package:pixel_adventure/levels/levels.dart';
 
-class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents {
+class PixelAdventure extends FlameGame
+    with HasKeyboardHandlerComponents, DragCallbacks {
   @override
   Color backgroundColor() => const Color(0xff211f30);
 
   late final CameraComponent cam;
   final Player player = Player(character: 'Pink Man');
-
+  late JoystickComponent joystick;
 
   @override
   FutureOr<void> onLoad() async {
@@ -29,6 +30,15 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents {
     cam.viewfinder.anchor = Anchor.topLeft;
 
     addAll([cam, world]);
+
+    // addJoystick();
+
     return super.onLoad();
+  }
+
+  void addJoystick() {
+    joystick = JoystickComponent(
+
+    );
   }
 }
