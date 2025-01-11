@@ -29,16 +29,26 @@ class PixelAdventure extends FlameGame
         world: world, width: 640, height: 360);
     cam.viewfinder.anchor = Anchor.topLeft;
 
-    addAll([cam, world]);
+    addAll([cam, world, joystick]);
 
-    // addJoystick();
+    addJoystick();
 
     return super.onLoad();
   }
 
   void addJoystick() {
     joystick = JoystickComponent(
-
+      knob: SpriteComponent(
+        sprite: Sprite(
+          images.fromCache('HUD/Knob.png'),
+        ),
+      ),
+      background: SpriteComponent(
+        sprite: Sprite(
+          images.fromCache('HUD/Joystick.png'),
+        ),
+      ),
+      margin: const EdgeInsets.only(left: 32, bottom: 32),
     );
   }
 }
