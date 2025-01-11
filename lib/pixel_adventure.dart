@@ -12,7 +12,7 @@ class PixelAdventure extends FlameGame
   @override
   Color backgroundColor() => const Color(0xff211f30);
 
-  late final CameraComponent cam;
+  late final CameraComponent cam ;
   final Player player = Player(character: 'Pink Man');
   late JoystickComponent joystick;
 
@@ -28,8 +28,9 @@ class PixelAdventure extends FlameGame
     cam = CameraComponent.withFixedResolution(
         world: world, width: 640, height: 360);
     cam.viewfinder.anchor = Anchor.topLeft;
+    cam.priority=0;
 
-    addAll([cam, world, joystick]);
+    addAll([cam, world]);
 
     addJoystick();
 
@@ -38,6 +39,7 @@ class PixelAdventure extends FlameGame
 
   void addJoystick() {
     joystick = JoystickComponent(
+      priority: 1,
       knob: SpriteComponent(
         sprite: Sprite(
           images.fromCache('HUD/Knob.png'),
@@ -49,6 +51,8 @@ class PixelAdventure extends FlameGame
         ),
       ),
       margin: const EdgeInsets.only(left: 32, bottom: 32),
+      //  position: Vector2(80, size.y - 80),
     );
+    add(joystick);
   }
 }
