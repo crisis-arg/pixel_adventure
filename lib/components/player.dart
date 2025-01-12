@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
@@ -33,6 +34,7 @@ class Player extends SpriteAnimationGroupComponent
   FutureOr<void> onLoad() {
     _loadAllAnimations();
     debugMode = true;
+    add(RectangleHitbox());
     return super.onLoad();
   }
 
@@ -40,6 +42,7 @@ class Player extends SpriteAnimationGroupComponent
   void update(double dt) {
     _updatePlayerState();
     _updatePlayerMovement(dt);
+    _checkHorizontalCollision();
     super.update(dt);
   }
 
@@ -100,5 +103,11 @@ class Player extends SpriteAnimationGroupComponent
     // print(
     //     'velocity.x: ${velocity.x}, scale.x: ${scale.x}, playerState: $playerState , current: $current');
     // print("position: $position.x");
+  }
+
+  void _checkHorizontalCollision() {
+    for(final bloc in collisionsBlocks){
+      
+    }
   }
 }
