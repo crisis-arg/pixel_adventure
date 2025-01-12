@@ -94,7 +94,7 @@ class Player extends SpriteAnimationGroupComponent
       playerState = PlayerState.running;
     }
     current = playerState;
-    print(
-        'velocity.x: ${velocity.x}, scale.x: ${scale.x}, playerState: $playerState , current: $current');
+    // print(
+    //     'velocity.x: ${velocity.x}, scale.x: ${scale.x}, playerState: $playerState , current: $current');
   }
 }

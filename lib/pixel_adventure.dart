@@ -80,7 +80,7 @@ class PixelAdventure extends FlameGame
         player.horizontalMovement = 1;
         break;
       default:
-        // player.playerDirection = PlayerDirection.none;
+        player.horizontalMovement = 0;
         break;
     }
   }
