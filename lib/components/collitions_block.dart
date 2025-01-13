@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 
 class CollisionsBlock extends PositionComponent {
   bool isPlatform;
@@ -12,5 +13,8 @@ class CollisionsBlock extends PositionComponent {
           size: size,
         ) {
     debugMode = true;
+    if (isPlatform) {
+      debugColor = Colors.green;
+    }
   }
 }

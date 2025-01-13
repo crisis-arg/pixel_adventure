@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/utils.dart';
@@ -10,6 +11,7 @@ enum PlayerState {
   idle,
   running,
   hit,
+  jump,
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -24,21 +26,25 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation runAnimation;
   late final SpriteAnimation hitAnimation;
+  late final SpriteAnimation jumpAnimation;
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
-  final double _jumpForce = 400;
+  final double _jumpForce = 400 ;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
+  double verticalMovement = 0;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   List<CollisionsBlock> collisionsBlocks = [];
   bool isOnGround = false;
+  bool hasJumped = false;
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
     debugMode = true;
+    debugColor = Colors.white;
     add(RectangleHitbox());
     return super.onLoad();
   }
@@ -50,6 +56,7 @@ class Player extends SpriteAnimationGroupComponent
     _checkHorizontalCollision();
     _applyGravity(dt);
     _checkVerticalCollision();
+    // print('delta time: $dt');
     super.update(dt);
   }
 
@@ -62,6 +69,9 @@ class Player extends SpriteAnimationGroupComponent
     horizontalMovement += isLeftKeyPressed ? -1 : 0;
     horizontalMovement += isRightKeyPressed ? 1 : 0;
 
+    hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
+    verticalMovement += hasJumped ? -1 : 1;
+
     return super.onKeyEvent(event, keysPressed);
   }
 
@@ -69,11 +79,13 @@ class Player extends SpriteAnimationGroupComponent
     idleAnimation = _spriteAnimation('Idle', 11);
     runAnimation = _spriteAnimation("Run", 12);
     hitAnimation = _spriteAnimation('Hit', 7);
+    jumpAnimation = _spriteAnimation('Jump', 1);
     //List of all animations
     animations = {
       PlayerState.idle: idleAnimation,
       PlayerState.running: runAnimation,
       PlayerState.hit: hitAnimation,
+      PlayerState.jump: jumpAnimation,
     };
     //set current animation
     current = PlayerState.idle;
@@ -94,6 +106,17 @@ class Player extends SpriteAnimationGroupComponent
     velocity.x = horizontalMovement * moveSpeed;
     // velocity = Vector2(dirX, 0.0);
     position.x += velocity.x * dt;
+
+    if (hasJumped) {
+      _playerJump(dt);
+    }
+  }
+
+  void _playerJump(double dt) {
+    velocity.y = -_jumpForce;
+    // velocity.y = verticalMovement * _jumpForce;
+    position.y += velocity.y * dt;
+    hasJumped = false;
   }
 
   void _updatePlayerState() {
@@ -110,6 +133,7 @@ class Player extends SpriteAnimationGroupComponent
     // print(
     //     'velocity.x: ${velocity.x}, scale.x: ${scale.x}, playerState: $playerState , current: $current');
     // print("position: $position.x");
+    // print('movement: $horizontalMovement');
   }
 
   void _checkHorizontalCollision() {
@@ -135,6 +159,7 @@ class Player extends SpriteAnimationGroupComponent
     velocity.y += _gravity;
     velocity.y = velocity.y.clamp(-_jumpForce, _terminalVelocity);
     position.y += velocity.y * dt;
+    // print('Yvelo:$velocity.y');
   }
 
   void _checkVerticalCollision() {
@@ -145,7 +170,7 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - height;
+            position.y = block.y - this.height;
             isOnGround = true;
             break;
           }
