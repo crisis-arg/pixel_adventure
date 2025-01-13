@@ -117,7 +117,7 @@ class Player extends SpriteAnimationGroupComponent
     // velocity.y = verticalMovement * _jumpForce;
     position.y += velocity.y * dt;
     hasJumped = false;
-    isOnGround = false; 
+    isOnGround = false;
   }
 
   void _updatePlayerState() {
@@ -139,16 +139,17 @@ class Player extends SpriteAnimationGroupComponent
 
   void _checkHorizontalCollision() {
     for (final block in collisionsBlocks) {
-      if (!block.isPlatform) {
+      if (block.isPlatform == false) {
+        // print(block.isPlatform);
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
             velocity.x = 0;
-            position.x = block.x - this.width;
+            position.x = block.x - width;
             break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
-            position.x = block.x + block.width + this.width;
+            position.x = block.x + block.width + width;
             break;
           }
         }
@@ -171,7 +172,7 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - this.height;
+            position.y = block.y - height;
             isOnGround = true;
             break;
           }
