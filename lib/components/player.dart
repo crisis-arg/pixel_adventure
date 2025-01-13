@@ -26,10 +26,14 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation hitAnimation;
 
   final double stepTime = 0.05;
+  final double _gravity = 9.8;
+  final double _jumpForce = 400;
+  final double _terminalVelocity = 300;
   double horizontalMovement = 0;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   List<CollisionsBlock> collisionsBlocks = [];
+  bool isOnGround = false;
 
   @override
   FutureOr<void> onLoad() {
@@ -44,6 +48,8 @@ class Player extends SpriteAnimationGroupComponent
     _updatePlayerState();
     _updatePlayerMovement(dt);
     _checkHorizontalCollision();
+    _applyGravity(dt);
+    _checkVerticalCollision();
     super.update(dt);
   }
 
@@ -113,10 +119,39 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.x > 0) {
             velocity.x = 0;
             position.x = block.x - this.width;
+            break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
-            position.x = block.x + block.width + width;
+            position.x = block.x + block.width + this.width;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  void _applyGravity(double dt) {
+    velocity.y += _gravity;
+    velocity.y = velocity.y.clamp(-_jumpForce, _terminalVelocity);
+    position.y += velocity.y * dt;
+  }
+
+  void _checkVerticalCollision() {
+    for (final block in collisionsBlocks) {
+      if (block.isPlatform) {
+        //later
+      } else {
+        if (checkCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            position.y = block.y - height;
+            isOnGround = true;
+            break;
+          }
+          if (velocity.y < 0) {
+            velocity.y = 0;
+            position.y = block.y + block.height;
           }
         }
       }
