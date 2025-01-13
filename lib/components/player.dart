@@ -30,7 +30,7 @@ class Player extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
-  final double _jumpForce = 400 ;
+  final double _jumpForce = 400;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
   double verticalMovement = 0;
@@ -107,7 +107,7 @@ class Player extends SpriteAnimationGroupComponent
     // velocity = Vector2(dirX, 0.0);
     position.x += velocity.x * dt;
 
-    if (hasJumped) {
+    if (hasJumped && isOnGround) {
       _playerJump(dt);
     }
   }
@@ -117,6 +117,7 @@ class Player extends SpriteAnimationGroupComponent
     // velocity.y = verticalMovement * _jumpForce;
     position.y += velocity.y * dt;
     hasJumped = false;
+    isOnGround = false; 
   }
 
   void _updatePlayerState() {
