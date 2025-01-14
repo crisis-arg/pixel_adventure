@@ -116,6 +116,8 @@ class Player extends SpriteAnimationGroupComponent
     // velocity = Vector2(dirX, 0.0);
     position.x += velocity.x * dt;
 
+    // if (velocity.y > _gravity) isOnGround = false;
+
     if (hasJumped && isOnGround) {
       _playerJump(dt);
     }
@@ -147,6 +149,9 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (velocity.y < 0) {
       playerState = PlayerState.jump;
+      if (!doubleJump) {
+        playerState = PlayerState.doublejump;
+      }
     }
     if (velocity.y > 0) {
       playerState = PlayerState.fall;
