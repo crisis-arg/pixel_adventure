@@ -12,6 +12,8 @@ enum PlayerState {
   running,
   hit,
   jump,
+  doublejump,
+  fall,
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -27,6 +29,8 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation runAnimation;
   late final SpriteAnimation hitAnimation;
   late final SpriteAnimation jumpAnimation;
+  late final SpriteAnimation fallAnimation;
+  late final SpriteAnimation doubleJumpAnimation;
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
@@ -80,12 +84,16 @@ class Player extends SpriteAnimationGroupComponent
     runAnimation = _spriteAnimation("Run", 12);
     hitAnimation = _spriteAnimation('Hit', 7);
     jumpAnimation = _spriteAnimation('Jump', 1);
+    fallAnimation = _spriteAnimation('Fall', 1);
+    doubleJumpAnimation = _spriteAnimation('Double Jump', 6);
     //List of all animations
     animations = {
       PlayerState.idle: idleAnimation,
       PlayerState.running: runAnimation,
       PlayerState.hit: hitAnimation,
       PlayerState.jump: jumpAnimation,
+      PlayerState.doublejump: doubleJumpAnimation,
+      PlayerState.fall: fallAnimation,
     };
     //set current animation
     current = PlayerState.idle;
@@ -130,8 +138,11 @@ class Player extends SpriteAnimationGroupComponent
     if (velocity.x < 0 || velocity.x > 0) {
       playerState = PlayerState.running;
     }
-    if (velocity.y > 0 || velocity.y < 0) {
-      playerState = PlayerState.jump; 
+    if (velocity.y < 0) {
+      playerState = PlayerState.jump;
+    }
+    if (velocity.y > 0) {
+      playerState = PlayerState.fall;
     }
     current = playerState;
     // print(
@@ -142,7 +153,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _checkHorizontalCollision() {
     for (final block in collisionsBlocks) {
-      if (block.isPlatform == false) {
+      if (!block.isPlatform) {
         // print(block.isPlatform);
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
@@ -170,6 +181,14 @@ class Player extends SpriteAnimationGroupComponent
   void _checkVerticalCollision() {
     for (final block in collisionsBlocks) {
       if (block.isPlatform) {
+        if (checkCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            position.y = block.y - height;
+            isOnGround = true;
+            break;
+          }
+        }
         //later
       } else {
         if (checkCollision(this, block)) {
