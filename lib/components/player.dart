@@ -43,6 +43,7 @@ class Player extends SpriteAnimationGroupComponent
   List<CollisionsBlock> collisionsBlocks = [];
   bool isOnGround = false;
   bool hasJumped = false;
+  bool doubleJump = false;
 
   @override
   FutureOr<void> onLoad() {
@@ -118,6 +119,11 @@ class Player extends SpriteAnimationGroupComponent
     if (hasJumped && isOnGround) {
       _playerJump(dt);
     }
+
+    if (hasJumped && doubleJump) {
+      _playerJump(dt);
+      doubleJump = false;
+    }
   }
 
   void _playerJump(double dt) {
@@ -126,6 +132,7 @@ class Player extends SpriteAnimationGroupComponent
     position.y += velocity.y * dt;
     hasJumped = false;
     isOnGround = false;
+    doubleJump = true;
   }
 
   void _updatePlayerState() {
