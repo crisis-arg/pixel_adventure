@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
+import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -44,13 +45,22 @@ class Player extends SpriteAnimationGroupComponent
   bool isOnGround = false;
   bool hasJumped = false;
   bool doubleJump = false;
+  PlayerHitbox hitbox = PlayerHitbox(
+    offsetX: 10,
+    offsetY: 4,
+    width: 14,
+    height: 28,
+  );
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
     debugMode = true;
     debugColor = Colors.white;
-    add(RectangleHitbox());
+    add(RectangleHitbox(
+      position: Vector2(hitbox.offsetX, hitbox.offsetY),
+      size: Vector2(hitbox.width, hitbox.height),
+    ));
     return super.onLoad();
   }
 
@@ -116,7 +126,7 @@ class Player extends SpriteAnimationGroupComponent
     // velocity = Vector2(dirX, 0.0);
     position.x += velocity.x * dt;
 
-    // if (velocity.y > _gravity) isOnGround = false;
+    if (velocity.y > _gravity) isOnGround = false;
 
     if (hasJumped && isOnGround) {
       _playerJump(dt);
@@ -153,7 +163,7 @@ class Player extends SpriteAnimationGroupComponent
         playerState = PlayerState.doublejump;
       }
     }
-    if (velocity.y > 0) {
+    if (velocity.y > _gravity) {
       playerState = PlayerState.fall;
     }
     current = playerState;
@@ -170,12 +180,12 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
             velocity.x = 0;
-            position.x = block.x - width;
+            position.x = block.x - hitbox.offsetX - hitbox.width;
             break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
-            position.x = block.x + block.width + width;
+            position.x = block.x + block.width + hitbox.offsetX + hitbox.width;
             break;
           }
         }
@@ -185,6 +195,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _applyGravity(double dt) {
     velocity.y += _gravity;
+
     velocity.y = velocity.y.clamp(-_jumpForce, _terminalVelocity);
     position.y += velocity.y * dt;
     // print('Yvelo:$velocity.y');
@@ -196,7 +207,7 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - height;
+            position.y = block.y - hitbox.height -hitbox.offsetY;
             isOnGround = true;
             break;
           }
@@ -206,13 +217,13 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - height;
+            position.y = block.y - hitbox.height -hitbox.offsetY;
             isOnGround = true;
             break;
           }
           if (velocity.y < 0) {
             velocity.y = 0;
-            position.y = block.y + block.height;
+            position.y = block.y + block.height - hitbox.offsetY;
           }
         }
       }
