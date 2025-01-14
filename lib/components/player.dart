@@ -37,7 +37,7 @@ class Player extends SpriteAnimationGroupComponent
   final double _jumpForce = 400;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
-  double verticalMovement = 0;
+  // double verticalMovement = 0;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   List<CollisionsBlock> collisionsBlocks = [];
@@ -74,7 +74,7 @@ class Player extends SpriteAnimationGroupComponent
     horizontalMovement += isRightKeyPressed ? 1 : 0;
 
     hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
-    verticalMovement += hasJumped ? -1 : 1;
+    // verticalMovement += hasJumped ? -1 : 1;
 
     return super.onKeyEvent(event, keysPressed);
   }
