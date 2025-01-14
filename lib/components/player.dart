@@ -130,6 +130,9 @@ class Player extends SpriteAnimationGroupComponent
     if (velocity.x < 0 || velocity.x > 0) {
       playerState = PlayerState.running;
     }
+    if (velocity.y > 0 || velocity.y < 0) {
+      playerState = PlayerState.jump; 
+    }
     current = playerState;
     // print(
     //     'velocity.x: ${velocity.x}, scale.x: ${scale.x}, playerState: $playerState , current: $current');
