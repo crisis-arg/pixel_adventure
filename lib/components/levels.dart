@@ -17,6 +17,16 @@ class Levels extends World {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     add(level);
 
+    _scrollingBackground();
+    _spawningObjects();
+    _adCollisions();
+
+    return super.onLoad();
+  }
+
+  void _scrollingBackground() {}
+
+  void _spawningObjects() {
     final spawnPointsLayer = level.tileMap.getLayer<ObjectGroup>('Spawnpoints');
     if (spawnPointsLayer != null) {
       for (final spawnPoint in spawnPointsLayer.objects) {
@@ -28,31 +38,33 @@ class Levels extends World {
           default:
         }
       }
-      final collisionsLayer = level.tileMap.getLayer<ObjectGroup>('Collisions');
-      if (collisionsLayer != null) {
-        for (final collision in collisionsLayer.objects) {
-          switch (collision.class_) {
-            case 'Platform':
-              final platform = CollisionsBlock(
-                position: Vector2(collision.x, collision.y),
-                size: Vector2(collision.width, collision.height),
-                isPlatform: true,
-              );
-              collisionBlocks.add(platform);
-              add(platform);
-              break;
-            default:
-              final block = CollisionsBlock(
-                position: Vector2(collision.x, collision.y),
-                size: Vector2(collision.width, collision.height),
-              );
-              collisionBlocks.add(block);
-              add(block);
-          }
+    }
+  }
+
+  void _adCollisions() {
+    final collisionsLayer = level.tileMap.getLayer<ObjectGroup>('Collisions');
+    if (collisionsLayer != null) {
+      for (final collision in collisionsLayer.objects) {
+        switch (collision.class_) {
+          case 'Platform':
+            final platform = CollisionsBlock(
+              position: Vector2(collision.x, collision.y),
+              size: Vector2(collision.width, collision.height),
+              isPlatform: true,
+            );
+            collisionBlocks.add(platform);
+            add(platform);
+            break;
+          default:
+            final block = CollisionsBlock(
+              position: Vector2(collision.x, collision.y),
+              size: Vector2(collision.width, collision.height),
+            );
+            collisionBlocks.add(block);
+            add(block);
         }
       }
     }
     player.collisionsBlocks = collisionBlocks;
-    return super.onLoad();
   }
 }
