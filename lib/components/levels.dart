@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/player.dart';
 
@@ -15,7 +16,7 @@ class Levels extends World {
   @override
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
-    add(level);
+    // add(level);
 
     _scrollingBackground();
     _spawningObjects();
@@ -24,7 +25,18 @@ class Levels extends World {
     return super.onLoad();
   }
 
-  void _scrollingBackground() {}
+  void _scrollingBackground() {
+    final backGroundLayer = level.tileMap.getLayer('Background');
+    if (backGroundLayer != null) {
+      final backgroundColor =
+          backGroundLayer.properties.getValue('BackgroundColor');
+      final backgroundTile = BackgroundTile(
+        color: backgroundColor != null ? backgroundColor : 'Gray',
+        position: Vector2(0, 0),
+      );
+      add(backgroundTile);
+    }
+  }
 
   void _spawningObjects() {
     final spawnPointsLayer = level.tileMap.getLayer<ObjectGroup>('Spawnpoints');
