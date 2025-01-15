@@ -3,7 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
-import 'package:pixel_adventure/components/background_tile.dart';
+// import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
@@ -21,15 +21,14 @@ class Levels extends World with HasGameRef<PixelAdventure> {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     add(level);
 
-    
     _spawningObjects();
     _adCollisions();
-    _scrollingBackground('Pink');
+    _scrollingBackground('Green');
 
     return super.onLoad();
   }
 
-  void _scrollingBackground( String backgroundName) {
+  void _scrollingBackground(String backgroundName) {
     // final backGroundLayer = level.tileMap.getLayer('Background');
     // const tileSize = 64;
 
@@ -50,23 +49,23 @@ class Levels extends World with HasGameRef<PixelAdventure> {
     //   }
     // }
 
-      final background = ParallaxComponent(
-        priority: -1,
-        parallax: Parallax(
-          [
-            ParallaxLayer(
-              ParallaxImage(
-                game.images.fromCache('Background/$backgroundName.png'),
-                repeat: ImageRepeat.repeat,
-                fill: LayerFill.none,
-              ),
+    final background = ParallaxComponent(
+      priority: -1,
+      parallax: Parallax(
+        size: Vector2(640, 320),
+        [
+          ParallaxLayer(
+            ParallaxImage(
+              game.images.fromCache('Background/$backgroundName.png'),
+              repeat: ImageRepeat.repeat,
+              fill: LayerFill.none,
             ),
-          ],
-          baseVelocity: Vector2(0, -50),
-        ),
-      );
-      add(background);
-    
+          ),
+        ],
+        baseVelocity: Vector2(0, -50),
+      ),
+    );
+    add(background);
   }
 
   void _spawningObjects() {

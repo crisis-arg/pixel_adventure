@@ -15,6 +15,7 @@ enum PlayerState {
   jump,
   doublejump,
   fall,
+  walljump,
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -32,6 +33,7 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation jumpAnimation;
   late final SpriteAnimation fallAnimation;
   late final SpriteAnimation doubleJumpAnimation;
+  late final SpriteAnimation walljumpAnimation;
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
@@ -45,6 +47,7 @@ class Player extends SpriteAnimationGroupComponent
   bool isOnGround = false;
   bool hasJumped = false;
   bool doubleJump = false;
+
   PlayerHitbox hitbox = PlayerHitbox(
     offsetX: 10,
     offsetY: 4,
@@ -97,6 +100,7 @@ class Player extends SpriteAnimationGroupComponent
     jumpAnimation = _spriteAnimation('Jump', 1);
     fallAnimation = _spriteAnimation('Fall', 1);
     doubleJumpAnimation = _spriteAnimation('Double Jump', 6);
+    walljumpAnimation = _spriteAnimation('Wall Jump', 5);
     //List of all animations
     animations = {
       PlayerState.idle: idleAnimation,
@@ -105,6 +109,7 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.jump: jumpAnimation,
       PlayerState.doublejump: doubleJumpAnimation,
       PlayerState.fall: fallAnimation,
+      PlayerState.walljump: walljumpAnimation,
     };
     //set current animation
     current = PlayerState.idle;
@@ -207,7 +212,7 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - hitbox.height -hitbox.offsetY;
+            position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
             break;
           }
@@ -217,7 +222,7 @@ class Player extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - hitbox.height -hitbox.offsetY;
+            position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
             break;
           }
