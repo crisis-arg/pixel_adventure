@@ -20,8 +20,8 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 280.25,
-                "y": 188.25
+                "x": 320,
+                "y": 183.75
             }
         },
         "level-02.tmx": {
@@ -31,7 +31,7 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 320.25,
+                "x": 320,
                 "y": 183.75
             }
         }

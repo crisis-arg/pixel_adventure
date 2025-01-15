@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flame/components.dart';
+import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/material.dart';
 import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/player.dart';
@@ -19,33 +21,52 @@ class Levels extends World with HasGameRef<PixelAdventure> {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     add(level);
 
-    _scrollingBackground();
+    
     _spawningObjects();
     _adCollisions();
+    _scrollingBackground('Pink');
 
     return super.onLoad();
   }
 
-  void _scrollingBackground() {
-    final backGroundLayer = level.tileMap.getLayer('Background');
-    const tileSize = 64;
+  void _scrollingBackground( String backgroundName) {
+    // final backGroundLayer = level.tileMap.getLayer('Background');
+    // const tileSize = 64;
 
-    final numTilesY = (game.size.y / tileSize).floor();
-    final numTileX = (game.size.x / tileSize).floor();
+    // final numTilesY = (game.size.y / tileSize).floor();
+    // final numTileX = (game.size.x / tileSize).floor();
 
-    if (backGroundLayer != null) {
-      final backgroundColor =
-          backGroundLayer.properties.getValue('BackgroundColor');
-      for (double y = 0; y <= numTilesY; y++) {
-        for (double x = 0; x <= numTileX; x++) {
-          final backgroundTile = BackgroundTile(
-            color: backgroundColor != null ? backgroundColor : 'Gray',
-            position: Vector2(x * tileSize, y * tileSize ),
-          );
-          add(backgroundTile);
-        }
-      }
-    }
+    // if (backGroundLayer != null) {
+    //   final backgroundColor =
+    //       backGroundLayer.properties.getValue('BackgroundColor');
+    //   for (double y = 0; y <= numTilesY; y++) {
+    //     for (double x = 0; x <= numTileX; x++) {
+    //       final backgroundTile = BackgroundTile(
+    //         color: backgroundColor != null ? backgroundColor : 'Gray',
+    //         position: Vector2(x * tileSize - tileSize, y * tileSize -tileSize ),
+    //       );
+    //       add(backgroundTile);
+    //     }
+    //   }
+    // }
+
+      final background = ParallaxComponent(
+        priority: -1,
+        parallax: Parallax(
+          [
+            ParallaxLayer(
+              ParallaxImage(
+                game.images.fromCache('Background/$backgroundName.png'),
+                repeat: ImageRepeat.repeat,
+                fill: LayerFill.none,
+              ),
+            ),
+          ],
+          baseVelocity: Vector2(0, -50),
+        ),
+      );
+      add(background);
+    
   }
 
   void _spawningObjects() {
