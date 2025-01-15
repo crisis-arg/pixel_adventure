@@ -12,9 +12,9 @@ class CollisionsBlock extends PositionComponent {
           position: position,
           size: size,
         ) {
-    debugMode = true;
-    if (isPlatform) {
-      debugColor = Colors.green;
-    }
+    // debugMode = true;
+    // if (isPlatform) {
+    //   debugColor = Colors.green;
+    // }
   }
 }

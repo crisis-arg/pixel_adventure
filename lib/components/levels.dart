@@ -4,8 +4,9 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/player.dart';
+import 'package:pixel_adventure/pixel_adventure.dart';
 
-class Levels extends World {
+class Levels extends World with HasGameRef<PixelAdventure> {
   final String levelName;
   final Player player;
   late TiledComponent level;
@@ -16,7 +17,7 @@ class Levels extends World {
   @override
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
-    // add(level);
+    add(level);
 
     _scrollingBackground();
     _spawningObjects();
@@ -27,14 +28,23 @@ class Levels extends World {
 
   void _scrollingBackground() {
     final backGroundLayer = level.tileMap.getLayer('Background');
+    const tileSize = 64;
+
+    final numTilesY = (game.size.y / tileSize).floor();
+    final numTileX = (game.size.x / tileSize).floor();
+
     if (backGroundLayer != null) {
       final backgroundColor =
           backGroundLayer.properties.getValue('BackgroundColor');
-      final backgroundTile = BackgroundTile(
-        color: backgroundColor != null ? backgroundColor : 'Gray',
-        position: Vector2(0, 0),
-      );
-      add(backgroundTile);
+      for (double y = 0; y <= numTilesY; y++) {
+        for (double x = 0; x <= numTileX; x++) {
+          final backgroundTile = BackgroundTile(
+            color: backgroundColor != null ? backgroundColor : 'Gray',
+            position: Vector2(x * tileSize, y * tileSize ),
+          );
+          add(backgroundTile);
+        }
+      }
     }
   }
 
