@@ -40,7 +40,7 @@ class Player extends SpriteAnimationGroupComponent
   final double _jumpForce = 400;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
-  final double wallSlideSpeed = 50;
+  final double wallSlideSpeed = 10;
   // double verticalMovement = 0;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
@@ -179,7 +179,12 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (velocity.y > _gravity) {
       playerState = PlayerState.fall;
+      if (!isTouchingWall && isOnGround) {
+        playerState = PlayerState.walljump;
+        print('true');
+      }
     }
+
     current = playerState;
     // print(
     //     'velocity.x: ${velocity.x}, scale.x: ${scale.x}, playerState: $playerState , current: $current');
@@ -196,6 +201,7 @@ class Player extends SpriteAnimationGroupComponent
             velocity.x = 0;
             position.x = block.x - hitbox.offsetX - hitbox.width;
             isTouchingWall = true;
+
             break;
           }
           if (velocity.x < 0) {
@@ -213,9 +219,9 @@ class Player extends SpriteAnimationGroupComponent
     if (isTouchingWall && !isOnGround) {
       isTouchingWall = false;
       velocity.y += wallSlideSpeed;
-      velocity.y = velocity.y.clamp(-wallSlideSpeed, wallSlideSpeed);
+      velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
       position.y += velocity.y * dt;
-      print('true');
+      isOnGround = true;
     }
   }
 
