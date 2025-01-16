@@ -40,6 +40,7 @@ class Player extends SpriteAnimationGroupComponent
   final double _jumpForce = 400;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
+  final double wallSlideSpeed = 50;
   // double verticalMovement = 0;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
@@ -47,6 +48,7 @@ class Player extends SpriteAnimationGroupComponent
   bool isOnGround = false;
   bool hasJumped = false;
   bool doubleJump = false;
+  bool isTouchingWall = false;
 
   PlayerHitbox hitbox = PlayerHitbox(
     offsetX: 10,
@@ -74,6 +76,7 @@ class Player extends SpriteAnimationGroupComponent
     _checkHorizontalCollision();
     _applyGravity(dt);
     _checkVerticalCollision();
+    _wallSlide(dt);
     // print('delta time: $dt');
     super.update(dt);
   }
@@ -186,15 +189,27 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.x > 0) {
             velocity.x = 0;
             position.x = block.x - hitbox.offsetX - hitbox.width;
+            isTouchingWall = true;
             break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
             position.x = block.x + block.width + hitbox.offsetX + hitbox.width;
+            isTouchingWall = true;
             break;
           }
         }
       }
+    }
+  }
+
+  void _wallSlide(double dt) {
+    if (isTouchingWall && !isOnGround) {
+      isTouchingWall = false;
+      velocity.y += wallSlideSpeed;
+      velocity.y = velocity.y.clamp(-wallSlideSpeed, wallSlideSpeed);
+      position.y += velocity.y * dt;
+      print('true');
     }
   }
 
