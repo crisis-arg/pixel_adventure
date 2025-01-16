@@ -90,7 +90,13 @@ class Player extends SpriteAnimationGroupComponent
     horizontalMovement += isLeftKeyPressed ? -1 : 0;
     horizontalMovement += isRightKeyPressed ? 1 : 0;
 
-    hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
+    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.space) {
+      hasJumped = true;
+    }
+    if (event is KeyUpEvent && event.logicalKey == LogicalKeyboardKey.space) {
+      hasJumped = false;
+    }
+
     // verticalMovement += hasJumped ? -1 : 1;
 
     return super.onKeyEvent(event, keysPressed);
