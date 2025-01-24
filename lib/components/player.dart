@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
+import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
@@ -19,7 +20,7 @@ enum PlayerState {
 }
 
 class Player extends SpriteAnimationGroupComponent
-    with HasGameRef<PixelAdventure>, KeyboardHandler {
+    with HasGameRef<PixelAdventure>, KeyboardHandler, CollisionCallbacks {
   String character;
 
   Player({
@@ -102,6 +103,15 @@ class Player extends SpriteAnimationGroupComponent
     return super.onKeyEvent(event, keysPressed);
   }
 
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Fruit) {
+      other.collidingWithPlayer();
+    }
+
+    super.onCollision(intersectionPoints, other);
+  }
+
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);
     runAnimation = _spriteAnimation("Run", 12);
@@ -181,7 +191,6 @@ class Player extends SpriteAnimationGroupComponent
       playerState = PlayerState.fall;
       if (!isTouchingWall && isOnGround) {
         playerState = PlayerState.walljump;
-        print('true');
       }
     }
 
