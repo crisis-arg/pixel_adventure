@@ -50,7 +50,7 @@ class Player extends SpriteAnimationGroupComponent
   bool doubleJump = false;
   bool isTouchingWall = false;
 
-  PlayerHitbox hitbox = PlayerHitbox(
+  CustomHitbox hitbox = CustomHitbox(
     offsetX: 10,
     offsetY: 4,
     width: 14,

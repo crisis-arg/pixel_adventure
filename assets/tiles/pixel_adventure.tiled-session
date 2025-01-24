@@ -19,7 +19,7 @@
                 4
             ],
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 319.75,
                 "y": 183.75
@@ -45,14 +45,14 @@
     "map.width": 40,
     "openFiles": [
         "Pixel_adventure.tsx",
-        "level-01.tmx",
-        "level-02.tmx"
+        "level-02.tmx",
+        "level-01.tmx"
     ],
     "project": "pixel_adventure.tiled-project",
     "recentFiles": [
-        "level-01.tmx",
         "Pixel_adventure.tsx",
-        "level-02.tmx"
+        "level-02.tmx",
+        "level-01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
