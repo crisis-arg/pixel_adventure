@@ -1,15 +1,17 @@
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/parallax.dart';
+import 'package:flame/rendering.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 // import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player.dart';
+import 'package:pixel_adventure/components/saw.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
-class Levels extends World with HasGameRef<PixelAdventure> {
+class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
   final String levelName;
   final Player player;
   late TiledComponent level;
@@ -21,7 +23,7 @@ class Levels extends World with HasGameRef<PixelAdventure> {
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     add(level);
-
+    // decorator?.addLast(Shadow3DDecorator(base: Vector2(100, 150)));
     _spawningObjects();
     _adCollisions();
     _scrollingBackground('Green');
@@ -85,6 +87,14 @@ class Levels extends World with HasGameRef<PixelAdventure> {
               size: spawnPoint.size,
             );
             add(fruit);
+            break;
+          case 'Saw':
+            final saw = Saw(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: spawnPoint.size,
+            );
+            add(saw);
+            break;
           default:
         }
       }
