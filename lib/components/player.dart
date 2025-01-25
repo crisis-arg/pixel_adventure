@@ -128,12 +128,12 @@ class Player extends SpriteAnimationGroupComponent
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);
     runAnimation = _spriteAnimation("Run", 12);
-    hitAnimation = _spriteAnimation('Hit', 7);
+    hitAnimation = _spriteAnimation('Hit', 7)..loop = false;
     jumpAnimation = _spriteAnimation('Jump', 1);
     fallAnimation = _spriteAnimation('Fall', 1);
     doubleJumpAnimation = _spriteAnimation('Double Jump', 6);
     walljumpAnimation = _spriteAnimation('Wall Jump', 5);
-    // appearingAnimation = _spriteAnimation('Appearing', 7);
+    appearingAnimation = _specialSpriteAnimation('Appearing', 7);
     //List of all animations
     animations = {
       PlayerState.idle: idleAnimation,
@@ -143,6 +143,7 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.doublejump: doubleJumpAnimation,
       PlayerState.fall: fallAnimation,
       PlayerState.walljump: walljumpAnimation,
+      PlayerState.appearing: appearingAnimation,
     };
     //set current animation
     current = PlayerState.idle;
@@ -155,6 +156,18 @@ class Player extends SpriteAnimationGroupComponent
         amount: amount,
         stepTime: stepTime,
         textureSize: Vector2.all(32),
+      ),
+    );
+  }
+
+  SpriteAnimation _specialSpriteAnimation(String state, int amount) {
+    return SpriteAnimation.fromFrameData(
+      game.images.fromCache('Main Characters/$state (96x96).png'),
+      SpriteAnimationData.sequenced(
+        loop: false,
+        amount: amount,
+        stepTime: stepTime,
+        textureSize: Vector2.all(96),
       ),
     );
   }
@@ -287,13 +300,20 @@ class Player extends SpriteAnimationGroupComponent
 
   void _respawn() {
     gotHit = true;
-    const hitDuration = Duration(milliseconds: 350);
-    // position = startingPosition;
     current = PlayerState.hit;
-    Future.delayed(hitDuration, () {
-      gotHit = false;
+    final hitAnimation = animationTickers![PlayerState.hit]!;
+    hitAnimation.completed.whenComplete(() {
+      current = PlayerState.appearing;
       scale.x = 1;
-      position = startingPosition;
+      position = startingPosition - Vector2.all(32);
+      hitAnimation.reset();
+      final appearingAnimation = animationTickers![PlayerState.appearing]!;
+      appearingAnimation.completed.whenComplete(() {
+        position = startingPosition;
+        current = PlayerState.idle;
+        gotHit = false;
+        appearingAnimation.reset();
+      });
     });
   }
 }
