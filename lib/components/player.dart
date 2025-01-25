@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
@@ -18,6 +19,7 @@ enum PlayerState {
   doublejump,
   fall,
   walljump,
+  appearing,
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -36,6 +38,7 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation fallAnimation;
   late final SpriteAnimation doubleJumpAnimation;
   late final SpriteAnimation walljumpAnimation;
+  late final SpriteAnimation appearingAnimation;
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
@@ -52,6 +55,7 @@ class Player extends SpriteAnimationGroupComponent
   bool hasJumped = false;
   bool doubleJump = false;
   bool isTouchingWall = false;
+  bool gotHit = false;
 
   CustomHitbox hitbox = CustomHitbox(
     offsetX: 10,
@@ -75,13 +79,16 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
-    _updatePlayerState();
-    _updatePlayerMovement(dt);
-    _checkHorizontalCollision();
-    _applyGravity(dt);
-    _checkVerticalCollision();
-    _wallSlide(dt);
-    // print('delta time: $dt');
+    if (!gotHit) {
+      _updatePlayerState();
+      _updatePlayerMovement(dt);
+      _checkHorizontalCollision();
+      _applyGravity(dt);
+      _checkVerticalCollision();
+      _wallSlide(dt);
+      // print('delta time: $dt');
+    }
+
     super.update(dt);
   }
 
@@ -126,6 +133,7 @@ class Player extends SpriteAnimationGroupComponent
     fallAnimation = _spriteAnimation('Fall', 1);
     doubleJumpAnimation = _spriteAnimation('Double Jump', 6);
     walljumpAnimation = _spriteAnimation('Wall Jump', 5);
+    // appearingAnimation = _spriteAnimation('Appearing', 7);
     //List of all animations
     animations = {
       PlayerState.idle: idleAnimation,
@@ -278,6 +286,14 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _respawn() {
-    position = startingPosition;
+    gotHit = true;
+    const hitDuration = Duration(milliseconds: 350);
+    // position = startingPosition;
+    current = PlayerState.hit;
+    Future.delayed(hitDuration, () {
+      gotHit = false;
+      scale.x = 1;
+      position = startingPosition;
+    });
   }
 }
