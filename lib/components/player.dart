@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
+import 'package:pixel_adventure/components/saw.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -44,6 +45,7 @@ class Player extends SpriteAnimationGroupComponent
   final double wallSlideSpeed = 10;
   // double verticalMovement = 0;
   double moveSpeed = 100;
+  Vector2 startingPosition = Vector2.zero();
   Vector2 velocity = Vector2.zero();
   List<CollisionsBlock> collisionsBlocks = [];
   bool isOnGround = false;
@@ -61,6 +63,7 @@ class Player extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+    startingPosition = Vector2(position.x, position.y);
     // debugMode = true;
     // debugColor = Colors.white;
     add(RectangleHitbox(
@@ -107,6 +110,9 @@ class Player extends SpriteAnimationGroupComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Fruit) {
       other.collidingWithPlayer();
+    }
+    if (other is Saw) {
+      _respawn();
     }
 
     super.onCollision(intersectionPoints, other);
@@ -269,5 +275,9 @@ class Player extends SpriteAnimationGroupComponent
         }
       }
     }
+  }
+
+  void _respawn() {
+    position = startingPosition;
   }
 }
