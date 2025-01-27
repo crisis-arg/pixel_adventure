@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
@@ -120,6 +121,9 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (other is Saw) {
       _respawn();
+    }
+    if (other is Checkpoint) {
+      other.collidingWithPlayer();
     }
 
     super.onCollision(intersectionPoints, other);
