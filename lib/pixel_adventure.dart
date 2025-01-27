@@ -16,9 +16,10 @@ class PixelAdventure extends FlameGame
   final Player player = Player(character: 'Pink Man');
   late JoystickComponent joystick;
   bool showJoystick = kIsWeb;
-  List<String> levelNames = ['level-01', 'level-01'];
+  List<String> levelNames = ['level-01', 'level-02'];
+  List<String> background = ['Green', 'Pink'];
   int currentLevelIndex = 0;
-
+  int backgroundIndex = 0;
   @override
   FutureOr<void> onLoad() async {
     //Load al images into cache
@@ -81,6 +82,7 @@ class PixelAdventure extends FlameGame
   void loadNextLevel() {
     removeWhere((component) => component is Levels);
     if (currentLevelIndex < levelNames.length - 1) {
+      backgroundIndex++;
       currentLevelIndex++;
       _loadLevel();
     }
@@ -91,6 +93,7 @@ class PixelAdventure extends FlameGame
       Levels world = Levels(
         levelName: levelNames[currentLevelIndex],
         player: player,
+        backgroundColor: background[backgroundIndex],
       );
       cam = CameraComponent.withFixedResolution(
         world: world,

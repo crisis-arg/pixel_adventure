@@ -15,10 +15,15 @@ import 'package:pixel_adventure/pixel_adventure.dart';
 class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
   final String levelName;
   final Player player;
+  final String backgroundColor;
   late TiledComponent level;
   List<CollisionsBlock> collisionBlocks = [];
 
-  Levels({required this.levelName, required this.player});
+  Levels({
+    required this.levelName,
+    required this.player,
+    required this.backgroundColor,
+  });
 
   @override
   FutureOr<void> onLoad() async {
@@ -27,31 +32,12 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
     // decorator?.addLast(Shadow3DDecorator(base: Vector2(100, 150)));
     _spawningObjects();
     _adCollisions();
-    _scrollingBackground('Green');
+    _scrollingBackground();
 
     return super.onLoad();
   }
 
-  void _scrollingBackground(String backgroundName) {
-    // final backGroundLayer = level.tileMap.getLayer('Background');
-    // const tileSize = 64;
-
-    // final numTilesY = (game.size.y / tileSize).floor();
-    // final numTileX = (game.size.x / tileSize).floor();
-
-    // if (backGroundLayer != null) {
-    //   final backgroundColor =
-    //       backGroundLayer.properties.getValue('BackgroundColor');
-    //   for (double y = 0; y <= numTilesY; y++) {
-    //     for (double x = 0; x <= numTileX; x++) {
-    //       final backgroundTile = BackgroundTile(
-    //         color: backgroundColor != null ? backgroundColor : 'Gray',
-    //         position: Vector2(x * tileSize - tileSize, y * tileSize -tileSize ),
-    //       );
-    //       add(backgroundTile);
-    //     }
-    //   }
-    // }
+  void _scrollingBackground() {
 
     final background = ParallaxComponent(
       priority: -1,
@@ -60,7 +46,7 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
         [
           ParallaxLayer(
             ParallaxImage(
-              game.images.fromCache('Background/$backgroundName.png'),
+              game.images.fromCache('Background/$backgroundColor.png'),
               repeat: ImageRepeat.repeat,
               fill: LayerFill.none,
             ),
