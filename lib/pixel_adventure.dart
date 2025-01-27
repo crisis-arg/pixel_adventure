@@ -13,13 +13,19 @@ class PixelAdventure extends FlameGame
   Color backgroundColor() => const Color(0xff211f30);
 
   late CameraComponent cam;
-  final Player player = Player(character: 'Pink Man');
+
   late JoystickComponent joystick;
   bool showJoystick = kIsWeb;
   List<String> levelNames = ['level-01', 'level-02'];
   List<String> background = ['Green', 'Pink'];
   int currentLevelIndex = 0;
   int backgroundIndex = 0;
+
+  List<String> characterName = ['Pink Man', 'Mask Dude'];
+  int characterIndex = 0;
+
+  Player player = Player();
+
   @override
   FutureOr<void> onLoad() async {
     //Load al images into cache
@@ -84,6 +90,7 @@ class PixelAdventure extends FlameGame
     if (currentLevelIndex < levelNames.length - 1) {
       backgroundIndex++;
       currentLevelIndex++;
+      characterIndex++;
       _loadLevel();
     }
   }
@@ -92,7 +99,7 @@ class PixelAdventure extends FlameGame
     Future.delayed(const Duration(seconds: 1), () {
       Levels world = Levels(
         levelName: levelNames[currentLevelIndex],
-        player: player,
+        player: Player(character: characterName[characterIndex]),
         backgroundColor: background[backgroundIndex],
       );
       cam = CameraComponent.withFixedResolution(
