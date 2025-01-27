@@ -21,6 +21,7 @@ enum PlayerState {
   fall,
   walljump,
   appearing,
+  disappearing,
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -40,6 +41,7 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation doubleJumpAnimation;
   late final SpriteAnimation walljumpAnimation;
   late final SpriteAnimation appearingAnimation;
+  late final SpriteAnimation disppearingAnimation;
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
@@ -57,6 +59,7 @@ class Player extends SpriteAnimationGroupComponent
   bool doubleJump = false;
   bool isTouchingWall = false;
   bool gotHit = false;
+  bool reachedCheckpoint = false;
 
   CustomHitbox hitbox = CustomHitbox(
     offsetX: 10,
@@ -80,7 +83,7 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
-    if (!gotHit) {
+    if (!gotHit && !reachedCheckpoint) {
       _updatePlayerState();
       _updatePlayerMovement(dt);
       _checkHorizontalCollision();
@@ -116,13 +119,17 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is Fruit) {
-      other.collidingWithPlayer();
+    if (!reachedCheckpoint) {
+      if (other is Fruit) {
+        other.collidingWithPlayer();
+      }
+      if (other is Saw) {
+        _respawn();
+      }
+      if (other is Checkpoint) {
+        _reachedCheckpoint();
+      }
     }
-    if (other is Saw) {
-      _respawn();
-    }
-   
 
     super.onCollision(intersectionPoints, other);
   }
@@ -136,6 +143,7 @@ class Player extends SpriteAnimationGroupComponent
     doubleJumpAnimation = _spriteAnimation('Double Jump', 6);
     walljumpAnimation = _spriteAnimation('Wall Jump', 5);
     appearingAnimation = _specialSpriteAnimation('Appearing', 7);
+    disppearingAnimation = _specialSpriteAnimation('Disappearing', 7);
     //List of all animations
     animations = {
       PlayerState.idle: idleAnimation,
@@ -146,6 +154,7 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.fall: fallAnimation,
       PlayerState.walljump: walljumpAnimation,
       PlayerState.appearing: appearingAnimation,
+      PlayerState.disappearing: disppearingAnimation,
     };
     //set current animation
     current = PlayerState.idle;
@@ -317,5 +326,16 @@ class Player extends SpriteAnimationGroupComponent
         appearingAnimation.reset();
       });
     });
+  }
+
+  void _reachedCheckpoint() {
+    reachedCheckpoint = true;
+    print('yo');
+    current = PlayerState.disappearing;
+    if (scale.x > 0) {
+      position = position - Vector2.all(32);
+    } else if (scale.x < 0) {
+      position = position + Vector2(32, -32);
+    }
   }
 }
