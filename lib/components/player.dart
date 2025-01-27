@@ -330,12 +330,27 @@ class Player extends SpriteAnimationGroupComponent
 
   void _reachedCheckpoint() {
     reachedCheckpoint = true;
-    print('yo');
-    current = PlayerState.disappearing;
+
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else if (scale.x < 0) {
       position = position + Vector2(32, -32);
     }
+    current = PlayerState.disappearing;
+    const reachedCheckpointDuration = Duration(milliseconds: 350);
+    Future.delayed(
+      reachedCheckpointDuration,
+      () {
+        reachedCheckpoint = false;
+        position = Vector2.all(-640);
+        const waitToChangeDuration = Duration(seconds: 3);
+        Future.delayed(
+          waitToChangeDuration,
+          () {
+            game.loadNextLevel();
+          },
+        );
+      },
+    );
   }
 }
