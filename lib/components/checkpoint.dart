@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/sprite.dart';
+import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class Checkpoint extends SpriteAnimationComponent
-    with HasGameRef<PixelAdventure> ,CollisionCallbacks{
+    with HasGameRef<PixelAdventure>, CollisionCallbacks {
   Checkpoint({position, size})
       : super(
           position: position,
@@ -14,7 +16,7 @@ class Checkpoint extends SpriteAnimationComponent
         );
 
   final stepTime = 0.05;
-
+  bool reachedCheckpoint = false;
   final hitbox = CustomHitbox(
     offsetX: 18,
     offsetY: 18,
@@ -45,15 +47,38 @@ class Checkpoint extends SpriteAnimationComponent
     return super.onLoad();
   }
 
-  void collidingWithPlayer(){
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Player && !reachedCheckpoint) {
+      _reachedCheckpoint();
+    }
+    super.onCollision(intersectionPoints, other);
+  }
+
+  void _reachedCheckpoint() {
+    reachedCheckpoint = true;
+
     animation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('Items/Checkpoints/Checkpoint/Checkpoint (Flag Out) (64x64).png'),
+      game.images.fromCache(
+          'Items/Checkpoints/Checkpoint/Checkpoint (Flag Out) (64x64).png'),
+      SpriteAnimationData.sequenced(
+        amount: 26,
+        stepTime: stepTime,
+        textureSize: Vector2.all(64),
+        loop: false,
+      ),
+    );
+    Future.delayed(const Duration(milliseconds: 1300), () {
+      animation = SpriteAnimation.fromFrameData(
+        game.images.fromCache(
+            'Items/Checkpoints/Checkpoint/Checkpoint (Flag Idle)(64x64).png'),
         SpriteAnimationData.sequenced(
-          amount: 26,
+          amount: 10,
           stepTime: stepTime,
           textureSize: Vector2.all(64),
-          loop: false,
         ),
       );
+    });
+    // final animationTicker = SpriteAnimationTicker(animation!);
   }
 }

@@ -122,9 +122,7 @@ class Player extends SpriteAnimationGroupComponent
     if (other is Saw) {
       _respawn();
     }
-    if (other is Checkpoint) {
-      other.collidingWithPlayer();
-    }
+   
 
     super.onCollision(intersectionPoints, other);
   }
