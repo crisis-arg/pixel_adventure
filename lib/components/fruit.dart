@@ -14,7 +14,6 @@ class Fruit extends SpriteAnimationComponent
           size: size,
         );
   final double stepTime = 0.05;
-  bool _isCollected = false;
 
   final hitbox = CustomHitbox(
     offsetX: 10,
@@ -47,23 +46,17 @@ class Fruit extends SpriteAnimationComponent
     return super.onLoad();
   }
 
-  void collidingWithPlayer() {
-    if (!_isCollected) {
-      animation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('Items/Fruits/Collected.png'),
-        SpriteAnimationData.sequenced(
-          amount: 6,
-          stepTime: stepTime,
-          textureSize: Vector2.all(32),
-          loop: false,
-        ),
-      );
-      _isCollected = true;
-    }
-
-    Future.delayed(
-      const Duration(milliseconds: 300),
-      () => removeFromParent(),
+  void collidingWithPlayer() async {
+    animation = SpriteAnimation.fromFrameData(
+      game.images.fromCache('Items/Fruits/Collected.png'),
+      SpriteAnimationData.sequenced(
+        amount: 6,
+        stepTime: stepTime,
+        textureSize: Vector2.all(32),
+        loop: false,
+      ),
     );
+    await animationTicker?.completed;
+    removeFromParent();
   }
 }
