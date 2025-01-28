@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -124,7 +125,6 @@ class Player extends SpriteAnimationGroupComponent
     return super.onKeyEvent(event, keysPressed);
   }
 
-
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
@@ -209,6 +209,9 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    if (game.playSound) {
+      FlameAudio.play('jump.wav');
+    }
     velocity.y = -_jumpForce;
     // velocity.y = verticalMovement * _jumpForce;
     position.y += velocity.y * dt;
@@ -319,9 +322,15 @@ class Player extends SpriteAnimationGroupComponent
 
   void _respawn() {
     gotHit = true;
+    if (game.playSound) {
+      FlameAudio.play('hit.wav');
+    }
     current = PlayerState.hit;
     final hitAnimation = animationTickers![PlayerState.hit]!;
     hitAnimation.completed.whenComplete(() {
+      if (game.playSound) {
+        FlameAudio.play('appear.wav');
+      }
       current = PlayerState.appearing;
       scale.x = 1;
       position = startingPosition - Vector2.all(32);
@@ -336,28 +345,26 @@ class Player extends SpriteAnimationGroupComponent
     });
   }
 
-  void _reachedCheckpoint() {
+  void _reachedCheckpoint() async {
     reachedCheckpoint = true;
-
+    if (game.playSound) {
+      FlameAudio.play('reachedCheckpoint.wav');
+    }
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else if (scale.x < 0) {
       position = position + Vector2(32, -32);
     }
     current = PlayerState.disappearing;
-    const reachedCheckpointDuration = Duration(milliseconds: 350);
+    await animationTicker?.completed;
+    FlameAudio.play('win.wav');
+    reachedCheckpoint = false;
+    removeFromParent();
+    const waitToChangeDuration = Duration(seconds: 3);
     Future.delayed(
-      reachedCheckpointDuration,
+      waitToChangeDuration,
       () {
-        reachedCheckpoint = false;
-        removeFromParent();
-        const waitToChangeDuration = Duration(seconds: 3);
-        Future.delayed(
-          waitToChangeDuration,
-          () {
-            game.loadNextLevel();
-          },
-        );
+        game.loadNextLevel();
       },
     );
   }

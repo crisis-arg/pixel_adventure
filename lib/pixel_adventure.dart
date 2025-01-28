@@ -9,7 +9,11 @@ import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/levels.dart';
 
 class PixelAdventure extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection,TapCallbacks {
+    with
+        HasKeyboardHandlerComponents,
+        DragCallbacks,
+        HasCollisionDetection,
+        TapCallbacks {
   @override
   Color backgroundColor() => const Color(0xff211f30);
 
@@ -17,7 +21,9 @@ class PixelAdventure extends FlameGame
 
   late JoystickComponent joystick;
   bool showJoystick = kIsWeb;
-  List<String> levelNames = ['level-02', 'level-01'];
+  bool playSound = true;
+  double soundVolume = 1.0;
+  List<String> levelNames = ['level-01', 'level-02'];
   List<String> background = ['Green', 'Pink'];
   int currentLevelIndex = 0;
   int backgroundIndex = 0;
