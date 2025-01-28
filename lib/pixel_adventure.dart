@@ -4,6 +4,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pixel_adventure/components/jump_button.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/levels.dart';
 
@@ -16,7 +17,7 @@ class PixelAdventure extends FlameGame
 
   late JoystickComponent joystick;
   bool showJoystick = kIsWeb;
-  List<String> levelNames = ['level-01', 'level-02'];
+  List<String> levelNames = ['level-02', 'level-01'];
   List<String> background = ['Green', 'Pink'];
   int currentLevelIndex = 0;
   int backgroundIndex = 0;
@@ -43,6 +44,7 @@ class PixelAdventure extends FlameGame
   @override
   void update(double dt) {
     if (!showJoystick) {
+      // add(JumpButton());
       updateJoystick();
     }
     super.update(dt);
@@ -66,6 +68,7 @@ class PixelAdventure extends FlameGame
     );
     add(joystick);
   }
+
 
   void updateJoystick() {
     switch (joystick.direction) {
@@ -92,6 +95,11 @@ class PixelAdventure extends FlameGame
       currentLevelIndex++;
       characterIndex++;
       _loadLevel();
+    } else {
+      backgroundIndex = 0;
+      currentLevelIndex = 0;
+      characterIndex = 0;
+      _loadLevel();
     }
   }
 
@@ -99,7 +107,7 @@ class PixelAdventure extends FlameGame
     Future.delayed(const Duration(seconds: 1), () {
       Levels world = Levels(
         levelName: levelNames[currentLevelIndex],
-        player: Player(character: characterName[characterIndex]),
+        player: player = Player(character: characterName[characterIndex]),
         backgroundColor: background[backgroundIndex],
       );
       cam = CameraComponent.withFixedResolution(

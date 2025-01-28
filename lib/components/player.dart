@@ -342,7 +342,7 @@ class Player extends SpriteAnimationGroupComponent
       reachedCheckpointDuration,
       () {
         reachedCheckpoint = false;
-        position = Vector2.all(-640);
+        removeFromParent();
         const waitToChangeDuration = Duration(seconds: 3);
         Future.delayed(
           waitToChangeDuration,
