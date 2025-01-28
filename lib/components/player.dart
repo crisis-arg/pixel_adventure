@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixel_adventure/components/checkpoint.dart';
@@ -45,7 +46,7 @@ class Player extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
-  final double _jumpForce = 400;
+  late final double _jumpForce;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
   final double wallSlideSpeed = 10;
@@ -60,6 +61,7 @@ class Player extends SpriteAnimationGroupComponent
   bool isTouchingWall = false;
   bool gotHit = false;
   bool reachedCheckpoint = false;
+  bool jumpForDevice = kIsWeb;
 
   CustomHitbox hitbox = CustomHitbox(
     offsetX: 10,
@@ -70,6 +72,11 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
+    if (jumpForDevice) {
+      _jumpForce = 400;
+    } else {
+      _jumpForce = 260;
+    }
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
     // debugMode = true;

@@ -9,7 +9,7 @@ import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/levels.dart';
 
 class PixelAdventure extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection,TapCallbacks {
   @override
   Color backgroundColor() => const Color(0xff211f30);
 
@@ -35,6 +35,7 @@ class PixelAdventure extends FlameGame
     _loadLevel();
 
     if (!showJoystick) {
+      add(JumpButton());
       addJoystick();
     }
 
@@ -44,7 +45,6 @@ class PixelAdventure extends FlameGame
   @override
   void update(double dt) {
     if (!showJoystick) {
-      // add(JumpButton());
       updateJoystick();
     }
     super.update(dt);
@@ -68,7 +68,6 @@ class PixelAdventure extends FlameGame
     );
     add(joystick);
   }
-
 
   void updateJoystick() {
     switch (joystick.direction) {
