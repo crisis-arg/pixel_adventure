@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="31">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="41">
  <tileset firstgid="1" name="Pixel_adventure" tilewidth="16" tileheight="16" tilecount="242" columns="22" backgroundcolor="#00000000">
   <image source="../images/Terrain/Terrain (16x16).png" width="352" height="176"/>
  </tileset>
@@ -43,12 +43,38 @@
   <object id="27" x="448" y="272" width="64" height="32"/>
  </objectgroup>
  <objectgroup id="2" name="Spawnpoints">
-  <object id="1" name="Player" type="Player" x="48" y="128" width="31.0999" height="31.5379"/>
+  <object id="1" name="Player" type="Player" x="48" y="144" width="31.0999" height="31.5379"/>
   <object id="3" x="393" y="228" width="0.5"/>
   <object id="13" type="Checkpoint" x="528" y="80" width="64" height="64"/>
-  <object id="20" type="fallingPlatforms" x="192" y="160" width="32" height="16"/>
-  <object id="28" type="fallingPlatforms" x="272" y="160" width="32" height="16"/>
-  <object id="29" type="fallingPlatforms" x="336" y="160" width="32" height="16"/>
-  <object id="30" type="fallingPlatforms" x="416" y="160" width="32" height="16"/>
+  <object id="31" type="fallingPlatforms" x="176" y="144" width="32" height="16">
+   <properties>
+    <property name="offNeg" type="float" value="0.05"/>
+    <property name="offPos" type="float" value="0.05"/>
+   </properties>
+  </object>
+  <object id="37" type="fallingPlatforms" x="256" y="176" width="32" height="16">
+   <properties>
+    <property name="offNeg" type="float" value="0.05"/>
+    <property name="offPos" type="float" value="0.05"/>
+   </properties>
+  </object>
+  <object id="38" type="fallingPlatforms" x="336" y="160" width="32" height="16">
+   <properties>
+    <property name="offNeg" type="float" value="0.05"/>
+    <property name="offPos" type="float" value="0.05"/>
+   </properties>
+  </object>
+  <object id="39" type="fallingPlatforms" x="400" y="176" width="32" height="16">
+   <properties>
+    <property name="offNeg" type="float" value="0.05"/>
+    <property name="offPos" type="float" value="0.05"/>
+   </properties>
+  </object>
+  <object id="40" type="fallingPlatforms" x="464" y="144" width="32" height="16">
+   <properties>
+    <property name="offNeg" type="float" value="0.05"/>
+    <property name="offPos" type="float" value="0.5"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

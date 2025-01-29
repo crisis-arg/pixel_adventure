@@ -96,7 +96,11 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             add(checkpoint);
             break;
           case 'fallingPlatforms':
+            final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offPos = spawnPoint.properties.getValue('offPos');
             final fallingPlatforms = FallingPlatforms(
+              offNeg: offNeg,
+              offPos: offPos,
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: spawnPoint.size,
             );
