@@ -9,7 +9,8 @@ import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player.dart';
-import 'package:pixel_adventure/components/saw.dart';
+import 'package:pixel_adventure/components/traps/falling_platforms.dart';
+import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
@@ -38,7 +39,6 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
   }
 
   void _scrollingBackground() {
-
     final background = ParallaxComponent(
       priority: -1,
       parallax: Parallax(
@@ -94,6 +94,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               size: spawnPoint.size,
             );
             add(checkpoint);
+            break;
+          case 'fallingPlatforms':
+            final fallingPlatforms = FallingPlatforms(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: spawnPoint.size,
+            );
+            add(fallingPlatforms);
             break;
           default:
         }
