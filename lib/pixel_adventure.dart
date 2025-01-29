@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_adventure/components/jump_button.dart';
@@ -110,6 +111,7 @@ class PixelAdventure extends FlameGame
 
   void _loadLevel() {
     Future.delayed(const Duration(seconds: 1), () {
+       FlameAudio.play('newLevel.wav');
       Levels world = Levels(
         levelName: levelNames[currentLevelIndex],
         player: player = Player(character: characterName[characterIndex]),
