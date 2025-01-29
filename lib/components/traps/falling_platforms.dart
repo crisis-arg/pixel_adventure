@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class FallingPlatforms extends SpriteAnimationComponent
@@ -24,9 +26,25 @@ class FallingPlatforms extends SpriteAnimationComponent
   double rangeNeg = 0;
   double rangePos = 0;
 
+  final hitbox = CustomHitbox(
+    offsetX:0,
+    offsetY: 0,
+    width: 32,
+    height: 5,
+  );
+
   @override
   FutureOr<void> onLoad() {
     // debugMode = true;
+
+    add(
+      RectangleHitbox(
+        position: Vector2(hitbox.offsetX, hitbox.offsetY),
+        size: Vector2(hitbox.width, hitbox.height),
+        collisionType: CollisionType.active,
+      ),
+    );
+
     rangeNeg = position.y - offNeg * tileSize;
     rangePos = position.y + offPos * tileSize;
 
