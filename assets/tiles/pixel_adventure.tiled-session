@@ -19,17 +19,20 @@
         },
         "level-01.tmx": {
             "expandedObjectLayers": [
-                4,
-                5
+                5,
+                4
             ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 272.25,
-                "y": 189.75
+                "x": 320,
+                "y": 183.75
             }
         },
         "level-02.tmx": {
+            "expandedGroupLayers": [
+                4
+            ],
             "expandedObjectLayers": [
                 3,
                 2
@@ -53,17 +56,16 @@
     "map.width": 40,
     "openFiles": [
         "Pixel_adventure.tsx",
-        "level-02.tmx",
-        "level-01.tmx",
-        "Shadow.tsx"
-    ],
-    "project": "pixel_adventure.tiled-project",
-    "property.type": "float",
-    "recentFiles": [
-        "Shadow.tsx",
-        "Pixel_adventure.tsx",
         "level-01.tmx",
         "level-02.tmx"
+    ],
+    "project": "pixel_adventure.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "Pixel_adventure.tsx",
+        "level-01.tmx",
+        "level-02.tmx",
+        "Shadow.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

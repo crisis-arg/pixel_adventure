@@ -95,17 +95,7 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             );
             add(checkpoint);
             break;
-          case 'fallingPlatforms':
-            final offNeg = spawnPoint.properties.getValue('offNeg');
-            final offPos = spawnPoint.properties.getValue('offPos');
-            final fallingPlatforms = FallingPlatforms(
-              offNeg: offNeg,
-              offPos: offPos,
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: spawnPoint.size,
-            );
-            add(fallingPlatforms);
-            break;
+
           default:
         }
       }
@@ -125,6 +115,28 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             );
             collisionBlocks.add(platform);
             add(platform);
+            break;
+          case 'fallingPlatforms':
+            final offNeg = collision.properties.getValue('offNeg');
+            final offPos = collision.properties.getValue('offPos');
+            final fallingPlatforms = FallingPlatforms(
+              player: player,
+              offNeg: offNeg,
+              offPos: offPos,
+              position: Vector2(collision.x, collision.y),
+              size: collision.size,
+            );
+            add(fallingPlatforms);
+            final fallingplatform = CollisionsBlock(
+              offNeg: offNeg,
+              offPos: offPos,
+              position: Vector2(collision.x, collision.y),
+              size: Vector2(collision.width, collision.height),
+              isPlatform: true,
+            );
+            collisionBlocks.add(fallingplatform);
+            add(fallingplatform);
+
             break;
           default:
             final block = CollisionsBlock(

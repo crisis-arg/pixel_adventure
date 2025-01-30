@@ -2,17 +2,22 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+import 'package:pixel_adventure/components/collitions_block.dart';
+import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class FallingPlatforms extends SpriteAnimationComponent
-    with HasGameRef<PixelAdventure> {
+    with HasGameRef<PixelAdventure>, CollisionCallbacks {
   final double offNeg;
   final double offPos;
+  final Player player;
 
   FallingPlatforms({
     this.offNeg = 0,
     this.offPos = 0,
+    required this.player,
     position,
     size,
   }) : super(
@@ -22,12 +27,17 @@ class FallingPlatforms extends SpriteAnimationComponent
   final stepTime = 0.05;
   static const moveSpeed = 5;
   static const tileSize = 16;
+  Vector2 velocity = Vector2.zero();
   double moveDirection = 1;
   double rangeNeg = 0;
   double rangePos = 0;
+  final double _gravity = 9.8;
+  late final CollisionsBlock platformsss;
+  bool isPlayer = false;
+  bool start = false;
 
   final hitbox = CustomHitbox(
-    offsetX:0,
+    offsetX: 0,
     offsetY: 0,
     width: 32,
     height: 5,
@@ -37,13 +47,13 @@ class FallingPlatforms extends SpriteAnimationComponent
   FutureOr<void> onLoad() {
     // debugMode = true;
 
-    add(
-      RectangleHitbox(
-        position: Vector2(hitbox.offsetX, hitbox.offsetY),
-        size: Vector2(hitbox.width, hitbox.height),
-        collisionType: CollisionType.active,
-      ),
-    );
+    // add(
+    //   RectangleHitbox(
+    //     position: Vector2(hitbox.offsetX, hitbox.offsetY),
+    //     size: Vector2(hitbox.width, hitbox.height),
+    //     collisionType: CollisionType.active,
+    //   ),
+    // );
 
     rangeNeg = position.y - offNeg * tileSize;
     rangePos = position.y + offPos * tileSize;
@@ -60,9 +70,22 @@ class FallingPlatforms extends SpriteAnimationComponent
   }
 
   @override
-  void update(double dt) {
+  void update(double dt) async {
     _movement(dt);
+    if (start) {
+      await Future.delayed(const Duration(seconds: 3));
+      applygravity(dt);
+    }
     super.update(dt);
+  }
+
+  void collidWithPlayer() {
+    start = true;
+  }
+
+  void applygravity(double dt) {
+    velocity.y += _gravity;
+    position.y += velocity.y * dt;
   }
 
   void _movement(double dt) {
