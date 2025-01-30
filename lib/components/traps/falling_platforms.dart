@@ -47,13 +47,13 @@ class FallingPlatforms extends SpriteAnimationComponent
   FutureOr<void> onLoad() {
     // debugMode = true;
 
-    // add(
-    //   RectangleHitbox(
-    //     position: Vector2(hitbox.offsetX, hitbox.offsetY),
-    //     size: Vector2(hitbox.width, hitbox.height),
-    //     collisionType: CollisionType.active,
-    //   ),
-    // );
+    add(
+      RectangleHitbox(
+        position: Vector2(hitbox.offsetX, hitbox.offsetY),
+        size: Vector2(hitbox.width, hitbox.height),
+        collisionType: CollisionType.active,
+      ),
+    );
 
     rangeNeg = position.y - offNeg * tileSize;
     rangePos = position.y + offPos * tileSize;
@@ -72,16 +72,13 @@ class FallingPlatforms extends SpriteAnimationComponent
   @override
   void update(double dt) async {
     _movement(dt);
-    if (start) {
+    if (isPlayer) {
       await Future.delayed(const Duration(seconds: 3));
       applygravity(dt);
     }
     super.update(dt);
   }
 
-  void collidWithPlayer() {
-    start = true;
-  }
 
   void applygravity(double dt) {
     velocity.y += _gravity;

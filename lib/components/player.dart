@@ -10,6 +10,7 @@ import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
+import 'package:pixel_adventure/components/traps/falling_platforms.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
@@ -137,6 +138,12 @@ class Player extends SpriteAnimationGroupComponent
       }
       if (other is Checkpoint) {
         _reachedCheckpoint();
+      }
+      if (other is FallingPlatforms) {
+        other.isPlayer = true;
+      }
+      if (other is CollisionsBlock) {
+        other.isPlayerCollision = true;
       }
     }
     super.onCollisionStart(intersectionPoints, other);
