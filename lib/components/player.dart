@@ -259,7 +259,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _checkHorizontalCollision() {
     for (final block in collisionsBlocks) {
-      if (!block.isPlatform) {
+      if (!block.isPlatform && !block.isFallingPlatform) {
         // print(block.isPlatform);
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
@@ -300,7 +300,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _checkVerticalCollision() {
     for (final block in collisionsBlocks) {
-      if (block.isPlatform) {
+      if (block.isPlatform || block.isFallingPlatform) {
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;

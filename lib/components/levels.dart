@@ -132,7 +132,7 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               offPos: offPos,
               position: Vector2(collision.x, collision.y),
               size: Vector2(collision.width, collision.height),
-              isPlatform: true,
+              isFallingPlatform: true,
             );
             collisionBlocks.add(fallingplatform);
             add(fallingplatform);

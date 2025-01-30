@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 
 class CollisionsBlock extends PositionComponent with CollisionCallbacks {
+  bool isFallingPlatform;
   bool isPlatform;
   final double offNeg;
   final double offPos;
   CollisionsBlock({
     this.offNeg = 0,
     this.offPos = 0,
+    this.isFallingPlatform = false,
     this.isPlatform = false,
     position,
     size,
@@ -30,7 +32,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   double rangePos = 0;
   bool isPlayerCollision = false;
 
-    final hitbox = CustomHitbox(
+  final hitbox = CustomHitbox(
     offsetX: 0,
     offsetY: 0,
     width: 32,
@@ -39,15 +41,15 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
 
   @override
   FutureOr<void> onLoad() {
-    
-    if(isPlatform){
-       add(
-      RectangleHitbox(
-        position: Vector2(hitbox.offsetX, hitbox.offsetY),
-        size: Vector2(hitbox.width, hitbox.height),
-        collisionType: CollisionType.active,
-      ),
-    );
+    if (isFallingPlatform) {
+      // debugMode = true;
+      add(
+        RectangleHitbox(
+          position: Vector2(hitbox.offsetX, hitbox.offsetY),
+          size: Vector2(hitbox.width, hitbox.height),
+          collisionType: CollisionType.active,
+        ),
+      );
     }
 
     rangeNeg = position.y - offNeg * tileSize;
@@ -57,12 +59,12 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   }
 
   @override
-  void update(double dt) async{
-    if (isPlatform) {
+  void update(double dt) async {
+    if (isFallingPlatform) {
       _movement(dt);
     }
-    if (isPlayerCollision && isPlatform) {
-      await Future.delayed(const Duration(seconds: 3));
+    if (isPlayerCollision && isFallingPlatform) {
+      await Future.delayed(const Duration(seconds: 1));
       applygravity(dt);
     }
     super.update(dt);
