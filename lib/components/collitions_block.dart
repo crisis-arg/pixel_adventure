@@ -36,7 +36,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     offsetX: 0,
     offsetY: 0,
     width: 32,
-    height: 5,
+    height: 1,
   );
 
   @override
@@ -64,7 +64,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       _movement(dt);
     }
     if (isPlayerCollision && isFallingPlatform) {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500));
       applygravity(dt);
     }
     super.update(dt);

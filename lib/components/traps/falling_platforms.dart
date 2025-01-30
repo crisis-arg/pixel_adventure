@@ -73,7 +73,7 @@ class FallingPlatforms extends SpriteAnimationComponent
   void update(double dt) async {
     _movement(dt);
     if (isPlayer) {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500));
       applygravity(dt);
     }
     super.update(dt);
