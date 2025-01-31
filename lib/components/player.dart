@@ -11,6 +11,7 @@ import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
+import 'package:pixel_adventure/components/traps/fire.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
@@ -128,7 +129,7 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
+      Set<Vector2> intersectionPoints, PositionComponent other) async {
     if (!reachedCheckpoint) {
       if (other is Fruit) {
         other.collidingWithPlayer();
@@ -145,6 +146,10 @@ class Player extends SpriteAnimationGroupComponent
       if (other is CollisionsBlock) {
         other.isPlayerCollision = true;
       }
+      // if (other is Fire) {
+      //   await Future.delayed(const Duration(milliseconds: 400));
+      //   _respawn();
+      // }
     }
     super.onCollisionStart(intersectionPoints, other);
   }
