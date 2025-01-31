@@ -16,6 +16,7 @@ class Fire extends SpriteAnimationComponent
 
   final stepTime = 0.05;
   bool isFireon = false;
+  bool playerHit = false;
 
   late RectangleHitbox fireOn = RectangleHitbox(
     position: Vector2(fireHitbox.offsetX, fireHitbox.offsetY),
@@ -24,9 +25,9 @@ class Fire extends SpriteAnimationComponent
   );
 
   final hitbox = CustomHitbox(
-    offsetX: 0,
+    offsetX: 3,
     offsetY: 16,
-    width: 16,
+    width: 10,
     height: 16,
   );
 
@@ -50,7 +51,7 @@ class Fire extends SpriteAnimationComponent
           loop: false,
         ),
       );
-      await animationTicker?.completed;
+      await Future.delayed(const Duration(milliseconds: 300));
       animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Traps/Fire/On (16x32).png'),
         SpriteAnimationData.sequenced(
@@ -62,7 +63,7 @@ class Fire extends SpriteAnimationComponent
       );
       isFireon = true;
       add(fireOn);
-      animationTicker?.reset();
+      // animationTicker?.reset();
       await animationTicker?.completed;
       isFireon = false;
       remove(fireOn);
@@ -81,8 +82,12 @@ class Fire extends SpriteAnimationComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is Player && isFireon) {
+    if (other is Player && isFireon && !playerHit) {
       other.respawn();
+      playerHit = true;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        playerHit = false;
+      });
     }
     super.onCollision(intersectionPoints, other);
   }
