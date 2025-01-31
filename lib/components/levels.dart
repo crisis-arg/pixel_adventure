@@ -9,6 +9,7 @@ import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
+import 'package:pixel_adventure/components/traps/fire.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -95,7 +96,7 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             add(checkpoint);
             break;
           case 'fallingPlatformSpawn':
-          final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offNeg = spawnPoint.properties.getValue('offNeg');
             final offPos = spawnPoint.properties.getValue('offPos');
             final fallingPlatforms = FallingPlatforms(
               player: player,
@@ -105,6 +106,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               size: spawnPoint.size,
             );
             add(fallingPlatforms);
+            break;
+          case 'Fire':
+            final fire = Fire(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: spawnPoint.size,
+            );
+            add(fire);
             break;
 
           default:
