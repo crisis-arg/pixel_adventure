@@ -31,7 +31,9 @@ class Saw extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
     // debugMode = true;
     priority = -1;
 
-    add(CircleHitbox());
+    add(CircleHitbox(
+      collisionType: CollisionType.passive,
+    ));
 
     if (isVertical) {
       rangeNeg = position.y - offNeg * tileSize;

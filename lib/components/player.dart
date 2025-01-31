@@ -135,7 +135,7 @@ class Player extends SpriteAnimationGroupComponent
         other.collidingWithPlayer();
       }
       if (other is Saw) {
-        _respawn();
+        respawn();
       }
       if (other is Checkpoint) {
         _reachedCheckpoint();
@@ -332,7 +332,7 @@ class Player extends SpriteAnimationGroupComponent
     }
   }
 
-  void _respawn() {
+  void respawn() {
     gotHit = true;
     if (game.playSound) {
       FlameAudio.play('hit.wav');
