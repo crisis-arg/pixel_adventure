@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
+import 'package:pixel_adventure/components/Buttons/restart_button.dart';
 import 'package:pixel_adventure/components/checkpoint.dart';
 // import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
@@ -113,6 +114,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               size: spawnPoint.size,
             );
             add(fire);
+            break;
+          case 'Restart':
+            final restart = RestartButton(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: spawnPoint.size,
+            );
+            add(restart);
             break;
 
           default:
