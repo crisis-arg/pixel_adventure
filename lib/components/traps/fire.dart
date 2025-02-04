@@ -18,12 +18,6 @@ class Fire extends SpriteAnimationComponent
   bool isFireon = false;
   bool playerHit = false;
 
-  late RectangleHitbox fireOn = RectangleHitbox(
-    position: Vector2(fireHitbox.offsetX, fireHitbox.offsetY),
-    size: Vector2(fireHitbox.width, fireHitbox.height),
-    collisionType: CollisionType.active,
-  );
-
   final hitbox = CustomHitbox(
     offsetX: 3,
     offsetY: 16,
@@ -31,17 +25,10 @@ class Fire extends SpriteAnimationComponent
     height: 16,
   );
 
-  final fireHitbox = CustomHitbox(
-    offsetX: 3,
-    offsetY: 0,
-    width: 10,
-    height: 14,
-  );
-
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) async {
-    if (other is Player) {
+    if (other is Player && !playerHit) {
       animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Traps/Fire/Hit (16x32).png'),
         SpriteAnimationData.sequenced(
@@ -62,11 +49,8 @@ class Fire extends SpriteAnimationComponent
         ),
       );
       isFireon = true;
-      add(fireOn);
-      // animationTicker?.reset();
       await animationTicker?.completed;
       isFireon = false;
-      remove(fireOn);
       animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Traps/Fire/Off.png'),
         SpriteAnimationData.sequenced(
@@ -85,7 +69,7 @@ class Fire extends SpriteAnimationComponent
     if (other is Player && isFireon && !playerHit) {
       other.respawn();
       playerHit = true;
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(seconds: 1), () {
         playerHit = false;
       });
     }
@@ -115,8 +99,4 @@ class Fire extends SpriteAnimationComponent
     return super.onLoad();
   }
 
-  // Future<void> collidingWithPlayer() async {
-  //   animationTicker?.reset();
-  //   await animationTicker?.completed;
-  // }
 }

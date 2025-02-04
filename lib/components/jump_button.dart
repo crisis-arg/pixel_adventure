@@ -8,7 +8,7 @@ class JumpButton extends SpriteComponent
     with HasGameRef<PixelAdventure>, TapCallbacks {
   JumpButton();
 
-  final margin = 32;
+  final margin = 75;
   final buttonSize = 64;
 
   @override

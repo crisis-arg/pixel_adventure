@@ -70,7 +70,7 @@ class PixelAdventure extends FlameGame
           images.fromCache('HUD/Joystick.png'),
         ),
       ),
-      margin: const EdgeInsets.only(left: 32, bottom: 38),
+      margin: const EdgeInsets.only(left: 75, bottom: 60),
       //  position: Vector2(70, size.y - 80),
     );
     add(joystick);
