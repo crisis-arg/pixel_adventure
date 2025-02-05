@@ -59,6 +59,7 @@ class Player extends SpriteAnimationGroupComponent
   bool hasJumped = false;
   bool doubleJump = false;
   bool isTouchingWall = false;
+  bool canWallJump = false;
   bool gotHit = false;
   bool reachedCheckpoint = false;
   bool jumpForDevice = kIsWeb;
@@ -250,8 +251,9 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (velocity.y > _gravity) {
       playerState = PlayerState.fall;
-      if (!isTouchingWall && isOnGround) {
+      if (!isTouchingWall && canWallJump) {
         playerState = PlayerState.walljump;
+        canWallJump = false;
       }
     }
 
@@ -291,7 +293,8 @@ class Player extends SpriteAnimationGroupComponent
       velocity.y += wallSlideSpeed;
       velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
       position.y += velocity.y * dt;
-      isOnGround = true;
+      // isOnGround = true;
+      canWallJump = true;
     }
   }
 
