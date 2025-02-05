@@ -70,6 +70,7 @@ flutter:
     - assets/images/Terrain/
     - assets/images/Traps/Saw/
     - assets/images/Traps/Fire/
+    - assets/images/Traps/Trampoline/
     - assets/images/Traps/Falling Platforms/
     - assets/images/Background/
     - assets/images/Menu/Buttons/

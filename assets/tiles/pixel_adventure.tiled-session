@@ -25,7 +25,7 @@
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 320,
+                "x": 319.75,
                 "y": 183.75
             }
         },
@@ -34,11 +34,11 @@
                 4
             ],
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 2,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
                 "x": 315.75,
                 "y": 183.75
@@ -46,6 +46,18 @@
         },
         "level-02.tmx#Pixel_adventure": {
             "scaleInDock": 1
+        },
+        "level-03.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 2.0276562499999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.82738691531176,
+                "y": 211.32773368266936
+            }
         }
     },
     "last.imagePath": "D:/game_app/pixel_adventure/assets/images/Other",
@@ -62,10 +74,10 @@
     "project": "pixel_adventure.tiled-project",
     "property.type": "float",
     "recentFiles": [
+        "Shadow.tsx",
         "Pixel_adventure.tsx",
         "level-01.tmx",
-        "level-02.tmx",
-        "Shadow.tsx"
+        "level-02.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
