@@ -46,7 +46,7 @@ class Player extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
-  late final double _jumpForce;
+  final double _jumpForce = 230;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
   final double wallSlideSpeed = 10;
@@ -70,13 +70,11 @@ class Player extends SpriteAnimationGroupComponent
     height: 28,
   );
 
+  double fixedDeltaTime = 1 / 60;
+  double accumulatedTime = 0;
+
   @override
   FutureOr<void> onLoad() {
-    if (jumpForDevice) {
-      _jumpForce = 400;
-    } else {
-      _jumpForce = 260;
-    }
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
     // debugMode = true;
@@ -90,15 +88,21 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
-    if (!gotHit && !reachedCheckpoint) {
-      _updatePlayerState();
-      _updatePlayerMovement(dt);
-      _checkHorizontalCollision();
-      _applyGravity(dt);
-      _checkVerticalCollision();
-      _wallSlide(dt);
-      // print('delta time: $dt');
+    accumulatedTime += dt;
+
+    while (accumulatedTime >= fixedDeltaTime) {
+      if (!gotHit && !reachedCheckpoint) {
+        _updatePlayerState();
+        _updatePlayerMovement(fixedDeltaTime);
+        _checkHorizontalCollision();
+        _applyGravity(fixedDeltaTime);
+        _checkVerticalCollision();
+        _wallSlide(fixedDeltaTime);
+        // print('delta time: $dt');
+      }
+      accumulatedTime -= fixedDeltaTime;
     }
+    
 
     super.update(dt);
   }
@@ -274,7 +278,7 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.x < 0) {
             velocity.x = 0;
             position.x = block.x + block.width + hitbox.offsetX + hitbox.width;
-            isTouchingWall = true;
+            // isTouchingWall = true;
             break;
           }
         }
@@ -323,6 +327,7 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + block.height - hitbox.offsetY;
+            isTouchingWall = true;
           }
         }
       }

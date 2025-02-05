@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level-02.tmx",
+    "activeFile": "level-03.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -69,15 +69,17 @@
     "openFiles": [
         "Pixel_adventure.tsx",
         "level-01.tmx",
-        "level-02.tmx"
+        "level-02.tmx",
+        "level-03.tmx"
     ],
     "project": "pixel_adventure.tiled-project",
     "property.type": "float",
     "recentFiles": [
-        "Shadow.tsx",
         "Pixel_adventure.tsx",
         "level-01.tmx",
-        "level-02.tmx"
+        "level-02.tmx",
+        "level-03.tmx",
+        "Shadow.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
