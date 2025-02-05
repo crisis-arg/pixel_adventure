@@ -102,7 +102,6 @@ class Player extends SpriteAnimationGroupComponent
       }
       accumulatedTime -= fixedDeltaTime;
     }
-    
 
     super.update(dt);
   }
@@ -278,7 +277,7 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.x < 0) {
             velocity.x = 0;
             position.x = block.x + block.width + hitbox.offsetX + hitbox.width;
-            // isTouchingWall = true;
+            isTouchingWall = true;
             break;
           }
         }
@@ -322,12 +321,12 @@ class Player extends SpriteAnimationGroupComponent
             velocity.y = 0;
             position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
+
             break;
           }
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + block.height - hitbox.offsetY;
-            isTouchingWall = true;
           }
         }
       }
