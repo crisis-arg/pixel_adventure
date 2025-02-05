@@ -37,7 +37,7 @@ class FallingPlatforms extends SpriteAnimationComponent
 
   final hitbox = CustomHitbox(
     offsetX: 0,
-    offsetY: 0,
+    offsetY: -0.5,
     width: 32,
     height: 5,
   );
@@ -71,17 +71,19 @@ class FallingPlatforms extends SpriteAnimationComponent
   @override
   void update(double dt) async {
     _movement(dt);
+    applygravity(dt);
     if (isPlayer) {
       await Future.delayed(const Duration(milliseconds: 500));
-      applygravity(dt);
     }
     super.update(dt);
   }
 
-
-  void applygravity(double dt) {
-    velocity.y += _gravity;
-    position.y += velocity.y * dt;
+  void applygravity(double dt) async {
+    if (isPlayer) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      velocity.y += _gravity;
+      position.y += velocity.y * dt;
+    }
   }
 
   void _movement(double dt) {

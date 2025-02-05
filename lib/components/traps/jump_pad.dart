@@ -27,7 +27,7 @@ class JumpPad extends SpriteAnimationComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
 
     add(
       RectangleHitbox(

@@ -33,7 +33,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
 
   final hitbox = CustomHitbox(
     offsetX: 0,
-    offsetY: 0,
+    offsetY: -0.5,
     width: 32,
     height: 1,
   );
@@ -41,7 +41,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   @override
   FutureOr<void> onLoad() {
     if (isFallingPlatform) {
-      // debugMode = true;
+      debugMode = true;
       add(
         RectangleHitbox(
           position: Vector2(hitbox.offsetX, hitbox.offsetY),
