@@ -60,7 +60,7 @@ class Player extends SpriteAnimationGroupComponent
   bool hasJumped = false;
   bool doubleJump = false;
   bool isTouchingWall = false;
-  bool canWallJump = false;
+  bool wallSlideState = false;
   bool gotHit = false;
   bool reachedCheckpoint = false;
   bool isJumpPad = false;
@@ -221,9 +221,6 @@ class Player extends SpriteAnimationGroupComponent
       doubleJump = false;
     }
 
-    if (hasJumped && canWallJump) {
-      _playerJump(dt);
-    }
     if (isJumpPad) {
       _playerJump(dt);
       isJumpPad = false;
@@ -234,14 +231,13 @@ class Player extends SpriteAnimationGroupComponent
     if (game.playSound) {
       FlameAudio.play('jump.wav');
     }
-   _jumpForce = isJumpPad ? 400 : 260;
+    _jumpForce = isJumpPad ? 400 : 260;
     velocity.y = -_jumpForce;
     // velocity.y = verticalMovement * _jumpForce;
     position.y += velocity.y * dt;
     hasJumped = false;
     isOnGround = false;
     doubleJump = true;
-    canWallJump = false;
   }
 
   void _wallSlide(double dt) {
@@ -250,7 +246,7 @@ class Player extends SpriteAnimationGroupComponent
       velocity.y += wallSlideSpeed;
       velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
       position.y += velocity.y * dt;
-      canWallJump = true;
+      wallSlideState = true;
     }
   }
 
@@ -272,8 +268,9 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (velocity.y > _gravity) {
       playerState = PlayerState.fall;
-      if (canWallJump) {
+      if (wallSlideState) {
         playerState = PlayerState.walljump;
+        wallSlideState = false;
       }
     }
 
