@@ -9,6 +9,7 @@ import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
+import 'package:pixel_adventure/components/traps/jump_pad.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
@@ -46,7 +47,7 @@ class Player extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.05;
   final double _gravity = 9.8;
-  final double _jumpForce = 230;
+  late double _jumpForce = 260;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
   final double wallSlideSpeed = 10;
@@ -62,6 +63,7 @@ class Player extends SpriteAnimationGroupComponent
   bool canWallJump = false;
   bool gotHit = false;
   bool reachedCheckpoint = false;
+  bool isJumpPad = false;
   bool jumpForDevice = kIsWeb;
 
   CustomHitbox hitbox = CustomHitbox(
@@ -144,13 +146,12 @@ class Player extends SpriteAnimationGroupComponent
       if (other is FallingPlatforms) {
         other.isPlayer = true;
       }
+      if (other is JumpPad) {
+        isJumpPad = true;
+      }
       if (other is CollisionsBlock) {
         other.isPlayerCollision = true;
       }
-      // if (other is Fire) {
-      //   await Future.delayed(const Duration(milliseconds: 400));
-      //   _respawn();
-      // }
     }
     super.onCollisionStart(intersectionPoints, other);
   }
@@ -222,8 +223,10 @@ class Player extends SpriteAnimationGroupComponent
 
     if (hasJumped && canWallJump) {
       _playerJump(dt);
-      canWallJump = false;
-      // _playerJump(dt);
+    }
+    if (isJumpPad) {
+      _playerJump(dt);
+      isJumpPad = false;
     }
   }
 
@@ -231,12 +234,24 @@ class Player extends SpriteAnimationGroupComponent
     if (game.playSound) {
       FlameAudio.play('jump.wav');
     }
+   _jumpForce = isJumpPad ? 400 : 260;
     velocity.y = -_jumpForce;
     // velocity.y = verticalMovement * _jumpForce;
     position.y += velocity.y * dt;
     hasJumped = false;
     isOnGround = false;
     doubleJump = true;
+    canWallJump = false;
+  }
+
+  void _wallSlide(double dt) {
+    if (isTouchingWall && !isOnGround) {
+      isTouchingWall = false;
+      velocity.y += wallSlideSpeed;
+      velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
+      position.y += velocity.y * dt;
+      canWallJump = true;
+    }
   }
 
   void _updatePlayerState() {
@@ -257,7 +272,7 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (velocity.y > _gravity) {
       playerState = PlayerState.fall;
-      if (!isTouchingWall) {
+      if (canWallJump) {
         playerState = PlayerState.walljump;
       }
     }
@@ -292,16 +307,6 @@ class Player extends SpriteAnimationGroupComponent
     }
   }
 
-  void _wallSlide(double dt) {
-    if (isTouchingWall && !isOnGround) {
-      isTouchingWall = false;
-      velocity.y += wallSlideSpeed;
-      velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
-      position.y += velocity.y * dt;
-      canWallJump = true;
-    }
-  }
-
   void _applyGravity(double dt) {
     velocity.y += _gravity;
 
@@ -328,7 +333,6 @@ class Player extends SpriteAnimationGroupComponent
             velocity.y = 0;
             position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
-
             break;
           }
           if (velocity.y < 0) {

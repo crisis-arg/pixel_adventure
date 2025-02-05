@@ -19,9 +19,9 @@ class JumpPad extends SpriteAnimationComponent
   final double stepTime = 0.05;
 
   CustomHitbox hitbox = CustomHitbox(
-    offsetX: 2,
+    offsetX: 6,
     offsetY: 20,
-    width: 28,
+    width: 20,
     height: 5,
   );
 
