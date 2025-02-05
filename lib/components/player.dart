@@ -219,6 +219,12 @@ class Player extends SpriteAnimationGroupComponent
       _playerJump(dt);
       doubleJump = false;
     }
+
+    if (hasJumped && canWallJump) {
+      _playerJump(dt);
+      canWallJump = false;
+      // _playerJump(dt);
+    }
   }
 
   void _playerJump(double dt) {
@@ -251,9 +257,8 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (velocity.y > _gravity) {
       playerState = PlayerState.fall;
-      if (!isTouchingWall && canWallJump) {
+      if (!isTouchingWall) {
         playerState = PlayerState.walljump;
-        canWallJump = false;
       }
     }
 
@@ -293,7 +298,6 @@ class Player extends SpriteAnimationGroupComponent
       velocity.y += wallSlideSpeed;
       velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
       position.y += velocity.y * dt;
-      // isOnGround = true;
       canWallJump = true;
     }
   }
