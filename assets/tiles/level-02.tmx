@@ -144,7 +144,7 @@
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="151" type="Restart" x="560" y="16" width="32" height="32"/>
+  <object id="151" type="Restart" x="576" y="32" width="32" height="32"/>
   <object id="152" name="Apple" type="Fruit" x="208" y="96" width="32" height="32"/>
   <object id="153" name="Kiwi" type="Fruit" x="304" y="96" width="32" height="32"/>
   <object id="154" name="Cherries" type="Fruit" x="416" y="96" width="32" height="32"/>

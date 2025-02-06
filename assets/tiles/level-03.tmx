@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="56">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="60">
  <tileset firstgid="1" source="Pixel_adventure.tsx"/>
  <layer id="1" name="Background" width="40" height="23">
   <data encoding="csv">
@@ -28,6 +28,21 @@
 24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24
 </data>
  </layer>
+ <objectgroup id="2" name="Collisions">
+  <object id="19" x="16" y="32" width="16" height="288"/>
+  <object id="20" x="32" y="32" width="576" height="16"/>
+  <object id="21" x="592" y="48" width="16" height="288"/>
+  <object id="22" x="16" y="320" width="576" height="16"/>
+  <object id="23" x="32" y="224" width="96" height="96"/>
+  <object id="24" x="128" y="288" width="64" height="32"/>
+  <object id="31" x="352" y="272" width="160" height="48"/>
+  <object id="32" x="336" y="288" width="16" height="32"/>
+  <object id="33" x="512" y="112" width="80" height="208"/>
+  <object id="34" x="464" y="112" width="16" height="16"/>
+  <object id="35" x="480" y="112" width="32" height="32"/>
+  <object id="36" x="576" y="96" width="16" height="16"/>
+  <object id="37" x="560" y="192" width="16" height="16"/>
+ </objectgroup>
  <objectgroup id="3" name="Spawnpoints">
   <object id="16" name="Player" type="Player" x="48" y="192" width="32" height="32"/>
   <object id="18" type="jumpPad" x="240" y="288" width="32" height="32"/>
@@ -49,20 +64,6 @@
   <object id="53" name="Orange" type="Fruit" x="464" y="80" width="32" height="32"/>
   <object id="54" name="Orange" type="Fruit" x="416" y="80" width="32" height="32"/>
   <object id="55" type="Checkpoint" x="512" y="48" width="64" height="64"/>
- </objectgroup>
- <objectgroup id="2" name="Collisions">
-  <object id="19" x="16" y="32" width="16" height="288"/>
-  <object id="20" x="32" y="32" width="576" height="16"/>
-  <object id="21" x="592" y="48" width="16" height="288"/>
-  <object id="22" x="16" y="320" width="576" height="16"/>
-  <object id="23" x="32" y="224" width="96" height="96"/>
-  <object id="24" x="128" y="288" width="64" height="32"/>
-  <object id="31" x="352" y="272" width="160" height="48"/>
-  <object id="32" x="336" y="288" width="16" height="32"/>
-  <object id="33" x="512" y="112" width="80" height="208"/>
-  <object id="34" x="464" y="112" width="16" height="16"/>
-  <object id="35" x="480" y="112" width="32" height="32"/>
-  <object id="36" x="576" y="96" width="16" height="16"/>
-  <object id="37" x="560" y="192" width="16" height="16"/>
+  <object id="59" type="Restart" x="576" y="16" width="32" height="32"/>
  </objectgroup>
 </map>
