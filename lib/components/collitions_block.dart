@@ -41,7 +41,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   @override
   FutureOr<void> onLoad() {
     if (isFallingPlatform) {
-      debugMode = true;
+      // debugMode = true;
       add(
         RectangleHitbox(
           position: Vector2(hitbox.offsetX, hitbox.offsetY),
