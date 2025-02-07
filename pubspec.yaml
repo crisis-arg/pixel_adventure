@@ -69,6 +69,7 @@ flutter:
     - assets/images/Items/Checkpoints/Checkpoint/
     - assets/images/Terrain/
     - assets/images/Traps/Saw/
+    - assets/images/Traps/Platforms/
     - assets/images/Traps/Fire/
     - assets/images/Traps/Trampoline/
     - assets/images/Traps/Falling Platforms/
