@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
-class Chain extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
+class Chain extends SpriteComponent with HasGameRef<PixelAdventure> {
   bool isVertical;
   Chain({
     this.isVertical = false,
@@ -18,23 +18,13 @@ class Chain extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
   FutureOr<void> onLoad() {
     // debugMode = true;
     if (isVertical) {
-      animation = SpriteAnimation.fromFrameData(
+      sprite = Sprite(
         game.images.fromCache('Traps/Platforms/ChainV3.png'),
-        SpriteAnimationData.sequenced(
-          amount: 1,
-          stepTime: 0.05,
-          textureSize: Vector2(8, 16),
-        ),
       );
-    }else{
-       animation = SpriteAnimation.fromFrameData(
-      game.images.fromCache('Traps/Platforms/ChainH.png'),
-      SpriteAnimationData.sequenced(
-        amount: 1,
-        stepTime: 0.05,
-        textureSize: Vector2(16, 8 ),
-      ),
-    );
+    } else {
+      sprite = Sprite(
+        game.images.fromCache('Traps/Platforms/ChainH.png'),
+      );
     }
     return super.onLoad();
   }
