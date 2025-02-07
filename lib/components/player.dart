@@ -8,6 +8,7 @@ import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
+import 'package:pixel_adventure/components/traps/Lift.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
 import 'package:pixel_adventure/components/traps/jump_pad.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
@@ -29,7 +30,7 @@ enum PlayerState {
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, KeyboardHandler, CollisionCallbacks {
   String character;
-
+  
   Player({
     position,
     this.character = 'Pink Man',
@@ -50,12 +51,14 @@ class Player extends SpriteAnimationGroupComponent
   late double _jumpForce = 260;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
+  double movement = 1;
   final double wallSlideSpeed = 10;
   // double verticalMovement = 0;
   double moveSpeed = 100;
   Vector2 startingPosition = Vector2.zero();
   Vector2 velocity = Vector2.zero();
   List<CollisionsBlock> collisionsBlocks = [];
+  Lift? lift;
   bool isOnGround = false;
   bool hasJumped = false;
   bool doubleJump = false;
@@ -64,6 +67,7 @@ class Player extends SpriteAnimationGroupComponent
   bool gotHit = false;
   bool reachedCheckpoint = false;
   bool isJumpPad = false;
+  bool isLift = false;
   bool jumpForDevice = kIsWeb;
 
   CustomHitbox hitbox = CustomHitbox(
@@ -80,7 +84,7 @@ class Player extends SpriteAnimationGroupComponent
   FutureOr<void> onLoad() {
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
-    // debugMode = true;
+    debugMode = true;
     // debugColor = Colors.white;
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
@@ -95,6 +99,9 @@ class Player extends SpriteAnimationGroupComponent
 
     while (accumulatedTime >= fixedDeltaTime) {
       if (!gotHit && !reachedCheckpoint) {
+        if (lift != null) {
+          movement = lift!.moveDirection;
+        }
         _updatePlayerState();
         _updatePlayerMovement(fixedDeltaTime);
         _checkHorizontalCollision();
@@ -149,11 +156,24 @@ class Player extends SpriteAnimationGroupComponent
       if (other is JumpPad) {
         isJumpPad = true;
       }
+
+      if (other is Lift) {
+        lift = other;
+        isLift = true;
+      }
+
       if (other is CollisionsBlock) {
+        lift = null;
         other.isPlayerCollision = true;
       }
     }
     super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    isLift = false;
+    super.onCollisionEnd(other);
   }
 
   void _loadAllAnimations() {
@@ -211,6 +231,10 @@ class Player extends SpriteAnimationGroupComponent
     position.x += velocity.x * dt;
 
     if (velocity.y > _gravity) isOnGround = false;
+
+    if (isLift) {
+      position.x += movement * 50 * dt;
+    }
 
     if (hasJumped && isOnGround) {
       _playerJump(dt);

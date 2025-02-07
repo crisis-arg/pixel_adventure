@@ -63,10 +63,6 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       rangePos = position.x + offPos * tileSize;
     }
 
-    if (isLift) {
-      debugMode = true;
-    }
-
     return super.onLoad();
   }
 
@@ -74,17 +70,13 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   void update(double dt) async {
     if (isVertical && isLift) {
       _verticalMovement(dt);
-      debugMode = true;
     } else if (!isVertical && isLift) {
       _horizontalMovement(dt);
-      debugMode = true;
     }
 
     if (isFallingPlatform) {
-      debugMode = true;
       _verticalMovement(dt);
     }
-
     if (isPlayerCollision && isFallingPlatform) {
       await Future.delayed(const Duration(milliseconds: 500));
       applygravity(dt);

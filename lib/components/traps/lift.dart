@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
-class Lift extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
+class Lift extends SpriteAnimationComponent
+    with HasGameRef<PixelAdventure>, CollisionCallbacks {
   final bool isVertical;
   final double offNeg;
   final double offPos;
@@ -27,9 +30,16 @@ class Lift extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
   double rangeNeg = 0;
   double rangePos = 0;
 
+  CustomHitbox hitbox = CustomHitbox(
+    offsetX: 0,
+    offsetY: -2,
+    width: 32,
+    height: 5,
+  );
+
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    debugMode = true;
     if (isVertical) {
       rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.y + offPos * tileSize;
@@ -42,6 +52,13 @@ class Lift extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
         ),
       );
     } else {
+      add(
+        RectangleHitbox(
+          position: Vector2(hitbox.offsetX, hitbox.offsetY),
+          size: Vector2(hitbox.width, hitbox.height),
+          collisionType: CollisionType.active,
+        ),
+      );
       rangeNeg = position.x - offNeg * tileSize;
       rangePos = position.x + offPos * tileSize;
       animation = SpriteAnimation.fromFrameData(
@@ -64,6 +81,7 @@ class Lift extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
     } else {
       _moveHorizontal(dt);
     }
+
     super.update(dt);
   }
 
