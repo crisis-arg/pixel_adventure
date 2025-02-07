@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level-03.tmx",
+    "activeFile": "level-01.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -58,6 +58,18 @@
                 "x": 319.82738691531176,
                 "y": 211.32773368266936
             }
+        },
+        "level-04.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 2.0276562499999997,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 319.82738691531176,
+                "y": 184.20282037450875
+            }
         }
     },
     "last.imagePath": "D:/game_app/pixel_adventure/assets/images/Other",
@@ -76,9 +88,9 @@
     "property.type": "float",
     "recentFiles": [
         "Pixel_adventure.tsx",
-        "level-01.tmx",
-        "level-02.tmx",
         "level-03.tmx",
+        "level-02.tmx",
+        "level-01.tmx",
         "Shadow.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
