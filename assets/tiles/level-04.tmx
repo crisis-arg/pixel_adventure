@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="128">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="129">
  <tileset firstgid="1" source="Pixel_adventure.tsx"/>
  <layer id="1" name="Background" width="40" height="23">
   <data encoding="csv">
@@ -164,6 +164,19 @@
     <property name="isVertical" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="126" type="Lift" x="548" y="248" width="32" height="8"/>
+  <object id="126" type="Lift" x="548" y="248" width="32" height="8">
+   <properties>
+    <property name="isVertical" type="bool" value="true"/>
+    <property name="offNeg" type="float" value="9"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="128" type="Lift" x="416" y="112" width="32" height="8">
+   <properties>
+    <property name="isVertical" type="bool" value="false"/>
+    <property name="offNeg" type="float" value="14"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

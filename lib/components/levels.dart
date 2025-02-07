@@ -102,7 +102,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             add(chain);
             break;
           case 'Lift':
+            final isVertical = spawnPoint.properties.getValue('isVertical');
+            final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offPos = spawnPoint.properties.getValue('offPos');
             final lift = Lift(
+                isVertical: isVertical,
+                offNeg: offNeg,
+                offPos: offPos,
                 position: Vector2(spawnPoint.x, spawnPoint.y),
                 size: spawnPoint.size);
             add(lift);
