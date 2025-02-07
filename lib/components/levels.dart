@@ -9,6 +9,7 @@ import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player.dart';
+import 'package:pixel_adventure/components/traps/Lift.dart';
 import 'package:pixel_adventure/components/traps/chain.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
 import 'package:pixel_adventure/components/traps/fire.dart';
@@ -99,6 +100,12 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               size: spawnPoint.size,
             );
             add(chain);
+            break;
+          case 'Lift':
+            final lift = Lift(
+                position: Vector2(spawnPoint.x, spawnPoint.y),
+                size: spawnPoint.size);
+            add(lift);
             break;
           case 'Checkpoint':
             final checkpoint = Checkpoint(
