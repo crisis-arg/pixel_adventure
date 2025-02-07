@@ -29,6 +29,7 @@ class Lift extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
 
   @override
   FutureOr<void> onLoad() {
+    // debugMode = true;
     if (isVertical) {
       rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.y + offPos * tileSize;

@@ -180,17 +180,34 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
           case 'fallingPlatforms':
             final offNeg = collision.properties.getValue('offNeg');
             final offPos = collision.properties.getValue('offPos');
+            final isVertical = collision.properties.getValue('isVertical');
             final fallingplatform = CollisionsBlock(
               offNeg: offNeg,
               offPos: offPos,
               position: Vector2(collision.x, collision.y),
               size: Vector2(collision.width, collision.height),
+              isVertical: isVertical,
               isFallingPlatform: true,
               isPlatform: true,
             );
             collisionBlocks.add(fallingplatform);
             add(fallingplatform);
-
+            break;
+          case 'Lift':
+            final offNeg = collision.properties.getValue('offNeg');
+            final offPos = collision.properties.getValue('offPos');
+            final isVertical = collision.properties.getValue('isVertical');
+            final lift = CollisionsBlock(
+              offNeg: offNeg,
+              offPos: offPos,
+              position: Vector2(collision.x, collision.y),
+              size: Vector2(collision.width, collision.height),
+              isVertical: isVertical,
+              isLift: true,
+              isPlatform: true,
+            );
+            collisionBlocks.add(lift);
+            add(lift);
             break;
           default:
             final block = CollisionsBlock(

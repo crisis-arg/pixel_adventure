@@ -6,6 +6,8 @@ import 'package:pixel_adventure/components/player_hitbox.dart';
 
 class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   bool isFallingPlatform;
+  bool isLift;
+  bool isVertical;
   bool isPlatform;
   final double offNeg;
   final double offPos;
@@ -13,16 +15,17 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     this.offNeg = 0,
     this.offPos = 0,
     this.isFallingPlatform = false,
+    this.isLift = false,
+    this.isVertical = false,
     this.isPlatform = false,
     position,
     size,
   }) : super(
           position: position,
           size: size,
-        ) {
-    // debugMode = true;
-  }
-  static const moveSpeed = 5;
+        );
+
+  double moveSpeed = 50;
   static const tileSize = 16;
   double moveDirection = 1;
   final double _gravity = 9.8;
@@ -40,8 +43,9 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
 
   @override
   FutureOr<void> onLoad() {
+    // debugMode = true;
     if (isFallingPlatform) {
-      // debugMode = true;
+      moveSpeed = 5.0;
       add(
         RectangleHitbox(
           position: Vector2(hitbox.offsetX, hitbox.offsetY),
@@ -51,17 +55,36 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       );
     }
 
-    rangeNeg = position.y - offNeg * tileSize;
-    rangePos = position.y + offPos * tileSize;
+    if (isVertical) {
+      rangeNeg = position.y - offNeg * tileSize;
+      rangePos = position.y + offPos * tileSize;
+    } else {
+      rangeNeg = position.x - offNeg * tileSize;
+      rangePos = position.x + offPos * tileSize;
+    }
+
+    if (isLift) {
+      debugMode = true;
+    }
 
     return super.onLoad();
   }
 
   @override
   void update(double dt) async {
-    if (isFallingPlatform) {
-      _movement(dt);
+    if (isVertical && isLift) {
+      _verticalMovement(dt);
+      debugMode = true;
+    } else if (!isVertical && isLift) {
+      _horizontalMovement(dt);
+      debugMode = true;
     }
+
+    if (isFallingPlatform) {
+      debugMode = true;
+      _verticalMovement(dt);
+    }
+
     if (isPlayerCollision && isFallingPlatform) {
       await Future.delayed(const Duration(milliseconds: 500));
       applygravity(dt);
@@ -69,13 +92,22 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     super.update(dt);
   }
 
-  void _movement(double dt) {
+  void _verticalMovement(double dt) {
     if (position.y >= rangePos) {
       moveDirection = -1;
     } else if (position.y <= rangeNeg) {
       moveDirection = 1;
     }
     position.y += moveDirection * moveSpeed * dt;
+  }
+
+  void _horizontalMovement(double dt) {
+    if (position.x >= rangePos) {
+      moveDirection = -1;
+    } else if (position.x <= rangeNeg) {
+      moveDirection = 1;
+    }
+    position.x += moveDirection * moveSpeed * dt;
   }
 
   void applygravity(double dt) {
