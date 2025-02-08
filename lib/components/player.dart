@@ -30,7 +30,7 @@ enum PlayerState {
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, KeyboardHandler, CollisionCallbacks {
   String character;
-  
+
   Player({
     position,
     this.character = 'Pink Man',
@@ -82,9 +82,10 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
+    priority = 10;
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
-    debugMode = true;
+    // debugMode = true;
     // debugColor = Colors.white;
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
@@ -158,13 +159,20 @@ class Player extends SpriteAnimationGroupComponent
       }
 
       if (other is Lift) {
-        lift = other;
-        isLift = true;
+        other.isPlayerOn = true;
+        other.isPlayerOff = false;
+        if (other.isVertical == false) {
+          lift = other;
+          isLift = true;
+        }
       }
 
       if (other is CollisionsBlock) {
-        lift = null;
         other.isPlayerCollision = true;
+        if (other.isVertical && other.isLift) {
+          other.isPlayeroffLift = false;
+          other.isPlayerOnLift = true;
+        }
       }
     }
     super.onCollisionStart(intersectionPoints, other);
@@ -172,7 +180,16 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void onCollisionEnd(PositionComponent other) {
+    lift = null;
     isLift = false;
+    if (other is Lift) {
+      other.isPlayerOn = false;
+      other.isPlayerOff = true;
+    }
+    if (other is CollisionsBlock) {
+      other.isPlayeroffLift = true;
+      other.isPlayerOnLift = false;
+    }
     super.onCollisionEnd(other);
   }
 

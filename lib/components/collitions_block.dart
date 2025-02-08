@@ -33,6 +33,8 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   double rangeNeg = 0;
   double rangePos = 0;
   bool isPlayerCollision = false;
+  bool isPlayerOnLift = false;
+  bool isPlayeroffLift = false;
 
   final hitbox = CustomHitbox(
     offsetX: 0,
@@ -41,15 +43,34 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     height: 1,
   );
 
+  CustomHitbox liftHitbox = CustomHitbox(
+    offsetX: 0,
+    offsetY: -2,
+    width: 32,
+    height: 5,
+  );
+
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    // if (isLift) {
+    //   debugMode = true;
+    // }
     if (isFallingPlatform) {
       moveSpeed = 5.0;
       add(
         RectangleHitbox(
           position: Vector2(hitbox.offsetX, hitbox.offsetY),
           size: Vector2(hitbox.width, hitbox.height),
+          collisionType: CollisionType.active,
+        ),
+      );
+    }
+
+    if (isLift && isVertical) {
+      add(
+        RectangleHitbox(
+          position: Vector2(liftHitbox.offsetX, liftHitbox.offsetY),
+          size: Vector2(liftHitbox.width, liftHitbox.height),
           collisionType: CollisionType.active,
         ),
       );
@@ -69,7 +90,12 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   @override
   void update(double dt) async {
     if (isVertical && isLift) {
-      _verticalMovement(dt);
+      if (isPlayerOnLift) {
+        _liftUp(dt);
+      }
+      if (isPlayeroffLift) {
+        _liftDown(dt);
+      }
     } else if (!isVertical && isLift) {
       _horizontalMovement(dt);
     }
@@ -100,6 +126,24 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       moveDirection = 1;
     }
     position.x += moveDirection * moveSpeed * dt;
+  }
+
+  _liftUp(double dt) {
+    if (position.y >= rangePos) {
+      moveDirection = -1;
+    } else if (position.y <= rangeNeg) {
+      moveDirection = 0;
+    }
+    position.y += moveDirection * moveSpeed * dt;
+  }
+
+  _liftDown(double dt) {
+    if (position.y <= rangeNeg) {
+      moveDirection = 1;
+    } else if (position.y >= rangePos) {
+      moveDirection = 0;
+    }
+    position.y += moveDirection * moveSpeed * dt;
   }
 
   void applygravity(double dt) {

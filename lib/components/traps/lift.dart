@@ -29,7 +29,8 @@ class Lift extends SpriteAnimationComponent
   double moveDirection = 1;
   double rangeNeg = 0;
   double rangePos = 0;
-
+  bool isPlayerOn = false;
+  bool isPlayerOff = false;
   CustomHitbox hitbox = CustomHitbox(
     offsetX: 0,
     offsetY: -2,
@@ -39,8 +40,15 @@ class Lift extends SpriteAnimationComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
     if (isVertical) {
+      add(
+        RectangleHitbox(
+          position: Vector2(hitbox.offsetX, hitbox.offsetY),
+          size: Vector2(hitbox.width, hitbox.height),
+          collisionType: CollisionType.active,
+        ),
+      );
       rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.y + offPos * tileSize;
       animation = SpriteAnimation.fromFrameData(
@@ -77,21 +85,23 @@ class Lift extends SpriteAnimationComponent
   @override
   void update(double dt) {
     if (isVertical) {
-      _moveVertical(dt);
-    } else {
+      if (isPlayerOn) {
+        _liftUp(dt);
+      }
+      if (isPlayerOff) {
+        _liftDown(dt);
+      }
+    } else if (!isVertical) {
       _moveHorizontal(dt);
     }
 
-    super.update(dt);
-  }
+    // if (isVertical) {
+    //   if (isPlayer) {
+    //     _liftUp(dt);
+    //   }
+    // }
 
-  void _moveVertical(double dt) {
-    if (position.y >= rangePos) {
-      moveDirection = -1;
-    } else if (position.y <= rangeNeg) {
-      moveDirection = 1;
-    }
-    position.y += moveDirection * moveSpeed * dt;
+    super.update(dt);
   }
 
   _moveHorizontal(double dt) {
@@ -101,5 +111,23 @@ class Lift extends SpriteAnimationComponent
       moveDirection = 1;
     }
     position.x += moveDirection * moveSpeed * dt;
+  }
+
+  _liftUp(double dt) {
+    if (position.y >= rangePos) {
+      moveDirection = -1;
+    } else if (position.y <= rangeNeg) {
+      moveDirection = 0;
+    }
+    position.y += moveDirection * moveSpeed * dt;
+  }
+
+  _liftDown(double dt) {
+    if (position.y <= rangeNeg) {
+      moveDirection = 1;
+    } else if (position.y >= rangePos) {
+      moveDirection = 0;
+    }
+    position.y += moveDirection * moveSpeed * dt;
   }
 }
