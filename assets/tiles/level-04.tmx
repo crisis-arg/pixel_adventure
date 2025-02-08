@@ -64,7 +64,7 @@
  </objectgroup>
  <objectgroup id="3" name="Spawnpoints">
   <object id="22" type="Restart" x="576" y="16" width="32" height="32"/>
-  <object id="23" name="Player" type="Player" x="544" y="256" width="32" height="32">
+  <object id="23" name="Player" type="Player" x="464" y="80" width="32" height="32">
    <properties>
     <property name="offNeg" type="float" value="16"/>
     <property name="offPos" type="float" value="0"/>

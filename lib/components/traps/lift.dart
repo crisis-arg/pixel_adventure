@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -30,7 +31,6 @@ class Lift extends SpriteAnimationComponent
   double rangeNeg = 0;
   double rangePos = 0;
   bool isPlayerOn = false;
-  bool isPlayerOff = false;
   CustomHitbox hitbox = CustomHitbox(
     offsetX: 0,
     offsetY: -2,
@@ -40,7 +40,7 @@ class Lift extends SpriteAnimationComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
     if (isVertical) {
       add(
         RectangleHitbox(
@@ -52,9 +52,9 @@ class Lift extends SpriteAnimationComponent
       rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.y + offPos * tileSize;
       animation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('Traps/Platforms/Brown On (32x8).png'),
+        game.images.fromCache('Traps/Platforms/Brown Off.png'),
         SpriteAnimationData.sequenced(
-          amount: 8,
+          amount: 1,
           stepTime: stepTime,
           textureSize: Vector2(32, 8),
         ),
@@ -83,11 +83,42 @@ class Lift extends SpriteAnimationComponent
   }
 
   @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Player && isVertical) {
+      animation = SpriteAnimation.fromFrameData(
+        game.images.fromCache('Traps/Platforms/Brown On (32x8).png'),
+        SpriteAnimationData.sequenced(
+          amount: 8,
+          stepTime: stepTime,
+          textureSize: Vector2(32, 8),
+        ),
+      );
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is Player && isVertical) {
+      animation = SpriteAnimation.fromFrameData(
+        game.images.fromCache('Traps/Platforms/Brown On (32x8).png'),
+        SpriteAnimationData.sequenced(
+          amount: 8,
+          stepTime: stepTime,
+          textureSize: Vector2(32, 8),
+        ),
+      );
+    }
+    super.onCollisionEnd(other);
+  }
+
+  @override
   void update(double dt) {
     if (isVertical) {
       if (isPlayerOn) {
         _liftUp(dt);
-      }else{
+      } else {
         _liftDown(dt);
       }
     } else if (!isVertical) {
@@ -108,17 +139,33 @@ class Lift extends SpriteAnimationComponent
 
   _liftUp(double dt) {
     moveDirection = -1;
-     if (position.y <= rangeNeg) {
+    if (position.y <= rangeNeg) {
+      animation = SpriteAnimation.fromFrameData(
+        game.images.fromCache('Traps/Platforms/Brown Off.png'),
+        SpriteAnimationData.sequenced(
+          amount: 1,
+          stepTime: stepTime,
+          textureSize: Vector2(32, 8),
+        ),
+      );
       moveDirection = 0;
     }
-    position.y += moveDirection* moveSpeed * dt;
+    position.y += moveDirection * moveSpeed * dt;
   }
 
   _liftDown(double dt) {
     moveDirection = 1;
-     if (position.y >= rangePos) {
+    if (position.y >= rangePos) {
+      animation = SpriteAnimation.fromFrameData(
+        game.images.fromCache('Traps/Platforms/Brown Off.png'),
+        SpriteAnimationData.sequenced(
+          amount: 1,
+          stepTime: stepTime,
+          textureSize: Vector2(32, 8),
+        ),
+      );
       moveDirection = 0;
     }
     position.y += moveDirection * moveSpeed * dt;
-  } 
+  }
 }
