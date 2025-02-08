@@ -267,7 +267,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _playerJump(double dt) {
     if (game.playSound) {
-      FlameAudio.play('jump.wav');
+      FlameAudio.play('jump.wav',volume: game.soundVolume * .50);
     }
     _jumpForce = isJumpPad ? 400 : 260;
     velocity.y = -_jumpForce;
