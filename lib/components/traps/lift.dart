@@ -94,12 +94,6 @@ class Lift extends SpriteAnimationComponent
       _moveHorizontal(dt);
     }
 
-    // if (isVertical) {
-    //   if (isPlayer) {
-    //     _liftUp(dt);
-    //   }
-    // }
-
     super.update(dt);
   }
 
@@ -113,20 +107,18 @@ class Lift extends SpriteAnimationComponent
   }
 
   _liftUp(double dt) {
-    if (position.y >= rangePos) {
-      moveDirection = -1;
-    } else if (position.y <= rangeNeg) {
+    moveDirection = -1;
+     if (position.y <= rangeNeg) {
       moveDirection = 0;
     }
-    position.y += moveDirection * moveSpeed * dt;
+    position.y += moveDirection* moveSpeed * dt;
   }
 
   _liftDown(double dt) {
-    if (position.y <= rangeNeg) {
-      moveDirection = 1;
-    } else if (position.y >= rangePos) {
+    moveDirection = 1;
+     if (position.y >= rangePos) {
       moveDirection = 0;
     }
     position.y += moveDirection * moveSpeed * dt;
-  }
+  } 
 }
