@@ -160,7 +160,6 @@ class Player extends SpriteAnimationGroupComponent
 
       if (other is Lift) {
         other.isPlayerOn = true;
-        other.isPlayerOff = false;
         if (other.isVertical == false) {
           lift = other;
           isLift = true;
@@ -170,7 +169,6 @@ class Player extends SpriteAnimationGroupComponent
       if (other is CollisionsBlock) {
         other.isPlayerCollision = true;
         if (other.isVertical && other.isLift) {
-          other.isPlayeroffLift = false;
           other.isPlayerOnLift = true;
         }
       }
@@ -184,14 +182,13 @@ class Player extends SpriteAnimationGroupComponent
     isLift = false;
     if (other is Lift) {
       other.isPlayerOn = false;
-      other.isPlayerOff = true;
     }
     if (other is CollisionsBlock) {
-      other.isPlayeroffLift = true;
       other.isPlayerOnLift = false;
     }
     super.onCollisionEnd(other);
   }
+  
 
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);

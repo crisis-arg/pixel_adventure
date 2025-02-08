@@ -40,7 +40,7 @@ class Lift extends SpriteAnimationComponent
 
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    debugMode = true;
     if (isVertical) {
       add(
         RectangleHitbox(
@@ -87,8 +87,7 @@ class Lift extends SpriteAnimationComponent
     if (isVertical) {
       if (isPlayerOn) {
         _liftUp(dt);
-      }
-      if (isPlayerOff) {
+      }else{
         _liftDown(dt);
       }
     } else if (!isVertical) {

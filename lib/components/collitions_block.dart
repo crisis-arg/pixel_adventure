@@ -52,9 +52,9 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
 
   @override
   FutureOr<void> onLoad() {
-    // if (isLift) {
-    //   debugMode = true;
-    // }
+    if (isLift) {
+      debugMode = true;
+    }
     if (isFallingPlatform) {
       moveSpeed = 5.0;
       add(
@@ -92,8 +92,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     if (isVertical && isLift) {
       if (isPlayerOnLift) {
         _liftUp(dt);
-      }
-      if (isPlayeroffLift) {
+      } else {
         _liftDown(dt);
       }
     } else if (!isVertical && isLift) {
