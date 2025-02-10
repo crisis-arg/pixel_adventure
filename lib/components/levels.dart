@@ -151,7 +151,11 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             add(jumpPad);
             break;
           case 'Rock Head':
+          final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offPos = spawnPoint.properties.getValue('offPos');
             final rockHead = RockHead(
+              offNeg:  offNeg,
+              offPos: offPos,
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: spawnPoint.size,
             );
