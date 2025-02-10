@@ -14,6 +14,7 @@ import 'package:pixel_adventure/components/traps/chain.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
 import 'package:pixel_adventure/components/traps/fire.dart';
 import 'package:pixel_adventure/components/traps/jump_pad.dart';
+import 'package:pixel_adventure/components/traps/rock_head.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -148,6 +149,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               size: spawnPoint.size,
             );
             add(jumpPad);
+            break;
+          case 'Rock Head':
+            final rockHead = RockHead(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: spawnPoint.size,
+            );
+            add(rockHead);
             break;
           case 'Restart':
             final restart = RestartButton(
