@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -36,10 +34,18 @@ class RockHead extends SpriteAnimationGroupComponent
   late final SpriteAnimation leftHitAnimation;
   late final SpriteAnimation rightHitanimation;
 
+  double fixedDeltaTime = 1 / 60;
+  double accumulatedTime = 0;
+
   @override
   void update(double dt) {
-    _moveHorizontal(dt);
-    _rockHeadState();
+    accumulatedTime += dt;
+    while (accumulatedTime >= fixedDeltaTime) {
+      _moveHorizontal(dt);
+      _rockHeadState();
+      accumulatedTime -= fixedDeltaTime;
+    }
+
     super.update(dt);
   }
 
