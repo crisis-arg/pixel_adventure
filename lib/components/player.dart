@@ -82,6 +82,7 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
+    // debugMode = true;
     priority = 10;
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
@@ -188,7 +189,6 @@ class Player extends SpriteAnimationGroupComponent
     }
     super.onCollisionEnd(other);
   }
-  
 
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);
@@ -267,11 +267,10 @@ class Player extends SpriteAnimationGroupComponent
 
   void _playerJump(double dt) {
     if (game.playSound) {
-      FlameAudio.play('jump.wav',volume: game.soundVolume * .50);
+      FlameAudio.play('jump.wav', volume: game.soundVolume * .50);
     }
     _jumpForce = isJumpPad ? 400 : 260;
     velocity.y = -_jumpForce;
-    // velocity.y = verticalMovement * _jumpForce;
     position.y += velocity.y * dt;
     hasJumped = false;
     isOnGround = false;
@@ -280,9 +279,9 @@ class Player extends SpriteAnimationGroupComponent
 
   void _wallSlide(double dt) {
     if (isTouchingWall && !isOnGround) {
-      isTouchingWall = false;
-      velocity.y += wallSlideSpeed;
-      velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
+      // isTouchingWall = false;
+      velocity.y = wallSlideSpeed;
+      // velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
       position.y += velocity.y * dt;
       wallSlideState = true;
     }
@@ -328,7 +327,6 @@ class Player extends SpriteAnimationGroupComponent
             velocity.x = 0;
             position.x = block.x - hitbox.offsetX - hitbox.width;
             isTouchingWall = true;
-
             break;
           }
           if (velocity.x < 0) {
@@ -337,6 +335,8 @@ class Player extends SpriteAnimationGroupComponent
             isTouchingWall = true;
             break;
           }
+        } else {
+          isTouchingWall = false;
         }
       }
     }
@@ -361,7 +361,6 @@ class Player extends SpriteAnimationGroupComponent
             break;
           }
         }
-        //later
       } else {
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
