@@ -11,6 +11,7 @@ import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/components/traps/Lift.dart';
 import 'package:pixel_adventure/components/traps/falling_platforms.dart';
 import 'package:pixel_adventure/components/traps/jump_pad.dart';
+import 'package:pixel_adventure/components/traps/rock_head.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
@@ -59,6 +60,7 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 velocity = Vector2.zero();
   List<CollisionsBlock> collisionsBlocks = [];
   Lift? lift;
+  RockHead? rockHead;
   bool isOnGround = false;
   bool hasJumped = false;
   bool doubleJump = false;
@@ -68,6 +70,7 @@ class Player extends SpriteAnimationGroupComponent
   bool reachedCheckpoint = false;
   bool isJumpPad = false;
   bool isLift = false;
+  bool isRockHead = false;
   bool jumpForDevice = kIsWeb;
 
   CustomHitbox hitbox = CustomHitbox(
@@ -173,6 +176,12 @@ class Player extends SpriteAnimationGroupComponent
           other.isPlayerOnLift = true;
         }
       }
+      if (other is RockHead) {
+        rockHead = other;
+        isRockHead = true;
+        moveSpeed = other.moveSpeed;
+        movement = other.moveDirection;
+      }
     }
     super.onCollisionStart(intersectionPoints, other);
   }
@@ -181,11 +190,17 @@ class Player extends SpriteAnimationGroupComponent
   void onCollisionEnd(PositionComponent other) {
     lift = null;
     isLift = false;
+    rockHead = null;
     if (other is Lift) {
       other.isPlayerOn = false;
     }
     if (other is CollisionsBlock) {
       other.isPlayerOnLift = false;
+    }
+    if (other is RockHead) {
+      moveSpeed = 100;
+      isRockHead = false;
+      movement = 1;
     }
     super.onCollisionEnd(other);
   }
@@ -248,6 +263,9 @@ class Player extends SpriteAnimationGroupComponent
 
     if (isLift) {
       position.x += movement * 50 * dt;
+    }
+    if (isRockHead) {
+      position.x += movement * moveSpeed * dt;
     }
 
     if (hasJumped && isOnGround) {

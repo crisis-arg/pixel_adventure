@@ -53,6 +53,14 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     width: 32,
     height: 5,
   );
+  
+   CustomHitbox rockHeadHit = CustomHitbox(
+    offsetX: 0,
+    offsetY:0,
+    width: 32,
+    height: 32,
+  );
+
 
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
@@ -86,6 +94,15 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
         RectangleHitbox(
           position: Vector2(liftHitbox.offsetX, liftHitbox.offsetY),
           size: Vector2(liftHitbox.width, liftHitbox.height),
+          collisionType: CollisionType.active,
+        ),
+      );
+    }
+    if(rockHead){
+      add(
+        RectangleHitbox(
+          position: Vector2(rockHeadHit.offsetX, rockHeadHit.offsetY),
+          size: Vector2(rockHeadHit.width, rockHeadHit.height),
           collisionType: CollisionType.active,
         ),
       );
