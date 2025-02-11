@@ -190,7 +190,7 @@ class Player extends SpriteAnimationGroupComponent
   void onCollisionEnd(PositionComponent other) {
     lift = null;
     isLift = false;
-    rockHead = null;
+    // rockHead = null;
     if (other is Lift) {
       other.isPlayerOn = false;
     }
@@ -265,6 +265,7 @@ class Player extends SpriteAnimationGroupComponent
       position.x += movement * 50 * dt;
     }
     if (isRockHead) {
+      moveSpeed = moveSpeed * 1.02;
       position.x += movement * moveSpeed * dt;
     }
 

@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
+import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 enum RockHeadState {
   idle,
+  blink,
   bottomHit,
   topHit,
   leftHit,
@@ -33,7 +35,10 @@ class RockHead extends SpriteAnimationGroupComponent
   double tileSize = 16;
   double moveDirection = 1;
   double moveSpeed = 100;
+  bool rockHeadHit = false;
+  bool isPlayerhit = false;
   late final SpriteAnimation idleAnimation;
+  late final SpriteAnimation blinkAnimation;
   late final SpriteAnimation leftHitAnimation;
   late final SpriteAnimation rightHitanimation;
 
@@ -49,13 +54,33 @@ class RockHead extends SpriteAnimationGroupComponent
 
   @override
   void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) async{
+      Set<Vector2> intersectionPoints, PositionComponent other) async {
     if (other is CollisionsBlock) {
       current = RockHeadState.rightHit;
+      rockHeadHit = true;
       await animationTicker?.completed;
       current = RockHeadState.idle;
+      await Future.delayed(const Duration(milliseconds: 100));
+      current = RockHeadState.blink;
     }
     super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) async{
+    if (other is Player && rockHeadHit && !isPlayerhit) {
+      isPlayerhit = true;
+      other.respawn();
+     await Future.delayed(const Duration(seconds: 1));
+      isPlayerhit = false;
+    }
+    super.onCollision(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    rockHeadHit = false;
+    super.onCollisionEnd(other);
   }
 
   @override
@@ -88,12 +113,14 @@ class RockHead extends SpriteAnimationGroupComponent
 
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 1);
+    blinkAnimation = _spriteAnimation('Blink (42x42)', 4)..loop = false;
     rightHitanimation = _spriteAnimation('Right Hit (42x42)', 4)..loop = false;
     leftHitAnimation = _spriteAnimation('Left Hit (42x42)', 4)..loop = false;
     animations = {
       RockHeadState.idle: idleAnimation,
       RockHeadState.rightHit: rightHitanimation,
       RockHeadState.leftHit: leftHitAnimation,
+      RockHeadState.blink: blinkAnimation,
     };
     current = RockHeadState.idle;
   }
