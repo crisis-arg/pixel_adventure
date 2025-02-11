@@ -391,6 +391,7 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + block.height - hitbox.offsetY;
+            doubleJump = false;
           }
         }
       }
