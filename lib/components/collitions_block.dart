@@ -53,14 +53,13 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     width: 32,
     height: 5,
   );
-  
-   CustomHitbox rockHeadHit = CustomHitbox(
+
+  CustomHitbox rockHeadHit = CustomHitbox(
     offsetX: 0,
-    offsetY:0,
+    offsetY: 0,
     width: 32,
     height: 32,
   );
-
 
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
@@ -98,7 +97,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
         ),
       );
     }
-    if(rockHead){
+    if (rockHead) {
       add(
         RectangleHitbox(
           position: Vector2(rockHeadHit.offsetX, rockHeadHit.offsetY),
@@ -140,13 +139,12 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     }
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-       if (rockHead) {
-      _rockHeadHorizontalMovement(fixedDeltaTime);
-      
+      if (rockHead) {
+        _rockHeadHorizontalMovement(fixedDeltaTime);
+      }
+      accumulatedTime -= fixedDeltaTime;
     }
-    accumulatedTime -= fixedDeltaTime;
-    }
-   
+
     super.update(dt);
   }
 
@@ -171,10 +169,10 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   void _rockHeadHorizontalMovement(double dt) {
     if (position.x >= rangePos) {
       moveDirection = -1;
-      moveSpeed = 100;
+      moveSpeed = 70;
     } else if (position.x <= rangeNeg) {
       moveDirection = 1;
-      moveSpeed = 100;
+      moveSpeed = 70;
     }
     moveSpeed = moveSpeed * 1.02;
     position.x += moveDirection * moveSpeed * dt;

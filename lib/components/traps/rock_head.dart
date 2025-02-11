@@ -46,9 +46,9 @@ class RockHead extends SpriteAnimationGroupComponent
   double accumulatedTime = 0;
 
   CustomHitbox hitbox = CustomHitbox(
-    offsetX: 5,
+    offsetX: 2,
     offsetY: 5,
-    width: 32,
+    width: 37,
     height: 32,
   );
 
@@ -149,10 +149,10 @@ class RockHead extends SpriteAnimationGroupComponent
   _moveHorizontal(double dt) async {
     if (position.x >= rangePos) {
       moveDirection = -1;
-      moveSpeed = 100;
+      moveSpeed = 70;
     } else if (position.x <= rangeNeg) {
       moveDirection = 1;
-      moveSpeed = 100;
+      moveSpeed = 70;
     }
     moveSpeed = moveSpeed * 1.02;
     position.x += moveDirection * moveSpeed * dt;

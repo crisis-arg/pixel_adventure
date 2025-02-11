@@ -85,7 +85,7 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    debugMode = true;
     priority = 10;
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
@@ -190,7 +190,7 @@ class Player extends SpriteAnimationGroupComponent
   void onCollisionEnd(PositionComponent other) {
     lift = null;
     isLift = false;
-    // rockHead = null;
+    rockHead = null;
     if (other is Lift) {
       other.isPlayerOn = false;
     }
@@ -285,9 +285,9 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
-    if (game.playSound) {
-      FlameAudio.play('jump.wav', volume: game.soundVolume * .50);
-    }
+    // if (game.playSound) {
+    //   FlameAudio.play('jump.wav', volume: game.soundVolume * .50);
+    // }
     _jumpForce = isJumpPad ? 400 : 260;
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
@@ -297,7 +297,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _wallSlide(double dt) {
-    if (isTouchingWall && !isOnGround) {
+    if (isTouchingWall && !isOnGround && !isRockHead) {
       // isTouchingWall = false;
       velocity.y = wallSlideSpeed;
       // velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);
