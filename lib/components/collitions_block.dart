@@ -10,6 +10,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   bool isVertical;
   bool isPlatform;
   bool isRockHeadPoint;
+  bool rockHead;
   final double offNeg;
   final double offPos;
   CollisionsBlock({
@@ -20,6 +21,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     this.isVertical = false,
     this.isPlatform = false,
     this.isRockHeadPoint = false,
+    this.rockHead = false,
     position,
     size,
   }) : super(
@@ -52,6 +54,9 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     height: 5,
   );
 
+  double fixedDeltaTime = 1 / 60;
+  double accumulatedTime = 0;
+
   @override
   FutureOr<void> onLoad() {
     // if (isLift) {
@@ -60,6 +65,10 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     if (isRockHeadPoint) {
       debugMode = true;
       add(RectangleHitbox());
+    }
+    if (rockHead) {
+      moveSpeed = 100;
+      debugMode = true;
     }
     if (isFallingPlatform) {
       moveSpeed = 5.0;
@@ -112,6 +121,15 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       await Future.delayed(const Duration(milliseconds: 500));
       applygravity(dt);
     }
+    accumulatedTime += dt;
+    while (accumulatedTime >= fixedDeltaTime) {
+       if (rockHead) {
+      _rockHeadHorizontalMovement(fixedDeltaTime);
+      
+    }
+    accumulatedTime -= fixedDeltaTime;
+    }
+   
     super.update(dt);
   }
 
@@ -130,6 +148,18 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     } else if (position.x <= rangeNeg) {
       moveDirection = 1;
     }
+    position.x += moveDirection * moveSpeed * dt;
+  }
+
+  void _rockHeadHorizontalMovement(double dt) {
+    if (position.x >= rangePos) {
+      moveDirection = -1;
+      moveSpeed = 100;
+    } else if (position.x <= rangeNeg) {
+      moveDirection = 1;
+      moveSpeed = 100;
+    }
+    moveSpeed = moveSpeed * 1.02;
     position.x += moveDirection * moveSpeed * dt;
   }
 
