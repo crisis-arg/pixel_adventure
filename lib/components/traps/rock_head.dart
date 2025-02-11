@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pixel_adventure/components/collitions_block.dart';
+import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 enum RockHeadState {
@@ -11,7 +14,7 @@ enum RockHeadState {
 }
 
 class RockHead extends SpriteAnimationGroupComponent
-    with HasGameRef<PixelAdventure> {
+    with HasGameRef<PixelAdventure>, CollisionCallbacks {
   double offNeg;
   double offPos;
   RockHead({
@@ -29,7 +32,7 @@ class RockHead extends SpriteAnimationGroupComponent
   double rangePos = 0;
   double tileSize = 16;
   double moveDirection = 1;
-  double moveSpeed = 20;
+  double moveSpeed = 100;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation leftHitAnimation;
   late final SpriteAnimation rightHitanimation;
@@ -37,12 +40,30 @@ class RockHead extends SpriteAnimationGroupComponent
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
 
+  CustomHitbox hitbox = CustomHitbox(
+    offsetX: 5,
+    offsetY: 5,
+    width: 32,
+    height: 32,
+  );
+
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) async{
+    if (other is CollisionsBlock) {
+      current = RockHeadState.rightHit;
+      await animationTicker?.completed;
+      current = RockHeadState.idle;
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
   @override
   void update(double dt) {
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      _moveHorizontal(dt);
-      _rockHeadState();
+      _moveHorizontal(fixedDeltaTime);
+      // _rockHeadState();
       accumulatedTime -= fixedDeltaTime;
     }
 
@@ -52,6 +73,13 @@ class RockHead extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     debugMode = true;
+    add(
+      RectangleHitbox(
+        position: Vector2(hitbox.offsetX, hitbox.offsetY),
+        size: Vector2(hitbox.width, hitbox.height),
+        collisionType: CollisionType.active,
+      ),
+    );
     rangeNeg = position.x - offNeg * tileSize;
     rangePos = position.x + offPos * tileSize;
     _loadAllAnimations();
@@ -67,6 +95,7 @@ class RockHead extends SpriteAnimationGroupComponent
       RockHeadState.rightHit: rightHitanimation,
       RockHeadState.leftHit: leftHitAnimation,
     };
+    current = RockHeadState.idle;
   }
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
@@ -80,28 +109,25 @@ class RockHead extends SpriteAnimationGroupComponent
     );
   }
 
-  void _rockHeadState() {
-    RockHeadState rockHeadState = RockHeadState.idle;
-    if (position.x >= rangePos) {
-      rockHeadState = RockHeadState.rightHit;
-    } else if (position.x <= rangeNeg) {
-      rockHeadState = RockHeadState.leftHit;
-    }
-    current = rockHeadState;
-  }
+  // void _rockHeadState() async {
+  //   RockHeadState rockHeadState = RockHeadState.idle;
+  //   if (position.x >= rangePos) {
+  //     rockHeadState = RockHeadState.rightHit;
+  //   } else if (position.x <= rangeNeg) {
+  //     rockHeadState = RockHeadState.leftHit;
+  //   }
+  //   current = rockHeadState;
+  // }
 
-  _moveHorizontal(double dt) {
+  _moveHorizontal(double dt) async {
     if (position.x >= rangePos) {
       moveDirection = -1;
-      moveSpeed = 15;
+      moveSpeed = 100;
     } else if (position.x <= rangeNeg) {
-      moveSpeed = 15;
       moveDirection = 1;
+      moveSpeed = 100;
     }
     moveSpeed = moveSpeed * 1.02;
-    if (moveSpeed < 20) {
-      moveSpeed += 5;
-    }
     position.x += moveDirection * moveSpeed * dt;
   }
 }

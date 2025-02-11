@@ -9,6 +9,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   bool isLift;
   bool isVertical;
   bool isPlatform;
+  bool isRockHeadPoint;
   final double offNeg;
   final double offPos;
   CollisionsBlock({
@@ -18,6 +19,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     this.isLift = false,
     this.isVertical = false,
     this.isPlatform = false,
+    this.isRockHeadPoint = false,
     position,
     size,
   }) : super(
@@ -55,6 +57,10 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     // if (isLift) {
     //   debugMode = true;
     // }
+    if (isRockHeadPoint) {
+      debugMode = true;
+      add(RectangleHitbox());
+    }
     if (isFallingPlatform) {
       moveSpeed = 5.0;
       add(
@@ -129,15 +135,15 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
 
   _liftUp(double dt) {
     moveDirection = -1;
-     if (position.y <= rangeNeg) {
+    if (position.y <= rangeNeg) {
       moveDirection = 0;
     }
-    position.y += moveDirection* moveSpeed * dt;
+    position.y += moveDirection * moveSpeed * dt;
   }
 
   _liftDown(double dt) {
     moveDirection = 1;
-     if (position.y >= rangePos) {
+    if (position.y >= rangePos) {
       moveDirection = 0;
     }
     position.y += moveDirection * moveSpeed * dt;
