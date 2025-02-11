@@ -127,8 +127,10 @@ class Player extends SpriteAnimationGroupComponent
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA);
     final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD);
 
-    horizontalMovement += isLeftKeyPressed ? -1 : 0;
-    horizontalMovement += isRightKeyPressed ? 1 : 0;
+    if (!isRockHead) {
+      horizontalMovement += isLeftKeyPressed ? -1 : 0;
+      horizontalMovement += isRightKeyPressed ? 1 : 0;
+    }
 
     if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.space) {
       hasJumped = true;
@@ -265,7 +267,7 @@ class Player extends SpriteAnimationGroupComponent
       position.x += movement * 50 * dt;
     }
     if (isRockHead) {
-      moveSpeed = moveSpeed * 1.02;
+      moveSpeed = moveSpeed * 1.01;
       position.x += movement * moveSpeed * dt;
     }
 
@@ -285,9 +287,9 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
-    // if (game.playSound) {
-    //   FlameAudio.play('jump.wav', volume: game.soundVolume * .50);
-    // }
+    if (game.playSound) {
+      FlameAudio.play('jump.wav', volume: game.soundVolume * .50);
+    }
     _jumpForce = isJumpPad ? 400 : 260;
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;

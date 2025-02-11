@@ -62,16 +62,22 @@ class RockHead extends SpriteAnimationGroupComponent
       current = RockHeadState.idle;
       await Future.delayed(const Duration(milliseconds: 100));
       current = RockHeadState.blink;
+      animationTicker?.reset();
+      await animationTicker?.completed;
+      current = RockHeadState.idle;
+      await Future.delayed(const Duration(milliseconds: 500));
+      current = RockHeadState.blink;
     }
     super.onCollisionStart(intersectionPoints, other);
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) async{
+  void onCollision(
+      Set<Vector2> intersectionPoints, PositionComponent other) async {
     if (other is Player && rockHeadHit && !isPlayerhit) {
       isPlayerhit = true;
       other.respawn();
-     await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       isPlayerhit = false;
     }
     super.onCollision(intersectionPoints, other);
@@ -154,7 +160,7 @@ class RockHead extends SpriteAnimationGroupComponent
       moveDirection = 1;
       moveSpeed = 70;
     }
-    moveSpeed = moveSpeed * 1.02;
+    moveSpeed = moveSpeed * 1.01;
     position.x += moveDirection * moveSpeed * dt;
   }
 }

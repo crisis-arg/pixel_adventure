@@ -174,7 +174,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       moveDirection = 1;
       moveSpeed = 70;
     }
-    moveSpeed = moveSpeed * 1.02;
+    moveSpeed = moveSpeed * 1.01;
     position.x += moveDirection * moveSpeed * dt;
   }
 
