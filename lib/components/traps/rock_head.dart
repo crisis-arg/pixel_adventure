@@ -49,9 +49,9 @@ class RockHead extends SpriteAnimationGroupComponent
 
   CustomHitbox hitbox = CustomHitbox(
     offsetX: 2,
-    offsetY: 5,
+    offsetY: 2,
     width: 37,
-    height: 32,
+    height: 37,
   );
 
   @override
@@ -95,7 +95,9 @@ class RockHead extends SpriteAnimationGroupComponent
   void update(double dt) {
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      if (!isVertical) {
+      if (isVertical) {
+        _moveVertical(fixedDeltaTime);
+      } else {
         _moveHorizontal(fixedDeltaTime);
       }
       // _rockHeadState();
@@ -107,7 +109,7 @@ class RockHead extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    debugMode = true;
     add(
       RectangleHitbox(
         position: Vector2(hitbox.offsetX, hitbox.offsetY),
@@ -115,8 +117,14 @@ class RockHead extends SpriteAnimationGroupComponent
         collisionType: CollisionType.active,
       ),
     );
-    rangeNeg = position.x - offNeg * tileSize;
-    rangePos = position.x + offPos * tileSize;
+    if (isVertical) {
+      rangeNeg = position.y - offNeg * tileSize;
+      rangePos = position.y + offPos * tileSize;
+    } else {
+      rangeNeg = position.x - offNeg * tileSize;
+      rangePos = position.x + offPos * tileSize;
+    }
+
     _loadAllAnimations();
     return super.onLoad();
   }
@@ -156,7 +164,7 @@ class RockHead extends SpriteAnimationGroupComponent
   //   current = rockHeadState;
   // }
 
-  _moveHorizontal(double dt) async {
+  _moveHorizontal(double dt) {
     if (position.x >= rangePos) {
       moveDirection = -1;
       moveSpeed = 70;
@@ -166,5 +174,17 @@ class RockHead extends SpriteAnimationGroupComponent
     }
     moveSpeed = moveSpeed * 1.01;
     position.x += moveDirection * moveSpeed * dt;
+  }
+
+  _moveVertical(double dt) {
+    if (position.y >= rangePos) {
+      moveDirection = -1;
+      moveSpeed = 70;
+    } else if (position.y <= rangeNeg) {
+      moveDirection = 1;
+      moveSpeed = 70;
+    }
+    moveSpeed = moveSpeed * 1.01;
+    position.y += moveDirection * moveSpeed * dt;
   }
 }
