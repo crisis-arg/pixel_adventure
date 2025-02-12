@@ -70,7 +70,8 @@ class Player extends SpriteAnimationGroupComponent
   bool reachedCheckpoint = false;
   bool isJumpPad = false;
   bool isLift = false;
-  bool isRockHead = false;
+  bool isRockHeadH = false;
+  bool isRockHeadV = false;
   bool jumpForDevice = kIsWeb;
 
   CustomHitbox hitbox = CustomHitbox(
@@ -127,7 +128,7 @@ class Player extends SpriteAnimationGroupComponent
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA);
     final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD);
 
-    if (!isRockHead) {
+    if (!isRockHeadH) {
       horizontalMovement += isLeftKeyPressed ? -1 : 0;
       horizontalMovement += isRightKeyPressed ? 1 : 0;
     }
@@ -179,10 +180,17 @@ class Player extends SpriteAnimationGroupComponent
         }
       }
       if (other is RockHead) {
-        rockHead = other;
-        isRockHead = true;
-        moveSpeed = other.moveSpeed;
-        movement = other.moveDirection;
+        if (!other.isVertical) {
+          isRockHeadH = true;
+          rockHead = other;
+          moveSpeed = other.moveSpeed;
+          movement = other.moveDirection;
+        } else {
+          isRockHeadV = true;
+          rockHead = other;
+          moveSpeed = other.moveSpeed;
+          movement = other.moveDirection;
+        }
       }
     }
     super.onCollisionStart(intersectionPoints, other);
@@ -201,7 +209,8 @@ class Player extends SpriteAnimationGroupComponent
     }
     if (other is RockHead) {
       moveSpeed = 100;
-      isRockHead = false;
+      isRockHeadH = false;
+      isRockHeadV = false;
       movement = 1;
     }
     super.onCollisionEnd(other);
@@ -266,9 +275,13 @@ class Player extends SpriteAnimationGroupComponent
     if (isLift) {
       position.x += movement * 50 * dt;
     }
-    if (isRockHead) {
+    if (isRockHeadH) {
       moveSpeed = moveSpeed * 1.01;
       position.x += movement * moveSpeed * dt;
+    }
+    if (isRockHeadV) {
+      moveSpeed = moveSpeed * 1.01;
+      position.y += movement * moveSpeed * dt;
     }
 
     if (hasJumped && isOnGround) {
@@ -299,7 +312,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _wallSlide(double dt) {
-    if (isTouchingWall && !isOnGround && !isRockHead) {
+    if (isTouchingWall && !isOnGround && !isRockHeadH) {
       // isTouchingWall = false;
       velocity.y = wallSlideSpeed;
       // velocity.y = velocity.y.clamp(-_terminalVelocity, wallSlideSpeed);

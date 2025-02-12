@@ -67,7 +67,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="2" name="Spawnpoints" visible="0">
+ <objectgroup id="2" name="Spawnpoints">
   <object id="1" type="Rock Head" x="491" y="283" width="42" height="42">
    <properties>
     <property name="isVertical" type="bool" value="false"/>
