@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
-import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -37,8 +36,6 @@ class RockHead extends SpriteAnimationGroupComponent
   double tileSize = 16;
   double moveDirection = 1;
   double moveSpeed = 100;
-  bool rockHeadHit = false;
-  bool isPlayerhit = false;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation blinkAnimation;
   late final SpriteAnimation leftHitAnimation;
@@ -59,7 +56,6 @@ class RockHead extends SpriteAnimationGroupComponent
       Set<Vector2> intersectionPoints, PositionComponent other) async {
     if (other is CollisionsBlock) {
       current = RockHeadState.rightHit;
-      rockHeadHit = true;
       await animationTicker?.completed;
       current = RockHeadState.idle;
       await Future.delayed(const Duration(milliseconds: 100));
@@ -73,23 +69,6 @@ class RockHead extends SpriteAnimationGroupComponent
     super.onCollisionStart(intersectionPoints, other);
   }
 
-  @override
-  void onCollision(
-      Set<Vector2> intersectionPoints, PositionComponent other) async {
-    if (other is Player && rockHeadHit && !isPlayerhit) {
-      isPlayerhit = true;
-      other.respawn();
-      await Future.delayed(const Duration(seconds: 1));
-      isPlayerhit = false;
-    }
-    super.onCollision(intersectionPoints, other);
-  }
-
-  @override
-  void onCollisionEnd(PositionComponent other) {
-    rockHeadHit = false;
-    super.onCollisionEnd(other);
-  }
 
   @override
   void update(double dt) {
@@ -153,16 +132,6 @@ class RockHead extends SpriteAnimationGroupComponent
       ),
     );
   }
-
-  // void _rockHeadState() async {
-  //   RockHeadState rockHeadState = RockHeadState.idle;
-  //   if (position.x >= rangePos) {
-  //     rockHeadState = RockHeadState.rightHit;
-  //   } else if (position.x <= rangeNeg) {
-  //     rockHeadState = RockHeadState.leftHit;
-  //   }
-  //   current = rockHeadState;
-  // }
 
   _moveHorizontal(double dt) {
     if (position.x >= rangePos) {
