@@ -73,7 +73,7 @@ class Saw extends SpriteAnimationComponent with HasGameRef<PixelAdventure> {
     position.y += moveDirection * moveSpeed * dt;
   }
 
-  _moveHorizontal(double dt) {
+  void _moveHorizontal(double dt) {
     if (position.x >= rangePos) {
       moveDirection = -1;
     } else if (position.x <= rangeNeg) {

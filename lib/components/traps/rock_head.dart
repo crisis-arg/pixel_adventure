@@ -19,10 +19,14 @@ class RockHead extends SpriteAnimationGroupComponent
   double offNeg;
   double offPos;
   bool isVertical;
+  bool isCircular;
+  bool forRange;
   RockHead({
     this.offNeg = 0,
     this.offPos = 0,
     this.isVertical = false,
+    this.isCircular = false,
+    this.forRange = false,
     position,
     size,
   }) : super(
@@ -36,6 +40,11 @@ class RockHead extends SpriteAnimationGroupComponent
   double tileSize = 16;
   double moveDirection = 1;
   double moveSpeed = 100;
+  double circularX = 0;
+  double circularY = 0;
+  int moveDirectionX = 1;
+  int moveDirectionY = 0;
+  int movementPhase = 0;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation blinkAnimation;
   late final SpriteAnimation leftHitAnimation;
@@ -69,15 +78,16 @@ class RockHead extends SpriteAnimationGroupComponent
     super.onCollisionStart(intersectionPoints, other);
   }
 
-
   @override
   void update(double dt) {
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      if (isVertical) {
+      if (isVertical && !isCircular) {
         _moveVertical(fixedDeltaTime);
-      } else {
+      } else if (!isVertical && !isCircular) {
         _moveHorizontal(fixedDeltaTime);
+      } else if (isCircular) {
+        _circularMovement1(fixedDeltaTime);
       }
       // _rockHeadState();
       accumulatedTime -= fixedDeltaTime;
@@ -88,7 +98,11 @@ class RockHead extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    if (isCircular) {
+      debugMode = true;
+      circularX = position.x;
+      circularY = position.y;
+    }
     add(
       RectangleHitbox(
         position: Vector2(hitbox.offsetX, hitbox.offsetY),
@@ -96,12 +110,15 @@ class RockHead extends SpriteAnimationGroupComponent
         collisionType: CollisionType.active,
       ),
     );
-    if (isVertical) {
+    if (isVertical && !isCircular) {
       rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.y + offPos * tileSize;
-    } else {
+    } else if (!isVertical && !isCircular) {
       rangeNeg = position.x - offNeg * tileSize;
       rangePos = position.x + offPos * tileSize;
+    } else if (isCircular) {
+        rangeNeg = position.y - offNeg * tileSize;
+        rangePos = position.x + offPos * tileSize;
     }
 
     _loadAllAnimations();
@@ -133,7 +150,7 @@ class RockHead extends SpriteAnimationGroupComponent
     );
   }
 
-  _moveHorizontal(double dt) {
+  void _moveHorizontal(double dt) {
     if (position.x >= rangePos) {
       moveDirection = -1;
       moveSpeed = 70;
@@ -145,7 +162,7 @@ class RockHead extends SpriteAnimationGroupComponent
     position.x += moveDirection * moveSpeed * dt;
   }
 
-  _moveVertical(double dt) {
+  void _moveVertical(double dt) {
     if (position.y >= rangePos) {
       moveDirection = -1;
       moveSpeed = 70;
@@ -155,5 +172,38 @@ class RockHead extends SpriteAnimationGroupComponent
     }
     moveSpeed = moveSpeed * 1.01;
     position.y += moveDirection * moveSpeed * dt;
+  }
+
+  void _circularMovement1(double dt) {
+    switch (movementPhase) {
+      case 0:
+        position.x += moveSpeed * dt;
+        if (position.x >= rangePos) {
+          position.x = rangePos;
+          movementPhase = 1;
+        }
+        break;
+      case 1:
+        position.y -= moveSpeed * dt;
+        if (position.y <= rangeNeg) {
+          position.y = rangeNeg;
+          movementPhase = 2;
+        }
+        break;
+      case 2:
+        position.x -= moveSpeed * dt;
+        if (position.x <= circularX) {
+          position.x = circularX;
+          movementPhase = 3;
+        }
+        break;
+      case 3:
+        position.y += moveSpeed * dt;
+        if (position.y >= circularY) {
+          position.y = circularY;
+          movementPhase = 0;
+        }
+        break;
+    }
   }
 }

@@ -99,7 +99,7 @@
         "level-05.tmx"
     ],
     "project": "pixel_adventure.tiled-project",
-    "property.type": "float",
+    "property.type": "bool",
     "recentFiles": [
         "Pixel_adventure.tsx",
         "level-01.tmx",

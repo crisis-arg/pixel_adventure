@@ -61,7 +61,6 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     //   debugMode = true;
     // }
     if (rockHead) {
-      moveSpeed = 100;
       debugMode = true;
     }
     if (isFallingPlatform) {
@@ -170,7 +169,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     position.y += moveDirection * moveSpeed * dt;
   }
 
-  _liftUp(double dt) {
+ void  _liftUp(double dt) {
     moveDirection = -1;
     if (position.y <= rangeNeg) {
       moveDirection = 0;
@@ -178,7 +177,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     position.y += moveDirection * moveSpeed * dt;
   }
 
-  _liftDown(double dt) {
+  void _liftDown(double dt) {
     moveDirection = 1;
     if (position.y >= rangePos) {
       moveDirection = 0;
