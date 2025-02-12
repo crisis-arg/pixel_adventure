@@ -42,9 +42,8 @@ class RockHead extends SpriteAnimationGroupComponent
   double moveSpeed = 100;
   double circularX = 0;
   double circularY = 0;
-  int moveDirectionX = 1;
-  int moveDirectionY = 0;
-  int movementPhase = 0;
+  int movementPhase1 = 0;
+  int movementPhase2 = 0;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation blinkAnimation;
   late final SpriteAnimation leftHitAnimation;
@@ -87,7 +86,12 @@ class RockHead extends SpriteAnimationGroupComponent
       } else if (!isVertical && !isCircular) {
         _moveHorizontal(fixedDeltaTime);
       } else if (isCircular) {
-        _circularMovement1(fixedDeltaTime);
+        if (forRange) {
+          // print(check);
+          _circularMovement2(fixedDeltaTime);
+        } else {
+          _circularMovement1(fixedDeltaTime);
+        }
       }
       // _rockHeadState();
       accumulatedTime -= fixedDeltaTime;
@@ -117,8 +121,8 @@ class RockHead extends SpriteAnimationGroupComponent
       rangeNeg = position.x - offNeg * tileSize;
       rangePos = position.x + offPos * tileSize;
     } else if (isCircular) {
-        rangeNeg = position.y - offNeg * tileSize;
-        rangePos = position.x + offPos * tileSize;
+      rangeNeg = position.y - offNeg * tileSize;
+      rangePos = position.x + offPos * tileSize;
     }
 
     _loadAllAnimations();
@@ -175,33 +179,85 @@ class RockHead extends SpriteAnimationGroupComponent
   }
 
   void _circularMovement1(double dt) {
-    switch (movementPhase) {
+    switch (movementPhase1) {
       case 0:
-        position.x += moveSpeed * dt;
-        if (position.x >= rangePos) {
-          position.x = rangePos;
-          movementPhase = 1;
+        moveSpeed = moveSpeed * 1.01;
+        position.y -= moveSpeed * dt;
+        if (position.y <= rangeNeg) {
+          moveSpeed = 70;
+          position.y = rangeNeg;
+          movementPhase1 = 1;
         }
         break;
       case 1:
-        position.y -= moveSpeed * dt;
-        if (position.y <= rangeNeg) {
-          position.y = rangeNeg;
-          movementPhase = 2;
+        moveSpeed = moveSpeed * 1.01;
+        position.x += moveSpeed * dt;
+        if (position.x >= rangePos) {
+          moveSpeed = 70;
+          position.x = rangePos;
+          movementPhase1 = 2;
         }
         break;
       case 2:
-        position.x -= moveSpeed * dt;
-        if (position.x <= circularX) {
-          position.x = circularX;
-          movementPhase = 3;
+        moveSpeed = moveSpeed * 1.01;
+        position.y += moveSpeed * dt;
+        if (position.y >= circularY) {
+          moveSpeed = 70;
+          position.y = circularY;
+          movementPhase1 = 3;
         }
         break;
       case 3:
+        moveSpeed = moveSpeed * 1.01;
+        position.x -= moveSpeed * dt;
+        if (position.x <= circularX) {
+          moveSpeed = 70;
+          position.x = circularX;
+          movementPhase1 = 0;
+        }
+        break;
+    }
+  }
+
+  void _circularMovement2(double dt) {
+    switch (movementPhase2) {
+      case 0:
+        moveSpeed = moveSpeed * 1.01;
         position.y += moveSpeed * dt;
-        if (position.y >= circularY) {
+        if (position.y >= 155) {
+          moveSpeed = 70;
+          position.y = 155;
+          movementPhase2 = 1;
+        }
+        break;
+
+      case 1:
+        moveSpeed = moveSpeed * 1.01;
+        position.x -= moveSpeed * dt;
+        if (position.x <= 219) {
+          moveSpeed = 70;
+          position.x = 219;
+          movementPhase2 = 2;
+        }
+        break;
+
+      case 2:
+        moveSpeed = moveSpeed * 1.01;
+        position.y -= moveSpeed * dt;
+        if (position.y <= circularY) {
+          moveSpeed = 70;
           position.y = circularY;
-          movementPhase = 0;
+          movementPhase2 = 3;
+        }
+        break;
+
+      case 3:
+        moveSpeed = moveSpeed * 1.01;
+        position.x += moveSpeed * dt;
+        if (position.x >= circularX) {
+          moveSpeed = 70;
+          position.x = circularX;
+          movementPhase2 = 0;
         }
         break;
     }
