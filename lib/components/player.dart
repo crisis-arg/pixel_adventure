@@ -13,6 +13,7 @@ import 'package:pixel_adventure/components/traps/falling_platforms.dart';
 import 'package:pixel_adventure/components/traps/jump_pad.dart';
 import 'package:pixel_adventure/components/traps/rock_head.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
+import 'package:pixel_adventure/components/traps/spikes.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -191,6 +192,9 @@ class Player extends SpriteAnimationGroupComponent
           moveSpeed = other.moveSpeed;
           movement = other.moveDirection;
         }
+      }
+      if (other is Spikes) {
+        respawn();
       }
     }
     super.onCollisionStart(intersectionPoints, other);

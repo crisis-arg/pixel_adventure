@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
 import 'package:pixel_adventure/components/traps/spikes.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
