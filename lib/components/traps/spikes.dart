@@ -21,6 +21,12 @@ class Spikes extends SpriteComponent with HasGameRef<PixelAdventure> {
     if (spikePosition == 2) {
       sprite = Sprite(game.images.fromCache('Traps/Spikes/spikeDown.png'));
     }
+     if (spikePosition == 3) {
+      sprite = Sprite(game.images.fromCache('Traps/Spikes/spikeLeft.png'));
+    }
+     if (spikePosition == 4) {
+      sprite = Sprite(game.images.fromCache('Traps/Spikes/spikeRight.png'));
+    }
 
     return super.onLoad();
   }
