@@ -9,7 +9,6 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   bool isLift;
   bool isVertical;
   bool isPlatform;
-  bool isRockHeadPoint;
   bool rockHead;
   final double offNeg;
   final double offPos;
@@ -20,7 +19,6 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     this.isLift = false,
     this.isVertical = false,
     this.isPlatform = false,
-    this.isRockHeadPoint = false,
     this.rockHead = false,
     position,
     size,
@@ -62,10 +60,6 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     // if (isLift) {
     //   debugMode = true;
     // }
-    if (isRockHeadPoint) {
-      debugMode = true;
-      add(RectangleHitbox());
-    }
     if (rockHead) {
       moveSpeed = 100;
       debugMode = true;

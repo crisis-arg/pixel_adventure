@@ -3,6 +3,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pixel_adventure/components/collitions_block.dart';
 import 'package:pixel_adventure/components/player_hitbox.dart';
+import 'package:pixel_adventure/components/traps/spikes.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 enum RockHeadState {
@@ -54,7 +55,7 @@ class RockHead extends SpriteAnimationGroupComponent
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) async {
-    if (other is CollisionsBlock) {
+    if (other is Spikes) {
       current = RockHeadState.rightHit;
       await animationTicker?.completed;
       current = RockHeadState.idle;
