@@ -16,6 +16,7 @@ import 'package:pixel_adventure/components/traps/fire.dart';
 import 'package:pixel_adventure/components/traps/jump_pad.dart';
 import 'package:pixel_adventure/components/traps/rock_head.dart';
 import 'package:pixel_adventure/components/traps/saw.dart';
+import 'package:pixel_adventure/components/traps/spikes.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
@@ -157,11 +158,20 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             final rockHead = RockHead(
               offNeg: offNeg,
               offPos: offPos,
-              isVertical:  isVertical,
+              isVertical: isVertical,
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: spawnPoint.size,
             );
             add(rockHead);
+            break;
+          case 'spikes':
+            final spikePosition = spawnPoint.properties.getValue('spikePosition');
+            final spikes = Spikes(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: spawnPoint.size,
+              spikePosition: spikePosition,
+            );
+            add(spikes);
             break;
           case 'Restart':
             final restart = RestartButton(
@@ -233,13 +243,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             add(rockHeadPoint);
             break;
           case 'rockHead':
-             final offNeg = collision.properties.getValue('offNeg');
+            final offNeg = collision.properties.getValue('offNeg');
             final offPos = collision.properties.getValue('offPos');
             final isVertical = collision.properties.getValue('isVertical');
             final rockHead = CollisionsBlock(
-              offNeg:  offNeg,
+              offNeg: offNeg,
               offPos: offPos,
-              isVertical:  isVertical,
+              isVertical: isVertical,
               position: Vector2(collision.x, collision.y),
               size: collision.size,
               rockHead: true,

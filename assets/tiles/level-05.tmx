@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="43">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="57">
  <tileset firstgid="1" source="Pixel_adventure.tsx"/>
  <layer id="1" name="Background" width="40" height="23">
   <data encoding="csv">
@@ -81,6 +81,26 @@
     <property name="isVertical" type="bool" value="true"/>
     <property name="offNeg" type="float" value="15"/>
     <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="45" type="spikes" x="69" y="304" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="47" type="spikes" x="85" y="304" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="55" type="spikes" x="69" y="48" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="2"/>
+   </properties>
+  </object>
+  <object id="56" type="spikes" x="85" y="48" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="2"/>
    </properties>
   </object>
  </objectgroup>
