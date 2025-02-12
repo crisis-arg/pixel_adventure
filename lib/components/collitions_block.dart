@@ -139,7 +139,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     }
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      if (rockHead) {
+      if (rockHead && !isVertical) {
         _rockHeadHorizontalMovement(fixedDeltaTime);
       }
       accumulatedTime -= fixedDeltaTime;

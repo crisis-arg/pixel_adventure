@@ -19,9 +19,11 @@ class RockHead extends SpriteAnimationGroupComponent
     with HasGameRef<PixelAdventure>, CollisionCallbacks {
   double offNeg;
   double offPos;
+  bool isVertical;
   RockHead({
     this.offNeg = 0,
     this.offPos = 0,
+    this.isVertical = false,
     position,
     size,
   }) : super(
@@ -93,7 +95,9 @@ class RockHead extends SpriteAnimationGroupComponent
   void update(double dt) {
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      _moveHorizontal(fixedDeltaTime);
+      if (!isVertical) {
+        _moveHorizontal(fixedDeltaTime);
+      }
       // _rockHeadState();
       accumulatedTime -= fixedDeltaTime;
     }
@@ -103,7 +107,7 @@ class RockHead extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
     add(
       RectangleHitbox(
         position: Vector2(hitbox.offsetX, hitbox.offsetY),
