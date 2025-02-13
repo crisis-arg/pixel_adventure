@@ -11,6 +11,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   bool isPlatform;
   bool rockHead;
   bool isCircular;
+  bool forRange;
   final double offNeg;
   final double offPos;
   CollisionsBlock({
@@ -22,6 +23,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     this.isPlatform = false,
     this.rockHead = false,
     this.isCircular = false,
+    this.forRange = false,
     position,
     size,
   }) : super(
@@ -69,7 +71,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     if (isCircular) {
       circularX = position.x;
       circularY = position.y;
-      moveSpeed = 100;
+      moveSpeed = 70;
     }
     if (rockHead) {
       debugMode = true;
@@ -134,7 +136,11 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       } else if (rockHead && !isVertical && !isCircular) {
         _rockHeadHorizontalMovement(fixedDeltaTime);
       } else if (rockHead && isCircular) {
-        _rockHeadCircularMovement1(fixedDeltaTime);
+        if (!forRange) {
+          _rockHeadCircularMovement1(fixedDeltaTime);
+        } else {
+          _rockHeadCircularMovement2(fixedDeltaTime);
+        }
       }
       accumulatedTime -= fixedDeltaTime;
     }
@@ -220,6 +226,50 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
           moveSpeed = 70;
           position.x = circularX;
           movementPhase1 = 0;
+        }
+        break;
+    }
+  }
+
+  void _rockHeadCircularMovement2(double dt) {
+   switch (movementPhase2) {
+      case 0:
+        moveSpeed = moveSpeed * 1.01;
+        position.y += moveSpeed * dt;
+        if (position.y >= 160) {
+          moveSpeed = 70;
+          position.y = 160;
+          movementPhase2 = 1;
+        }
+        break;
+
+      case 1:
+        moveSpeed = moveSpeed * 1.01;
+        position.x -= moveSpeed * dt;
+        if (position.x <= 224) {
+          moveSpeed = 70;
+          position.x = 224;
+          movementPhase2 = 2;
+        }
+        break;
+
+      case 2:
+        moveSpeed = moveSpeed * 1.01;
+        position.y -= moveSpeed * dt;
+        if (position.y <= circularY) {
+          moveSpeed = 70;
+          position.y = circularY;
+          movementPhase2 = 3;
+        }
+        break;
+
+      case 3:
+        moveSpeed = moveSpeed * 1.01;
+        position.x += moveSpeed * dt;
+        if (position.x >= circularX) {
+          moveSpeed = 70;
+          position.x = circularX;
+          movementPhase2 = 0;
         }
         break;
     }

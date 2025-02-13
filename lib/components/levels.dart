@@ -243,11 +243,13 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             final offPos = collision.properties.getValue('offPos');
             final isVertical = collision.properties.getValue('isVertical');
             final isCircular = collision.properties.getValue('isCircular');
+            final forRange = collision.properties.getValue('forRange');
             final rockHead = CollisionsBlock(
               offNeg: offNeg,
               offPos: offPos,
               isVertical: isVertical,
               isCircular: isCircular,
+              forRange:  forRange,
               position: Vector2(collision.x, collision.y),
               size: collision.size,
               rockHead: true,

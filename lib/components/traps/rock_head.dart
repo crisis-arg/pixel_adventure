@@ -39,7 +39,7 @@ class RockHead extends SpriteAnimationGroupComponent
   double rangePos = 0;
   double tileSize = 16;
   double moveDirection = 1;
-  double moveSpeed = 100;
+  double moveSpeed = 70;
   double circularX = 0;
   double circularY = 0;
   int movementPhase1 = 0;
@@ -86,11 +86,14 @@ class RockHead extends SpriteAnimationGroupComponent
       } else if (!isVertical && !isCircular) {
         _moveHorizontal(fixedDeltaTime);
       } else if (isCircular) {
-        if (forRange) {
+        if (!forRange) 
+        {
           // print(check);
-          _circularMovement2(fixedDeltaTime);
-        } else {
           _circularMovement1(fixedDeltaTime);
+        } 
+        else 
+        {
+          _circularMovement2(fixedDeltaTime);
         }
       }
       // _rockHeadState();
