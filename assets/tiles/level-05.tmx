@@ -68,16 +68,16 @@
    <properties>
     <property name="isCircular" type="bool" value="true"/>
     <property name="isVertical" type="bool" value="false"/>
-    <property name="offNeg" type="float" value="18"/>
-    <property name="offPos" type="float" value="0"/>
+    <property name="offNeg" type="float" value="7"/>
+    <property name="offPos" type="float" value="20"/>
    </properties>
   </object>
   <object id="76" type="rockHead" x="544" y="48" width="32" height="32">
    <properties>
     <property name="isCircular" type="bool" value="true"/>
     <property name="isVertical" type="bool" value="false"/>
-    <property name="offNeg" type="float" value="18"/>
-    <property name="offPos" type="float" value="0"/>
+    <property name="offNeg" type="float" value="7"/>
+    <property name="offPos" type="float" value="20"/>
    </properties>
   </object>
  </objectgroup>
@@ -91,7 +91,7 @@
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="2" name="Player" type="Player" x="144" y="256" width="32" height="32"/>
+  <object id="2" name="Player" type="Player" x="160" y="80" width="32" height="32"/>
   <object id="34" type="Rock Head" x="64" y="283" width="42" height="42">
    <properties>
     <property name="forRange" type="bool" value="false"/>

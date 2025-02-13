@@ -36,6 +36,10 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   Vector2 velocity = Vector2.zero();
   double rangeNeg = 0;
   double rangePos = 0;
+  double circularX = 0;
+  double circularY = 0;
+  int movementPhase1 = 0;
+  int movementPhase2 = 0;
   bool isPlayerCollision = false;
   bool isPlayerOnLift = false;
   bool isPlayeroffLift = false;
@@ -62,6 +66,11 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     // if (isLift) {
     //   debugMode = true;
     // }
+    if (isCircular) {
+      circularX = position.x;
+      circularY = position.y;
+      moveSpeed = 100;
+    }
     if (rockHead) {
       debugMode = true;
     }
@@ -85,12 +94,14 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
         ),
       );
     }
-
-    if (isVertical) {
+    if (isVertical && !isCircular) {
       rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.y + offPos * tileSize;
-    } else {
+    } else if (!isVertical && !isCircular) {
       rangeNeg = position.x - offNeg * tileSize;
+      rangePos = position.x + offPos * tileSize;
+    } else if (isCircular) {
+      rangeNeg = position.y - offNeg * tileSize;
       rangePos = position.x + offPos * tileSize;
     }
 
@@ -122,6 +133,8 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
         _rockHeadVerticalMovement(fixedDeltaTime);
       } else if (rockHead && !isVertical && !isCircular) {
         _rockHeadHorizontalMovement(fixedDeltaTime);
+      } else if (rockHead && isCircular) {
+        _rockHeadCircularMovement1(fixedDeltaTime);
       }
       accumulatedTime -= fixedDeltaTime;
     }
@@ -169,6 +182,47 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     }
     moveSpeed = moveSpeed * 1.01;
     position.y += moveDirection * moveSpeed * dt;
+  }
+
+  void _rockHeadCircularMovement1(double dt) {
+    switch (movementPhase1) {
+      case 0:
+        moveSpeed = moveSpeed * 1.01;
+        position.y -= moveSpeed * dt;
+        if (position.y <= rangeNeg) {
+          moveSpeed = 70;
+          position.y = rangeNeg;
+          movementPhase1 = 1;
+        }
+        break;
+      case 1:
+        moveSpeed = moveSpeed * 1.01;
+        position.x += moveSpeed * dt;
+        if (position.x >= rangePos) {
+          moveSpeed = 70;
+          position.x = rangePos;
+          movementPhase1 = 2;
+        }
+        break;
+      case 2:
+        moveSpeed = moveSpeed * 1.01;
+        position.y += moveSpeed * dt;
+        if (position.y >= circularY) {
+          moveSpeed = 70;
+          position.y = circularY;
+          movementPhase1 = 3;
+        }
+        break;
+      case 3:
+        moveSpeed = moveSpeed * 1.01;
+        position.x -= moveSpeed * dt;
+        if (position.x <= circularX) {
+          moveSpeed = 70;
+          position.x = circularX;
+          movementPhase1 = 0;
+        }
+        break;
+    }
   }
 
   void _liftUp(double dt) {
