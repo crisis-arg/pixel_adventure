@@ -44,6 +44,7 @@ class RockHead extends SpriteAnimationGroupComponent
   double circularY = 0;
   int movementPhase1 = 0;
   int movementPhase2 = 0;
+  bool isCircularV = false;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation blinkAnimation;
   late final SpriteAnimation leftHitAnimation;
@@ -53,10 +54,10 @@ class RockHead extends SpriteAnimationGroupComponent
   double accumulatedTime = 0;
 
   CustomHitbox hitbox = CustomHitbox(
-    offsetX: 2,
-    offsetY: 2,
-    width: 37,
-    height: 37,
+    offsetX: 5,
+    offsetY: 5,
+    width: 32,
+    height: 32,
   );
 
   @override
@@ -183,6 +184,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 0:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = -1;
+        isCircularV = false;
         position.y += moveDirection * moveSpeed * dt;
         if (position.y <= rangeNeg) {
           moveSpeed = 70;
@@ -193,6 +195,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 1:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = 1;
+        isCircularV = true;
         position.x += moveDirection * moveSpeed * dt;
         if (position.x >= rangePos) {
           moveSpeed = 70;
@@ -203,6 +206,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 2:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = 1;
+        isCircularV = false;
         position.y += moveDirection * moveSpeed * dt;
         if (position.y >= circularY) {
           moveSpeed = 70;
@@ -213,6 +217,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 3:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = -1;
+        isCircularV = true;
         position.x += moveDirection * moveSpeed * dt;
         if (position.x <= circularX) {
           moveSpeed = 70;
@@ -228,6 +233,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 0:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = 1;
+        isCircularV = false;
         position.y += moveDirection * moveSpeed * dt;
         if (position.y >= 155) {
           moveSpeed = 70;
@@ -239,6 +245,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 1:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = -1;
+        isCircularV = true;
         position.x += moveDirection * moveSpeed * dt;
         if (position.x <= 219) {
           moveSpeed = 70;
@@ -250,6 +257,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 2:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = -1;
+        isCircularV = false;
         position.y += moveDirection * moveSpeed * dt;
         if (position.y <= circularY) {
           moveSpeed = 70;
@@ -261,6 +269,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 3:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = 1;
+        isCircularV = true;
         position.x += moveDirection * moveSpeed * dt;
         if (position.x >= circularX) {
           moveSpeed = 70;

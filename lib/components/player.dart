@@ -73,6 +73,8 @@ class Player extends SpriteAnimationGroupComponent
   bool isLift = false;
   bool isRockHeadH = false;
   bool isRockHeadV = false;
+  bool isRockHeadCircularV = false;
+  bool isRockHeadCircularH = false;
   bool jumpForDevice = kIsWeb;
 
   CustomHitbox hitbox = CustomHitbox(
@@ -186,11 +188,23 @@ class Player extends SpriteAnimationGroupComponent
           rockHead = other;
           moveSpeed = other.moveSpeed;
           movement = other.moveDirection;
-        } else if(other.isVertical && !other.isCircular) {
+        } else if (other.isVertical && !other.isCircular) {
           isRockHeadV = true;
           rockHead = other;
           moveSpeed = other.moveSpeed;
           movement = other.moveDirection;
+        } else if (other.isCircular) {
+          if (other.isCircularV) {
+            isRockHeadCircularV = true;
+            rockHead = other;
+            moveSpeed = other.moveSpeed;
+            movement = other.moveDirection;
+          } else {
+            isRockHeadCircularH = true;
+            rockHead = other;
+            moveSpeed = other.moveSpeed;
+            movement = other.moveDirection;
+          }
         }
       }
       if (other is Spikes) {
@@ -215,6 +229,8 @@ class Player extends SpriteAnimationGroupComponent
       moveSpeed = 100;
       isRockHeadH = false;
       isRockHeadV = false;
+      isRockHeadCircularV = false;
+      isRockHeadCircularH = false;
       movement = 1;
     }
     super.onCollisionEnd(other);
@@ -284,6 +300,13 @@ class Player extends SpriteAnimationGroupComponent
       position.x += movement * moveSpeed * dt;
     }
     if (isRockHeadV) {
+      moveSpeed = moveSpeed * 1.01;
+      position.y += movement * moveSpeed * dt;
+    }
+    if (isRockHeadCircularV) {
+      moveSpeed = moveSpeed * 1.01;
+      position.x += movement * moveSpeed * dt;
+    }else if(isRockHeadCircularH){
       moveSpeed = moveSpeed * 1.01;
       position.y += movement * moveSpeed * dt;
     }
