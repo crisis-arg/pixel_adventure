@@ -17,34 +17,32 @@ class Spikes extends SpriteComponent with HasGameRef<PixelAdventure> {
         );
 
   CustomHitbox topHitbox = CustomHitbox(
-    
-
-    offsetX: 0,
+    offsetX: 3,
     offsetY: 0,
-    width: 16,
+    width: 10,
     height: 8,
   );
 
    CustomHitbox bottomHitbox= CustomHitbox(
-   offsetX: 0,
+   offsetX: 3,
     offsetY: 8,
-    width: 16,
+    width: 10,
     height: 8,
   );
 
 
   CustomHitbox leftHitbox = CustomHitbox(
     offsetX: 0,
-    offsetY: 0,
+    offsetY: 3,
     width: 8,
-    height: 16,
+    height: 10,
   );
 
   CustomHitbox rightHitbox = CustomHitbox(
     offsetX: 8,
-    offsetY: 0,
+    offsetY: 3,
     width: 8,
-    height: 16,
+    height: 10,
   );
 
   @override
