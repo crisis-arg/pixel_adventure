@@ -89,7 +89,7 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
     priority = 10;
     _loadAllAnimations();
     startingPosition = Vector2(position.x, position.y);
@@ -199,7 +199,8 @@ class Player extends SpriteAnimationGroupComponent
             rockHead = other;
             moveSpeed = other.moveSpeed;
             movement = other.moveDirection;
-          } else {
+          } 
+          else {
             isRockHeadCircularH = true;
             rockHead = other;
             moveSpeed = other.moveSpeed;
@@ -306,7 +307,8 @@ class Player extends SpriteAnimationGroupComponent
     if (isRockHeadCircularV) {
       moveSpeed = moveSpeed * 1.01;
       position.x += movement * moveSpeed * dt;
-    }else if(isRockHeadCircularH){
+    }
+    else if(isRockHeadCircularH){
       moveSpeed = moveSpeed * 1.01;
       position.y += movement * moveSpeed * dt;
     }

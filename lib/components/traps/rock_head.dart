@@ -45,6 +45,7 @@ class RockHead extends SpriteAnimationGroupComponent
   int movementPhase1 = 0;
   int movementPhase2 = 0;
   bool isCircularV = false;
+  bool spikeHit = false;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation blinkAnimation;
   late final SpriteAnimation leftHitAnimation;
@@ -54,16 +55,17 @@ class RockHead extends SpriteAnimationGroupComponent
   double accumulatedTime = 0;
 
   CustomHitbox hitbox = CustomHitbox(
-    offsetX: 5,
-    offsetY: 5,
-    width: 32,
-    height: 32,
+    offsetX: 2,
+    offsetY: 2,
+    width: 37,
+    height: 37,
   );
 
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) async {
-    if (other is Spikes) {
+    if (other is Spikes && !spikeHit) {
+      spikeHit = true;
       current = RockHeadState.rightHit;
       await animationTicker?.completed;
       current = RockHeadState.idle;
@@ -74,6 +76,7 @@ class RockHead extends SpriteAnimationGroupComponent
       current = RockHeadState.idle;
       await Future.delayed(const Duration(milliseconds: 500));
       current = RockHeadState.blink;
+      spikeHit = false;
     }
     super.onCollisionStart(intersectionPoints, other);
   }
