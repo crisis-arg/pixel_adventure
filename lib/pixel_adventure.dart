@@ -129,7 +129,7 @@ class PixelAdventure extends FlameGame
 
   void _loadLevel() {
     Future.delayed(const Duration(seconds: 1), () {
-      // FlameAudio.play('newLevel.wav');
+      FlameAudio.play('newLevel.wav');
       Levels world = Levels(
         levelName: levelNames[currentLevelIndex],
         player: player = Player(character: characterName[characterIndex]),
