@@ -74,7 +74,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
       moveSpeed = 70;
     }
     if (rockHead) {
-      debugMode = true;
+      // debugMode = true;
     }
     if (isFallingPlatform) {
       moveSpeed = 5.0;

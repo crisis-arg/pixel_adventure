@@ -105,6 +105,7 @@ class RockHead extends SpriteAnimationGroupComponent
     if (isCircular) {
       circularX = position.x;
       circularY = position.y;
+      debugMode = true;
     }
     add(
       RectangleHitbox(
@@ -260,7 +261,7 @@ class RockHead extends SpriteAnimationGroupComponent
       case 3:
         moveSpeed = moveSpeed * 1.01;
         moveDirection = 1;
-        position.x += moveDirection* moveSpeed * dt;
+        position.x += moveDirection * moveSpeed * dt;
         if (position.x >= circularX) {
           moveSpeed = 70;
           position.x = circularX;

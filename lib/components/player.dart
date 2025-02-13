@@ -181,12 +181,12 @@ class Player extends SpriteAnimationGroupComponent
         }
       }
       if (other is RockHead) {
-        if (!other.isVertical) {
+        if (!other.isVertical && !other.isCircular) {
           isRockHeadH = true;
           rockHead = other;
           moveSpeed = other.moveSpeed;
           movement = other.moveDirection;
-        } else {
+        } else if(other.isVertical && !other.isCircular) {
           isRockHeadV = true;
           rockHead = other;
           moveSpeed = other.moveSpeed;
