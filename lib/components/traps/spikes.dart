@@ -17,15 +17,17 @@ class Spikes extends SpriteComponent with HasGameRef<PixelAdventure> {
         );
 
   CustomHitbox topHitbox = CustomHitbox(
+    
+
     offsetX: 0,
-    offsetY: 8,
+    offsetY: 0,
     width: 16,
     height: 8,
   );
 
    CustomHitbox bottomHitbox= CustomHitbox(
-    offsetX: 0,
-    offsetY: 0,
+   offsetX: 0,
+    offsetY: 8,
     width: 16,
     height: 8,
   );
@@ -47,13 +49,13 @@ class Spikes extends SpriteComponent with HasGameRef<PixelAdventure> {
 
   @override
   FutureOr<void> onLoad() {
-    // debugMode = true;
+    debugMode = true;
     if (spikePosition == 1) {
       sprite = Sprite(game.images.fromCache('Traps/Spikes/Idle.png'));
      add(
         RectangleHitbox(
-          position: Vector2(topHitbox.offsetX, topHitbox.offsetY),
-          size: Vector2(topHitbox.width, topHitbox.height),
+          position: Vector2(bottomHitbox.offsetX, bottomHitbox.offsetY),
+          size: Vector2(bottomHitbox.width, bottomHitbox.height),
           collisionType: CollisionType.active,
         ),
       );
@@ -62,8 +64,8 @@ class Spikes extends SpriteComponent with HasGameRef<PixelAdventure> {
       sprite = Sprite(game.images.fromCache('Traps/Spikes/spikeDown.png'));
         add(
         RectangleHitbox(
-          position: Vector2(bottomHitbox.offsetX, bottomHitbox.offsetY),
-          size: Vector2(bottomHitbox.width, bottomHitbox.height),
+          position: Vector2(topHitbox.offsetX, topHitbox.offsetY),
+          size: Vector2(topHitbox.width, topHitbox.height),
           collisionType: CollisionType.active,
         ),
       );

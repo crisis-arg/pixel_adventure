@@ -106,10 +106,11 @@ class RockHead extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
+    debugMode = true;
     if (isCircular) {
       circularX = position.x;
       circularY = position.y;
-      debugMode = true;
+      // debugMode = true;
     }
     add(
       RectangleHitbox(
