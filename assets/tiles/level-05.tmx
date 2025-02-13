@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="75">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="77">
  <tileset firstgid="1" source="Pixel_adventure.tsx"/>
  <layer id="1" name="Background" width="40" height="23">
   <data encoding="csv">
@@ -50,6 +50,7 @@
   <object id="30" x="528" y="304" width="64" height="16"/>
   <object id="33" type="rockHead" x="496" y="288" width="32" height="32">
    <properties>
+    <property name="isCircular" type="bool" value="false"/>
     <property name="isVertical" type="bool" value="false"/>
     <property name="offNeg" type="float" value="18"/>
     <property name="offPos" type="float" value="0"/>
@@ -57,8 +58,25 @@
   </object>
   <object id="42" type="rockHead" x="69" y="288" width="32" height="32">
    <properties>
+    <property name="isCircular" type="bool" value="false"/>
     <property name="isVertical" type="bool" value="true"/>
     <property name="offNeg" type="float" value="15"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="75" type="rockHead" x="224" y="160" width="32" height="32">
+   <properties>
+    <property name="isCircular" type="bool" value="true"/>
+    <property name="isVertical" type="bool" value="false"/>
+    <property name="offNeg" type="float" value="18"/>
+    <property name="offPos" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="76" type="rockHead" x="544" y="48" width="32" height="32">
+   <properties>
+    <property name="isCircular" type="bool" value="true"/>
+    <property name="isVertical" type="bool" value="false"/>
+    <property name="offNeg" type="float" value="18"/>
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
@@ -73,7 +91,7 @@
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="2" name="Player" type="Player" x="528" y="256" width="32" height="32"/>
+  <object id="2" name="Player" type="Player" x="144" y="256" width="32" height="32"/>
   <object id="34" type="Rock Head" x="64" y="283" width="42" height="42">
    <properties>
     <property name="forRange" type="bool" value="false"/>

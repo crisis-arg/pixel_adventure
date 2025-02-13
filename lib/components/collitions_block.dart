@@ -10,6 +10,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
   bool isVertical;
   bool isPlatform;
   bool rockHead;
+  bool isCircular;
   final double offNeg;
   final double offPos;
   CollisionsBlock({
@@ -20,6 +21,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     this.isVertical = false,
     this.isPlatform = false,
     this.rockHead = false,
+    this.isCircular = false,
     position,
     size,
   }) : super(
@@ -116,9 +118,9 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     }
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
-      if (rockHead && isVertical) {
+      if (rockHead && isVertical && !isCircular) {
         _rockHeadVerticalMovement(fixedDeltaTime);
-      } else if (rockHead && !isVertical) {
+      } else if (rockHead && !isVertical && !isCircular) {
         _rockHeadHorizontalMovement(fixedDeltaTime);
       }
       accumulatedTime -= fixedDeltaTime;
@@ -169,7 +171,7 @@ class CollisionsBlock extends PositionComponent with CollisionCallbacks {
     position.y += moveDirection * moveSpeed * dt;
   }
 
- void  _liftUp(double dt) {
+  void _liftUp(double dt) {
     moveDirection = -1;
     if (position.y <= rangeNeg) {
       moveDirection = 0;

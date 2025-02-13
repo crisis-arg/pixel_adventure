@@ -161,15 +161,16 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
               offNeg: offNeg,
               offPos: offPos,
               isVertical: isVertical,
-              isCircular:  isCircular,
-              forRange: forRange ,
+              isCircular: isCircular,
+              forRange: forRange,
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: spawnPoint.size,
             );
             add(rockHead);
             break;
           case 'spikes':
-            final spikePosition = spawnPoint.properties.getValue('spikePosition');
+            final spikePosition =
+                spawnPoint.properties.getValue('spikePosition');
             final spikes = Spikes(
               position: Vector2(spawnPoint.x, spawnPoint.y),
               size: spawnPoint.size,
@@ -241,10 +242,12 @@ class Levels extends World with HasGameRef<PixelAdventure>, HasDecorator {
             final offNeg = collision.properties.getValue('offNeg');
             final offPos = collision.properties.getValue('offPos');
             final isVertical = collision.properties.getValue('isVertical');
+            final isCircular = collision.properties.getValue('isCircular');
             final rockHead = CollisionsBlock(
               offNeg: offNeg,
               offPos: offPos,
               isVertical: isVertical,
+              isCircular: isCircular,
               position: Vector2(collision.x, collision.y),
               size: collision.size,
               rockHead: true,

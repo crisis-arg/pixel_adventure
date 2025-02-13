@@ -103,7 +103,6 @@ class RockHead extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     if (isCircular) {
-      debugMode = true;
       circularX = position.x;
       circularY = position.y;
     }
