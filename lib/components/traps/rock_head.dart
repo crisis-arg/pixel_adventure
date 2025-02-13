@@ -86,13 +86,10 @@ class RockHead extends SpriteAnimationGroupComponent
       } else if (!isVertical && !isCircular) {
         _moveHorizontal(fixedDeltaTime);
       } else if (isCircular) {
-        if (!forRange) 
-        {
+        if (!forRange) {
           // print(check);
           _circularMovement1(fixedDeltaTime);
-        } 
-        else 
-        {
+        } else {
           _circularMovement2(fixedDeltaTime);
         }
       }
@@ -184,7 +181,8 @@ class RockHead extends SpriteAnimationGroupComponent
     switch (movementPhase1) {
       case 0:
         moveSpeed = moveSpeed * 1.01;
-        position.y -= moveSpeed * dt;
+        moveDirection = -1;
+        position.y += moveDirection * moveSpeed * dt;
         if (position.y <= rangeNeg) {
           moveSpeed = 70;
           position.y = rangeNeg;
@@ -193,7 +191,8 @@ class RockHead extends SpriteAnimationGroupComponent
         break;
       case 1:
         moveSpeed = moveSpeed * 1.01;
-        position.x += moveSpeed * dt;
+        moveDirection = 1;
+        position.x += moveDirection * moveSpeed * dt;
         if (position.x >= rangePos) {
           moveSpeed = 70;
           position.x = rangePos;
@@ -202,7 +201,8 @@ class RockHead extends SpriteAnimationGroupComponent
         break;
       case 2:
         moveSpeed = moveSpeed * 1.01;
-        position.y += moveSpeed * dt;
+        moveDirection = 1;
+        position.y += moveDirection * moveSpeed * dt;
         if (position.y >= circularY) {
           moveSpeed = 70;
           position.y = circularY;
@@ -211,7 +211,8 @@ class RockHead extends SpriteAnimationGroupComponent
         break;
       case 3:
         moveSpeed = moveSpeed * 1.01;
-        position.x -= moveSpeed * dt;
+        moveDirection = -1;
+        position.x += moveDirection * moveSpeed * dt;
         if (position.x <= circularX) {
           moveSpeed = 70;
           position.x = circularX;
@@ -225,7 +226,8 @@ class RockHead extends SpriteAnimationGroupComponent
     switch (movementPhase2) {
       case 0:
         moveSpeed = moveSpeed * 1.01;
-        position.y += moveSpeed * dt;
+        moveDirection = 1;
+        position.y += moveDirection * moveSpeed * dt;
         if (position.y >= 155) {
           moveSpeed = 70;
           position.y = 155;
@@ -235,7 +237,8 @@ class RockHead extends SpriteAnimationGroupComponent
 
       case 1:
         moveSpeed = moveSpeed * 1.01;
-        position.x -= moveSpeed * dt;
+        moveDirection = -1;
+        position.x += moveDirection * moveSpeed * dt;
         if (position.x <= 219) {
           moveSpeed = 70;
           position.x = 219;
@@ -245,7 +248,8 @@ class RockHead extends SpriteAnimationGroupComponent
 
       case 2:
         moveSpeed = moveSpeed * 1.01;
-        position.y -= moveSpeed * dt;
+        moveDirection = -1;
+        position.y += moveDirection * moveSpeed * dt;
         if (position.y <= circularY) {
           moveSpeed = 70;
           position.y = circularY;
@@ -255,7 +259,8 @@ class RockHead extends SpriteAnimationGroupComponent
 
       case 3:
         moveSpeed = moveSpeed * 1.01;
-        position.x += moveSpeed * dt;
+        moveDirection = 1;
+        position.x += moveDirection* moveSpeed * dt;
         if (position.x >= circularX) {
           moveSpeed = 70;
           position.x = circularX;
