@@ -55,10 +55,10 @@ class RockHead extends SpriteAnimationGroupComponent
   double accumulatedTime = 0;
 
   CustomHitbox hitbox = CustomHitbox(
-    offsetX: 2,
-    offsetY: 2,
-    width: 37,
-    height: 37,
+    offsetX: 1,
+    offsetY: 4,
+    width: 40,
+    height: 34,
   );
 
   @override
@@ -106,7 +106,7 @@ class RockHead extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
     if (isCircular) {
       circularX = position.x;
       circularY = position.y;

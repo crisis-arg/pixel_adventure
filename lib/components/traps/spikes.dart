@@ -47,7 +47,7 @@ class Spikes extends SpriteComponent with HasGameRef<PixelAdventure> {
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
+    // debugMode = true;
     if (spikePosition == 1) {
       sprite = Sprite(game.images.fromCache('Traps/Spikes/Idle.png'));
      add(

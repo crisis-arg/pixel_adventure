@@ -199,8 +199,7 @@ class Player extends SpriteAnimationGroupComponent
             rockHead = other;
             moveSpeed = other.moveSpeed;
             movement = other.moveDirection;
-          } 
-          else {
+          } else {
             isRockHeadCircularH = true;
             rockHead = other;
             moveSpeed = other.moveSpeed;
@@ -218,8 +217,7 @@ class Player extends SpriteAnimationGroupComponent
   @override
   void onCollisionEnd(PositionComponent other) {
     lift = null;
-    isLift = false;
-    rockHead = null;
+    isLift = false;    
     if (other is Lift) {
       other.isPlayerOn = false;
     }
@@ -227,6 +225,7 @@ class Player extends SpriteAnimationGroupComponent
       other.isPlayerOnLift = false;
     }
     if (other is RockHead) {
+      rockHead = null;
       moveSpeed = 100;
       isRockHeadH = false;
       isRockHeadV = false;
@@ -307,8 +306,7 @@ class Player extends SpriteAnimationGroupComponent
     if (isRockHeadCircularV) {
       moveSpeed = moveSpeed * 1.01;
       position.x += movement * moveSpeed * dt;
-    }
-    else if(isRockHeadCircularH){
+    } else if (isRockHeadCircularH) {
       moveSpeed = moveSpeed * 1.01;
       position.y += movement * moveSpeed * dt;
     }
