@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="161">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="169">
  <tileset firstgid="1" source="Pixel_adventure.tsx"/>
  <layer id="1" name="Background" width="40" height="23">
   <data encoding="csv">
@@ -95,7 +95,7 @@
     <property name="offPos" type="float" value="0"/>
    </properties>
   </object>
-  <object id="2" name="Player" type="Player" x="384" y="80" width="32" height="32"/>
+  <object id="2" name="Player" type="Player" x="528" y="256" width="32" height="32"/>
   <object id="34" type="Rock Head" x="64" y="283" width="42" height="42">
    <properties>
     <property name="forRange" type="bool" value="false"/>
@@ -383,5 +383,32 @@
     <property name="spikePosition" type="float" value="1"/>
    </properties>
   </object>
+  <object id="161" type="Checkpoint" x="474" y="48" width="64" height="64"/>
+  <object id="162" type="spikes" x="224" y="144" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="3"/>
+   </properties>
+  </object>
+  <object id="164" type="spikes" x="528" y="176" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="165" type="spikes" x="512" y="176" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="166" type="spikes" x="560" y="80" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="4"/>
+   </properties>
+  </object>
+  <object id="167" type="spikes" x="560" y="96" width="16" height="16">
+   <properties>
+    <property name="spikePosition" type="float" value="4"/>
+   </properties>
+  </object>
+  <object id="168" type="Restart" x="560" y="16" width="32" height="32"/>
  </objectgroup>
 </map>

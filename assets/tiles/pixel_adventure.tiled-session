@@ -19,8 +19,8 @@
         },
         "level-01.tmx": {
             "expandedObjectLayers": [
-                5,
-                4
+                4,
+                5
             ],
             "scale": 2,
             "selectedLayer": 0,
@@ -34,13 +34,13 @@
                 4
             ],
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 320,
+                "x": 319.75,
                 "y": 183.75
             }
         },
@@ -49,32 +49,32 @@
         },
         "level-03.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 2.0276562499999997,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.07397703629505,
+                "x": 319.82738691531176,
                 "y": 184.20282037450875
             }
         },
         "level-04.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 2.0276562499999997,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.07397703629505,
+                "x": 319.82738691531176,
                 "y": 184.20282037450875
             }
         },
         "level-05.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 2,
             "selectedLayer": 2,

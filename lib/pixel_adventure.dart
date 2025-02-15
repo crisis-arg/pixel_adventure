@@ -24,8 +24,8 @@ class PixelAdventure extends FlameGame
   bool showJoystick = kIsWeb;
   bool playSound = true;
   double soundVolume = 1.0;
-  List<String> levelNames = ['level-05', 'level-02', 'level-03', 'level-04'];
-  List<String> background = ['Green', 'Pink', 'Purple', 'Brown'];
+  List<String> levelNames = ['level-05', 'level-02', 'level-03', 'level-04','level-05'];
+  List<String> background = ['Green', 'Pink', 'Purple', 'Brown','Blue',];
   int currentLevelIndex = 0;
   int backgroundIndex = 0;
 
@@ -33,7 +33,8 @@ class PixelAdventure extends FlameGame
     'Pink Man',
     'Mask Dude',
     'Virtual Guy',
-    'Ninja Frog'
+    'Ninja Frog',
+    'Pink Man',
   ];
   int characterIndex = 0;
 
