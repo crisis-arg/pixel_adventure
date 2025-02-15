@@ -77,9 +77,6 @@ class RockHead extends SpriteAnimationGroupComponent
       await Future.delayed(const Duration(milliseconds: 500));
       current = RockHeadState.blink;
       spikeHit = false;
-      if (isCircular) {
-        print("yooo");
-      }
     }
     super.onCollisionStart(intersectionPoints, other);
   }
