@@ -2,7 +2,7 @@
 
 **Introduction**
 
-Pixel Adventure is a 2D pixel-art style game developed using Flutter and the Flame game engine. This game offers an engaging platformer experience across five levels, each increasing in difficulty and challenge.
+Pixel Adventure is a 2D pixel-art style game developed using Flutter and the Flame game engine. The maps in the game are designed using Tiles, This game offers an engaging platformer experience across five levels, each increasing in difficulty and challenge.
 
 **Play the Game**
 
