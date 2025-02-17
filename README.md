@@ -30,7 +30,13 @@ All the assets for Pixel Adventure were sourced from [Pixel Adventure 1 by Pixel
 
 **Screenshots**
 
-(Include screenshots here to showcase the game visuals.)
+![](ss/Screenshot%202025-02-17%20234036.png)
+
+![](ss/Screenshot%202025-02-17%20234110.png)
+
+![](ss/Screenshot%202025-02-17%20234206.png)
+
+
 
 
 
