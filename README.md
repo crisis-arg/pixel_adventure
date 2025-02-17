@@ -18,11 +18,9 @@ Spacebar: Jump
 
 Launch the game and navigate through the pixel-art world.
 
-Complete each of the five levels by overcoming obstacles and solving challenges.
+Complete each of the five levels by overcoming obstacles and reaching the flag.
 
 Collect fruits as you progress through levels.
-
-Progress through the game by avoiding traps and reaching the flag.
 
 **Asset Source** :love_you_gesture:
 
