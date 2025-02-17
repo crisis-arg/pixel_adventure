@@ -8,7 +8,7 @@ Pixel Adventure is a 2D pixel-art style game developed using Flutter and the Fla
 
 You can access the game at: [Pixel Adventure](https://crisis-arg.github.io/crisis-arg/)
 
-**Controls**
+**Controls** :joystick:
 
 WASD Keys: Move the character
 
