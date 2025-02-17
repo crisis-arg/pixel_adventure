@@ -8,7 +8,7 @@ Pixel Adventure is a 2D pixel-art style game developed using Flutter and the Fla
 
 You can access the game at: [Pixel Adventure](https://crisis-arg.github.io/crisis-arg/)
 
-**Controls** :joystick:
+:joystick: **Controls** :joystick:
 
 WASD Keys: Move the character
 
@@ -24,11 +24,11 @@ Collect fruits as you progress through levels.
 
 Progress through the game by avoiding traps and reaching the flag.
 
-**Asset Source**
+**Asset Source** :love_you_gesture:
 
 All the assets for Pixel Adventure were sourced from [Pixel Adventure 1 by PixelFrog Assets.](https://pixelfrog-assets.itch.io/pixel-adventure-1)
 
-**Screenshots**
+**Screenshots** 
 
 ![](ss/Screenshot%202025-02-17%20234036.png)
 
