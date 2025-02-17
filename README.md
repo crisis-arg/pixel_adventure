@@ -28,7 +28,7 @@ Progress through the game by avoiding traps and reaching the flag.
 
 All the assets for Pixel Adventure were sourced from [Pixel Adventure 1 by PixelFrog Assets.](https://pixelfrog-assets.itch.io/pixel-adventure-1)
 
-**Screenshots** 
+**Screenshots** :camera_flash:
 
 ![](ss/Screenshot%202025-02-17%20234036.png)
 
