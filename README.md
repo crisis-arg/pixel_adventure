@@ -6,7 +6,8 @@ Pixel Adventure is a 2D pixel-art style game developed using Flutter and the Fla
 
 **Play the Game**
 
-You can access the game at: [Pixel Adventure](https://crisis-arg.github.io/crisis-arg/)
+Play Online: [Play Pixel Adventure](https://crisis-arg.github.io/crisis-arg/)                                                              
+Download for Mobile (APK): [Download APK](https://github.com/crisis-arg/pixel_adventure/releases/tag/v1.0.0)
 
 :joystick: **Controls** :joystick:
 
